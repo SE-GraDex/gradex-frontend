@@ -1,5 +1,39 @@
-const Navbar = () => {
-  return <div>Navbar</div>
+// components/Navbar.tsx
+import React from 'react';
+import LogoYai from '../assets/images/LogoYai.svg';
+import ButtonLink from './button/ButtonLink';
+
+interface NavItem {
+  label: string;
+  link: string;
 }
 
-export default Navbar
+const Navbar: React.FC = () => {
+
+  const navItems: NavItem[] = [
+    { label: "Meal preparation", link: "/meal-preparation" },
+    { label: "Shipping", link: "/shipping" },
+    { label: "Subscription", link: "/subscription" },
+    { label: "Recipe book", link: "/recipe-book" }
+  ];
+
+  return (
+    <div className="flex justify-between items-center max-w-max	bg-white h-[111px] px-8 mx-auto mt-3">
+      <div className='mb-5'>
+        <a aria-label="Home" href='/'>
+          <img src={LogoYai} alt="Logo" width="300" height="300" />
+        </a>
+      </div>
+      <div className="flex w-[800px] h-[111px] items-center justify-self-end space-x-2">
+        {navItems.map((item, index) => (
+          <ButtonLink key={index} label={item.label} link={item.link} />
+        ))}
+        <button className="border border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200">
+          Login
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
