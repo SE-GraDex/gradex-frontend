@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CalendarTest from './CalendarProps';
 import ButtonLink from '../button/ButtonLink';
-
+import CardTemp from './CardTemp';
 
 const getMonthNumber = (monthName: string): number => {
     const months: { [key: string]: number } = {
@@ -109,19 +109,9 @@ const MealPreparation: React.FC = () => {
                 <ButtonLink label="Auto filled" link="/" />
             </div>
             <div className='flex flex-col space-y-10'>
-                <div className='w-[617px] h-[250px] bg-[#47C171] relative rounded-3xl'>
-                    <div className="absolute top-6 left-6 bg-white rounded-full w-4 h-4"></div>
-                    <div className="absolute top-6 right-6 bg-white rounded-full w-4 h-4"></div>
-                    <div className="absolute bottom-6 left-6 bg-white rounded-full w-4 h-4"></div>
-                    <div className="absolute bottom-6 right-6 bg-white rounded-full w-4 h-4"></div>
-                </div>
-                <div className='w-[617px] h-[375px] bg-[#47C171] relative rounded-3xl'>
-                    <div className="absolute top-6 left-6 bg-white rounded-full w-4 h-4"></div>
-                    <div className="absolute top-6 right-6 bg-white rounded-full w-4 h-4"></div>
-                    <div className="absolute bottom-6 left-6 bg-white rounded-full w-4 h-4"></div>
-                    <div className="absolute bottom-6 right-6 bg-white rounded-full w-4 h-4"></div>
-                </div>
-            </div>
+                <CardTemp Height={250} Width={617} />
+                <CardTemp Height={375} Width={617} />
+        </div>
         </div>
     );
 };
