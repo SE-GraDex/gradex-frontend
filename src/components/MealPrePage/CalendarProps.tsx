@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 interface CalendarProps {
     isMorningTheme: boolean;
     isMonthSelectorOpen: number;
+    onDateSelect: (date: Date) => void;
 }
-const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelectorOpen }) => {
+const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelectorOpen , onDateSelect  }) => {
     const daysOfWeek: string[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // เริ่มจากวันอาทิตย์
     const monthNames: string[] = [
         "January", "February", "March", "April", "May", "June",
@@ -18,10 +19,8 @@ const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelector
     const [attendanceMessage, setAttendanceMessage] = useState<string | null>(null);
 
     useEffect(() => {
-        setCurrentMonth(isMonthSelectorOpen - 1);
+        setCurrentMonth(isMonthSelectorOpen);
     }, [isMonthSelectorOpen]);
-
-    // console.log('currentMonth =>',currentMonth);
 
     const attendanceStatus: { [key: string]: { status: string; detail?: string; checkInMorning?: string; checkOutMorning?: string; checkInEvening?: string; checkOutEvening?: string } } = {
         "1": { status: 'ขาด' },
@@ -38,9 +37,44 @@ const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelector
         return new Date(year, month, 1).getDay(); // ปรับให้เริ่มจากวันอาทิตย์
     };
 
+    const daysInMonth = getDaysInMonth(currentYearState, currentMonth);
+    const firstDayOffset = getFirstDayOffset(currentYearState, currentMonth);
+
+    interface CalendarDay {
+        day: number;
+        detail: any;
+        status: number;
+    }
+
+    
+    // ใช้ useState เพื่ออัพเดต calendarDays
+    const [calendarDays, setCalendarDays] = useState<(CalendarDay | null)[]>([
+        ...Array(firstDayOffset).fill(null),
+        ...Array.from({ length: daysInMonth }, (_, i) => ({ day: i + 1, detail: {}, status: 0 })),
+    ]);
+    
+    useEffect(() => {  
+        console.log(calendarDays);
+    }, [calendarDays]);
+
     const handleDateClick = (day: number) => {
         const newDate = new Date(currentYearState, currentMonth, day);
         setSelectedDate(newDate);
+        onDateSelect(newDate); 
+        // ใช้ setState เพื่ออัพเดต calendarDays โดยการคำนวณสถานะใหม่
+        setCalendarDays((prevCalendarDays) => {
+            const updatedCalendarDays = [...prevCalendarDays];
+            const index = updatedCalendarDays.findIndex((item) => item && item.day === day);
+
+            if (index !== -1 && updatedCalendarDays[index]) {
+                const currentStatus = updatedCalendarDays[index]?.status;
+                updatedCalendarDays[index] = {
+                    ...updatedCalendarDays[index],
+                    status: currentStatus === 0 ? 2 : 0,  // สลับสถานะจาก 0 เป็น 2 หรือจาก 2 เป็น 0
+                };
+            }
+            return updatedCalendarDays;
+        });
 
         const statusDetail = attendanceStatus[day]?.detail;
         const status = attendanceStatus[day]?.status;
@@ -76,39 +110,36 @@ const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelector
         }
     };
 
-    const daysInMonth = getDaysInMonth(currentYearState, currentMonth);
-    const firstDayOffset = getFirstDayOffset(currentYearState, currentMonth);
-
-    const calendarDays: (number | null)[] = [
-        ...Array(firstDayOffset).fill(null),
-        ...Array.from({ length: daysInMonth }, (_, i) => i + 1)
-    ];
-
     return (
         <div className="bg-[#8FC6B2] p-4 rounded-lg">
             <div className={`flex items-center justify-self-end space-x-4 text-2xl font-bold ${isMorningTheme ? "text-white" : "text-[#8D8DF8]"} transition-colors duration-500`}>
                 <div>{monthNames[currentMonth] || monthNames[new Date().getMonth()]}</div>
-
                 <div>{currentYearState}</div>
             </div>
             <div className={`grid grid-cols-7 gap-2 mt-4 text-center ${isMorningTheme ? "text-white" : "text-[#8D8DF8]"} transition-colors duration-500`}>
                 {daysOfWeek.map((day) => (
-                    <div key={day} className="text-sm bg-[#1E1E1E] p-2  rounded-3xl font-semibold">{day}</div>
+                    <div key={day} className="text-sm bg-[#1E1E1E] p-2 rounded-3xl font-semibold">{day}</div>
                 ))}
                 {calendarDays.map((day, index) => {
-                    let bgColor = '';
-                    if (day) {
-                        bgColor = 'border border-black';
+                    let bgColor: string = '';
+                    if (day && day.day) {
+                        if (Object.keys(day.detail).length === 0 && day.status === 0) {
+                            bgColor = 'border border-black';
+                        } else if (Object.keys(day.detail).length > 0 && day.status === 0) {
+                            bgColor = 'bg-[#30E06C] border border-[#30E06C]';
+                        } else if (day.status === 2) {
+                            bgColor = 'bg-[#C6FFEA] border border-[#C6FFEA]';
+                        }
                     }
 
                     return (
                         <div
                             key={index}
                             className={`w-6 h-6 ${bgColor} text-black justify-self-center w-[67px] h-[48px] p-4 rounded-3xl flex items-center justify-center cursor-pointer font-mono`}
-                            onClick={() => day && handleDateClick(day)}
+                            onClick={() => day?.day && handleDateClick(day?.day)}
                             title={day ? `${day} ${monthNames[currentMonth]} ${currentYearState}` : ""}
                         >
-                            {day || ''}
+                            {day?.day || ''}
                         </div>
                     );
                 })}

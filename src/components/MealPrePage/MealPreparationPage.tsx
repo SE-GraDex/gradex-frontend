@@ -2,35 +2,18 @@ import React, { useState, useEffect } from 'react';
 import CalendarTest from './CalendarProps';
 import ButtonLink from '../button/ButtonLink';
 import CardTemp from './CardTemp';
-
-const getMonthNumber = (monthName: string): number => {
-    const months: { [key: string]: number } = {
-        'January': 1,
-        'February': 2,
-        'March': 3,
-        'April': 4,
-        'May': 5,
-        'June': 6,
-        'July': 7,
-        'August': 8,
-        'September': 9,
-        'October': 10,
-        'November': 11,
-        'December': 12
-    };
-    console.log(months[monthName]);
-    return months[monthName] || -1; // คืนค่า -1 ถ้าไม่เจอ
-};
+import MunuSelectorCard from './MenuSelectorCard';
+const months: string[] = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
 
 
 const MonthSelector: React.FC<{ onMonthChange: (month: string) => void }> = ({ onMonthChange }) => {
     const [selectedMonth, setSelectedMonth] = useState<string>('');
     const [isOpen, setIsOpen] = useState(false);
 
-    const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
+
 
     useEffect(() => {
         onMonthChange(selectedMonth);
@@ -99,19 +82,27 @@ const MonthSelector: React.FC<{ onMonthChange: (month: string) => void }> = ({ o
 
 const MealPreparation: React.FC = () => {
     const [selectedMonth, setSelectedMonth] = useState<string>('January'); // ตั้งค่าเริ่มต้นเป็นเดือนแรก
-
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     return (
         <div className='flex justify-center mt-10'>
             <div className='justify-self-center'>
                 <div className="ml-10">Meal Preparation</div>
                 <MonthSelector onMonthChange={setSelectedMonth} /> {/* ส่ง setSelectedMonth เป็น prop */}
-                <CalendarTest isMorningTheme={true} isMonthSelectorOpen={getMonthNumber(selectedMonth)} /> {/* ส่ง selectedMonth เป็น prop */}
+                <CalendarTest isMorningTheme={true} isMonthSelectorOpen={months.indexOf(selectedMonth)} onDateSelect={setSelectedDate} /> {/* ส่ง selectedMonth เป็น prop */}
                 <ButtonLink label="Auto filled" link="/" />
             </div>
             <div className='flex flex-col space-y-10'>
-                <CardTemp Height={250} Width={617} />
-                <CardTemp Height={375} Width={617} />
-        </div>
+
+                {selectedDate ? (
+                    <MunuSelectorCard />
+                ) : (
+                    <>
+                        <CardTemp Height={'250'} Width={'617'} />
+                        <CardTemp Height={'375'} Width={'617'} />
+                    </>
+                )}
+
+            </div>
         </div>
     );
 };
