@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import crownlogo from '../assets/images/crown-logo.svg'
-import diamondlogo from '../assets/images/diamond-logo.svg'
-import premiumfood from '../assets/images/premium-food.svg'
-import ricelogo from '../assets/images/rice-logo.svg'
-import Modal from '../components/ModalMeal'
+import crownlogo from '../../assets/images/crown-logo.svg'
+import diamondlogo from '../../assets/images/diamond-logo.svg'
+import premiumfood from '../../assets/images/premium-food.svg'
+import ricelogo from '../../assets/images/rice-logo.svg'
+import Modal from '../../components/ModalMeal'
 
 const Home: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false)

@@ -1,5 +1,6 @@
 import premiumfood from '../assets/images/premium-food.svg'
 import ButtonLink from './button/ButtonLink'
+import cross from '../assets/images/cross.svg'
 
 interface ModalProps {
   isOpen: boolean
@@ -20,15 +21,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, foo
           onClick={onClose}
           className="absolute top-5 right-5 text-gray-500 hover:text-gray-700 focus:outline-none"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <img
+                src={cross}
+                alt="cross"
+                width="24"
+                height="24"
+              />
         </button>
         <div className="flex items-center justify-center">
           <img src={premiumfood} alt="Logo" width="250" height="250" className="mt-3" />

@@ -1,14 +1,22 @@
-import { useState } from 'react';
-import ButtonLink from '../components/button/ButtonLink';
-import personlogo from '../assets/images/person.svg';
-import check from '../assets/images/Check-square.svg';
+import { useState, useEffect } from 'react';
+import ButtonLink from '../../components/button/ButtonLink';
+import personlogo from '../../assets/images/person.svg';
+import check from '../../assets/images/Check-square.svg';
+import shippingTasksData from '../CompleteShip/ship_complete.json';
 
 const Home = () => {
-  // Set up state variables for dynamic content
   const [userName, setUserName] = useState("Mr. xxx xxx");
   const [userRole, setUserRole] = useState("Senior Messenger");
-  const [ongoingTasks, setOngoingTasks] = useState(15);
-  const [completedShipments, setCompletedShipments] = useState(45);
+  const [ongoingTasks, setOngoingTasks] = useState(0);
+  const [completedShipments, setCompletedShipments] = useState(0);
+
+  useEffect(() => {
+    const ongoing = shippingTasksData.filter((task) => task.status === "");
+    const completed = shippingTasksData.filter((task) => task.status !== "");
+
+    setOngoingTasks(ongoing.length);
+    setCompletedShipments(completed.length);
+  }, []);
 
   return (
     <div className="bg-[#7BB3B5] min-h-screen">
@@ -33,7 +41,7 @@ const Home = () => {
           <div className="flex items-center justify-center mt-5">
             <ButtonLink
               label={'Check'}
-              link={''}
+              link={'/ongoing'}
               className="w-[130px] h-[50px] mb-5 text-[16px] font-medium bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center"
             />
           </div>
@@ -52,7 +60,7 @@ const Home = () => {
           <div className="flex items-center justify-center mt-10">
             <ButtonLink
               label={'Check'}
-              link={''}
+              link={'/complete'}
               className="w-[130px] h-[50px] mb-5 text-[16px] font-medium bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center"
             />
           </div>
@@ -60,6 +68,6 @@ const Home = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;
