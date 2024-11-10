@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import ButtonLink from '../components/button/ButtonLink'
-import premiumfood from '../assets/images/premium-food.svg'
 import crownlogo from '../assets/images/crown-logo.svg'
 import diamondlogo from '../assets/images/diamond-logo.svg'
+import premiumfood from '../assets/images/premium-food.svg'
 import ricelogo from '../assets/images/rice-logo.svg'
-import Modal from '../components/Modal'
+import Modal from '../components/ModalMeal'
 
 const Home: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false)

@@ -1,9 +1,5 @@
-import { useState } from 'react'
-import ButtonLink from '../components/button/ButtonLink'
 import premiumfood from '../assets/images/premium-food.svg'
-import crownlogo from '../assets/images/crown-logo.svg'
-import diamondlogo from '../assets/images/diamond-logo.svg'
-import ricelogo from '../assets/images/rice-logo.svg'
+import ButtonLink from './button/ButtonLink'
 
 interface ModalProps {
   isOpen: boolean
@@ -34,14 +30,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, foo
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <div className="justify-self-center">
+        <div className="flex items-center justify-center">
           <img src={premiumfood} alt="Logo" width="250" height="250" className="mt-3" />
         </div>
-        <div className="flex justify-self-center mt-1">
+        <div className="flex items-center justify-center mt-1">
           <img src={logo} alt="Logo" width="24" height="24" />
           <div className="ml-2 font-bold text-[25px] text-topic">{type}</div>
         </div>
-        <div className="ml-2 font-bold text-[25px] text-topic justify-self-center mt-3">{food}</div>
+        <div className="ml-2 font-bold text-[25px] text-topic flex items-center justify-center mt-3">{food}</div>
         <div className="justify-self-center mt-3 px-24 mx-10">
           <div className="text-topic text-center font-medium">{content}</div>
         </div>
