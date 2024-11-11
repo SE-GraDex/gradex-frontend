@@ -55,7 +55,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, trackNum, name, address,
               <select
                 value={status}
                 onChange={handleStatusChange}
-                className="w-[260px] h-[38px] bg-white rounded-full text-center flex justify-center"
+                className="w-[260px] h-[38px] bg-white rounded-full text-center flex justify-center focus:outline-none"
               >
                 <option value="" hidden>{status}</option>
                 <option value="Delivered">Delivered</option>

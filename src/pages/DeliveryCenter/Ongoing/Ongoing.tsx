@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import shippingTasks from '../CompleteShip/ship_complete.json'
-import Edit from '../../assets/images/Edit.svg'
-import Modal from '../../components/ModalEditStatus'
+import Edit from '../../../assets/images/Edit.svg'
+import Modal from '../../../components/ModalEditStatus'
 
 const Home: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false)

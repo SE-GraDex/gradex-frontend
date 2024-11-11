@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import shippingTasks from './ship_complete.json'
-import Edit from '../../assets/images/Edit.svg'
-import Modal from '../../components/ModalEditStatus'
+import Edit from '../../../assets/images/Edit.svg'
+import Modal from '../../../components/ModalEditStatus'
 
 const Home: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
@@ -35,14 +35,14 @@ const Home: React.FC = () => {
       <div className="bg-[#7BB3B5] min-h-screen z-0">
         <div className="text-[40px] pt-10 text-white flex items-center justify-center">Completed Shipments</div>
 
-        <div className="flex justify-left mx-24 pt-10 px-14 my-5">
+        <div className="flex justify-left mx-10 pt-10 px-14 my-5">
           <div className="w-[300px] h-[60px] ongoing-topic px-20 ml-14 mr-8">Tracking Number</div>
           <div className="w-[300px] h-[60px] ongoing-topic px-20 mr-4">Customer Name</div>
           <div className="w-[200px] h-[60px] ongoing-topic px-20 ml-20 mr-20">Address</div>
           <div className="w-[200px] h-[60px] ongoing-topic px-20 ml-8">Contact</div>
           <div className="w-[150px] h-[60px] ongoing-topic px-20 ml-6">Status</div>
         </div>
-        <div className="mx-24 pt-3 px-10 my-5 overflow-auto h-[600px]">
+        <div className="mx-10 pt-3 px-10 my-5 overflow-auto h-[600px]">
           {ongoingTasks.map((task, index) => (
             <div key={index} className="flex">
               <div className="flex my-5 rounded-2xl bg-[#F1FCF1] ml-20 mr-8 items-center relative">

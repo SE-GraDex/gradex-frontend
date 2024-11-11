@@ -4,8 +4,9 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Top from './pages/Top/Top';
 import Delivery from './pages/DeliveryCenter/DeliveryCenter';
-import Ongoing from './pages/Ongoing/Ongoing'
-import Complete from './pages/CompleteShip/CompleteShip'
+import Ongoing from './pages/DeliveryCenter/Ongoing/Ongoing'
+import Complete from './pages/DeliveryCenter/CompleteShip/CompleteShip'
+import Menu from './pages/MenuLab/MenuLab'
 
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/delivery-center" element={<Delivery />} />
           <Route path="/ongoing" element={<Ongoing />} />
           <Route path="/complete" element={<Complete />}/>
+          <Route path="/menulab" element={<Menu />}/>
         </Routes>
       </Layout>
     </Router>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ButtonLink from '../../components/button/ButtonLink';
 import personlogo from '../../assets/images/person.svg';
 import check from '../../assets/images/Check-square.svg';
-import shippingTasksData from '../CompleteShip/ship_complete.json';
+import shippingTasksData from '../DeliveryCenter/CompleteShip/ship_complete.json';
 
 const Home = () => {
   const [userName, setUserName] = useState("Mr. xxx xxx");
