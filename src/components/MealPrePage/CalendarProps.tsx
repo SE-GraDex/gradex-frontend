@@ -1,61 +1,32 @@
 import React, { useEffect, useState } from "react";
-
-type Ingredient = {
-    ingredient: string;
-    portion: number;
-    unit: string;
-};
-
-interface Day {
-    day: number;
-    detail: Record<string, Ingredient[]>;
-    status: number;
-};
-
-interface Months {
-    "0": (null | Day)[];
-    "1": (null | Day)[];
-    "2": (null | Day)[];
-    "3": (null | Day)[];
-    "4": (null | Day)[];
-    "5": (null | Day)[];
-    "6": (null | Day)[];
-    "7": (null | Day)[];
-    "8": (null | Day)[];
-    "9": (null | Day)[];
-    "10": (null | Day)[];
-    "11": (null | Day)[];
-};
+import {MonthlyDays ,Day ,} from '../../interface/calendar.types';
 
 interface CalendarProps {
-    isMorningTheme: boolean;
+    isToggle: boolean;
     isMonthSelectorOpen: number;
     onDateSelect: (date: Date) => void;
     toggle: (toggle: boolean) => void;
-    months: Months;
+    months: MonthlyDays;
 }
 
-const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelectorOpen, onDateSelect, toggle, months }) => {
+const CalendarTest: React.FC<CalendarProps> = ({ isToggle, isMonthSelectorOpen, onDateSelect, toggle, months }) => {
     const daysOfWeek: string[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     const monthNames: string[] = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
     const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYearState, setCurrentYearState] = useState<number>(currentYear);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [attendanceMessage, setAttendanceMessage] = useState<string | null>(null);
 
     useEffect(() => {
         setCurrentMonth(isMonthSelectorOpen);
     }, [isMonthSelectorOpen]);
 
-    // Effect hook to update calendarDays when currentMonth changes
     useEffect(() => {
-        if (months[currentMonth.toString() as keyof Months]) {
-            setCalendarDays(months[currentMonth.toString() as keyof Months]);
+        if (months[currentMonth.toString() as keyof MonthlyDays]) {
+            setCalendarDays(months[currentMonth.toString() as keyof MonthlyDays]);
         }
         else {
             setCurrentMonth(new Date().getMonth());
@@ -63,23 +34,11 @@ const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelector
         }
     }, [currentMonth, months]);
 
-    const getDaysInMonth = (year: number, month: number): number => {
-        return new Date(year, month + 1, 0).getDate();
-    };
+    const [calendarDays, setCalendarDays] = useState<(null | Day)[]>(months[currentMonth.toString() as keyof MonthlyDays]);
 
-    const getFirstDayOffset = (year: number, month: number): number => {
-        return new Date(year, month, 1).getDay();
-    };
-
-    const daysInMonth = getDaysInMonth(currentYearState, currentMonth);
-    const firstDayOffset = getFirstDayOffset(currentYearState, currentMonth);
-
-    const [calendarDaysAll, setCalendarDaysAll] = useState<Months>(months);
-    const [calendarDays, setCalendarDays] = useState<(null | Day)[]>(months[currentMonth.toString() as keyof Months]);
-
-    useEffect(() => {
-        console.log("calendarDays", calendarDays);
-    }, [calendarDays]);
+    // useEffect(() => {
+    //     console.log("calendarDays", calendarDays);
+    // }, [calendarDays]);
 
     const handleDateClick = (day: number) => {
         const newDate = new Date(currentYearState, currentMonth, day);
@@ -89,26 +48,28 @@ const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelector
         setCalendarDays((prevCalendarDays) => {
             const updatedCalendarDays = [...prevCalendarDays];
             const index = updatedCalendarDays.findIndex((item) => item && item.day === day);
-
+        
             if (index !== -1 && updatedCalendarDays[index]) {
                 const currentStatus = updatedCalendarDays[index]?.status;
                 updatedCalendarDays[index] = {
                     ...updatedCalendarDays[index],
-                    status: currentStatus === 0 ? 2 : 0,  // Toggle status between 0 and 2
+                    status: currentStatus === 0 ? 2 : 0,  // Toggle status between 0 and 2, or set to 0 if it's 1
+                    detail: currentStatus === 1 ? {} : updatedCalendarDays[index]?.detail // Set detail to {} if currentStatus is 1
                 };
             }
             return updatedCalendarDays;
         });
-        toggle(!isMorningTheme);
+        
+        toggle(!isToggle);
     };
 
     return (
         <div>
-            <div className={`flex items-center justify-self-end space-x-4 text-4xl mb-2 font-bold  transition-colors duration-500`}>
+            <div className={`flex items-center justify-self-end space-x-4 text-4xl mb-2 font-bold  transition-colors duration-500 `}>
                 <div>{monthNames[currentMonth] || monthNames[new Date().getMonth()]},</div>
                 <div>{currentYearState}</div>
             </div>
-            <div className="bg-[#8FC6B2] p-4 rounded-lg">
+            <div className="bg-[#8FC6B2] p-4 rounded-lg shadow-2xl	">
                 <div className={`grid grid-cols-7 gap-2 mt-2 text-center text-white transition-colors duration-500`}>
                     {daysOfWeek.map((day) => (
                         <div key={day} className="text-sm bg-[#1E1E1E] p-2 rounded-3xl font-semibold">{day}</div>
@@ -140,9 +101,6 @@ const CalendarTest: React.FC<CalendarProps> = ({ isMorningTheme, isMonthSelector
                 <div className="font-medium mt-8">
                     Selected Date: {selectedDate.toDateString()}
                 </div>
-                {attendanceMessage && (
-                    <div className="mt-2 text-sm font-medium" dangerouslySetInnerHTML={{ __html: attendanceMessage }} />
-                )}
             </div>
         </div>
     );

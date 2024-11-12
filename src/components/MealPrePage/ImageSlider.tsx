@@ -1,41 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import riceImages from '../../assets/images/imagesForMealPre/bowl-rice.svg';
-import crownImages from '../../assets/images/imagesForMealPre/crown.svg';
-import daimondImages from '../../assets/images/imagesForMealPre/diamond.svg';
-import FriedFish from '../../assets/images/imagesForMealPre/fried-fish.svg';
-import PadThai from '../../assets/images/imagesForMealPre/pad-thai.svg';
-import SalmonSteak from '../../assets/images/imagesForMealPre/salmon-steak.svg';
-import TomYumKung from '../../assets/images/imagesForMealPre/tom-yum-kung.svg';
 import Search from '../../assets/images/imagesForMealPre/search.svg';
+import { menuItems  , packageItems} from '../../interface/calendar.types';
 
-type MenuItem = {
-    name: string;
-    image: string;
-    PackageName?: 'Basic' | 'Deluxe' | 'Premium' | '';
-};
-
-
-const packageItems =
-{
-    'Basic': riceImages,
-    'Deluxe': daimondImages,
-    'Premium': crownImages,
-
-}
-
-interface switchCardProps {
-    Toggle: (value: string) => void;
-}
-
-const menuItems: MenuItem[] = [
-    { name: 'Tom yum kung', image: TomYumKung, PackageName: 'Deluxe' },
-    { name: 'Salmon steak', image: SalmonSteak, PackageName: 'Basic' },
-    { name: 'Pad Thai', image: PadThai, PackageName: 'Basic' },
-    { name: 'Deep fried sea bass', image: FriedFish, PackageName: 'Premium' },
-];
-
-
-
+// const menuItems: MenuItem[] = [
+    //     { name: 'Tom yum kung', image: TomYumKung, PackageName: 'Deluxe' },
+    //     { name: 'Salmon steak', image: SalmonSteak, PackageName: 'Basic' },
+    //     { name: 'Pad Thai', image: PadThai, PackageName: 'Basic' },
+    //     { name: 'Deep fried sea bass', image: FriedFish, PackageName: 'Premium' },
+    // ];
+    interface switchCardProps {
+        Toggle: (value: string) => void;
+    }
+    
 const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [searchTerm, setSearchTerm] = useState('');
@@ -102,9 +78,9 @@ const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
                                 <img
                                     src={item.image}
                                     alt={item.name}
-                                    className="w-20 h-20 rounded-full"
+                                    className="w-[100px] h-[100px] rounded-full"
                                 />
-                                <p className="text-white mt-2">{item.name}</p>
+                                <p className="text-white mt-2 text-sm font-bold">{item.name}</p>
                             </div>
 
                         ))}
