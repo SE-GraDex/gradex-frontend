@@ -7,7 +7,8 @@ import Delivery from './pages/DeliveryCenter/DeliveryCenter';
 import Ongoing from './pages/DeliveryCenter/Ongoing/Ongoing'
 import Complete from './pages/DeliveryCenter/CompleteShip/CompleteShip'
 import Menu from './pages/MenuLab/MenuLab'
-
+import Login from './pages/LoginAndRegister/login'
+import Register from './pages/LoginAndRegister/Register'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -33,6 +34,8 @@ export default function App() {
           <Route path="/ongoing" element={<Ongoing />} />
           <Route path="/complete" element={<Complete />}/>
           <Route path="/menulab" element={<Menu />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/register" element={<Register />}/>
         </Routes>
       </Layout>
     </Router>
