@@ -18,13 +18,13 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <div className="flex justify-between items-center max-w-max	bg-white h-[111px] px-8 mx-auto mt-3">
-      <div className='mb-5'>
+    <div className="flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto mt-3">
+      <div className='mb-10'>
         <a aria-label="Home" href='/'>
-          <img src={LogoYai} alt="Logo" width="300" height="300" />
+          <img src={LogoYai} alt="Logo" width="400" height="400" />
         </a>
       </div>
-      <div className="flex w-[800px] h-[111px] items-center justify-self-end space-x-2">
+      <div className="ml-20 flex w-[800px] h-[111px] items-center justify-center space-x-2">
         {navItems.map((item, index) => (
           <ButtonLink key={index} label={item.label} link={item.link} />
         ))}
@@ -34,6 +34,7 @@ const Navbar: React.FC = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Navbar;

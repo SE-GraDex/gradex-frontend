@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    /* กำหนดความกว้างของ scroll bar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    /* สีพื้นหลังของ track */
+    border-radius: 10px;
+    /* ปรับมุมให้โค้งมน */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #30E06C;
+    /* สีของตัวเลื่อน (thumb) */
+    border-radius: 10px;
+    /* ปรับมุมให้โค้งมน */
+    border: 2px solid #f0f0f0;
+    /* ขอบสีรอบๆ thumb */
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: #066426;
+    /* เปลี่ยนสี thumb เมื่อ hover */
+}
+
+.custom-scrollbar {
+    /* padding: 30px; */
+    margin-right: 8px;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 .top-food {

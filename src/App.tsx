@@ -9,7 +9,7 @@ import Complete from './pages/DeliveryCenter/CompleteShip/CompleteShip'
 import Menu from './pages/MenuLab/MenuLab'
 import Login from './pages/LoginAndRegister/login'
 import Register from './pages/LoginAndRegister/Register'
-
+import MealPreparation from './components/MealPrePage/MealPreparationPage'
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isNotNav = location.pathname === '/delivery-center' || '/ongoing' || '/complete';
@@ -36,6 +36,7 @@ export default function App() {
           <Route path="/menulab" element={<Menu />}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>
+          <Route path="/meal-preparation" element={<MealPreparation />} />
         </Routes>
       </Layout>
     </Router>
