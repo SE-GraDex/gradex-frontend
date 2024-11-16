@@ -1,0 +1,12 @@
+[
+  { "name": "Food1", "image": "basic-food.svg" },
+  { "name": "Food2", "image": "deluxe-food.svg" },
+  { "name": "Food3", "image": "premium-food.svg" },
+  { "name": "Food4", "image": "deluxe-food.svg" },
+  { "name": "Food5", "image": "basic-food.svg" },
+  { "name": "Food6", "image": "basic-food.svg" },
+  { "name": "Food7", "image": "deluxe-food.svg" },
+  { "name": "Food8", "image": "premium-food.svg" },
+  { "name": "Food9", "image": "deluxe-food.svg" },
+  { "name": "Food10", "image": "basic-food.svg" }
+]

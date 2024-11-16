@@ -30,7 +30,7 @@ const Home = () => {
       <div className="flex items-center justify-center mt-10">
         <ButtonLink
           label={'สมัครเลย !'}
-          link={''}
+          link={'/register'}
           className={`w-[120px] h-[40px] text-[16px] bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center`}
         />
       </div>
