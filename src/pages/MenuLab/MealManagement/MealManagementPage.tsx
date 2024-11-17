@@ -5,10 +5,21 @@ import pulscircle from '../../../assets/images/plus-circle.svg';
 import edit from '../../../assets/images/Edit.svg';
 import info from '../../../assets/images/Info.svg';
 import ModalNewMenu from './ModalNewMenu';
+
+import { menuItems, MenuItem } from '../../../interface/calendar.types';
+
+
+
 const MealManagementPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-    // const [isPopUpOpenEdit, setIsPopUpOpenEdit] = useState(false);
+    const [menuList, setMenuList] = useState<MenuItem[]>(menuItems);
+
+    const handleAddNewMenu = (newMenu: MenuItem) => {
+        setMenuList([...menuList, newMenu]);
+    };
+    
+
     return (
         <div className='flex flex-col items-center'>
             <h1 className="text-5xl font-semibold mb-4 text-white jsu">Meal Management</h1>
@@ -46,24 +57,27 @@ const MealManagementPage: React.FC = () => {
                     <div className='w-[25px] h-[25px]'></div>
                 </div>
             </div>
-            <div className='w-[573px] grid grid-cols-2 gap-2'>
-                <div className=''>
-                    Pad Gaprao Moo
-                </div>
-                <div className='flex justify-self-end gap-2'>
-                    <div className=''>
-                        Basic
-                    </div>
-                    <div className='w-[25px] h-[25px]'></div>
-                    <div className="flex justify-center items-center hover:cursor-pointer">
-                        <img src={edit} className="w-[25px] h-[25px]" alt="Edit" />
-                    </div>
-                    <div className="flex justify-center items-center hover:cursor-pointer">
-                        <img src={info} className="w-[25px] h-[25px]" alt="Edit" />
-                    </div>
-                </div>
-            </div>
-            {isPopUpOpen && <ModalNewMenu isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)} />}
+            {menuList.map((menu, index) => (
+                 <div className='w-[573px] grid grid-cols-2 gap-2' key={index}>
+                 <div className=''>
+                     {menu.name}
+                 </div>
+                 <div className='flex justify-self-end gap-2'>
+                     <div className=''>
+                         {menu.PackageName}
+                     </div>
+                     <div className='w-[25px] h-[25px]'></div>
+                     <div className="flex justify-center items-center hover:cursor-pointer">
+                         <img src={edit} className="w-[25px] h-[25px]" alt="Edit" />
+                     </div>
+                     <div className="flex justify-center items-center hover:cursor-pointer">
+                         <img src={info} className="w-[25px] h-[25px]" alt="Edit" />
+                     </div>
+                 </div>
+             </div>
+            )
+            )}
+            {isPopUpOpen && <ModalNewMenu isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)}  onSubmit={handleAddNewMenu} />}
         </div>
     );
 };

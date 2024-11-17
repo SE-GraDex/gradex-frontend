@@ -63,7 +63,7 @@
     justify-content: space-between;
     width: 215px;
     height: 40px;
-    border: 2px solid #4caf50; /* สีเขียว */
+    border: 1px solid #4caf50; /* สีเขียว */
     border-radius: 15px; /* มุมโค้ง */
     padding: 10px;
     background-color: white;
