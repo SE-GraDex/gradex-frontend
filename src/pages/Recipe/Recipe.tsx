@@ -1,17 +1,13 @@
-import { useState, useEffect } from 'react'
-import search from '../../assets/images/Search.svg'
-import Food from './Food.json'
-import basicfood from '../../assets/images/basic-food.svg'
-import premiumfood from '../../assets/images/premium-food.svg'
-import deluxefood from '../../assets/images/deluxe-food.svg'
-
+import { useState, useEffect } from 'react';
+import search from '../../assets/images/Search.svg';
+import Food from './Food'; // Ensure correct path
 
 const Home = () => {
-  const [food, setFood] = useState(Food)
+  const [food, setFood] = useState(Food);
 
   useEffect(() => {
-    setFood(Food)
-  }, [])
+    setFood(Food); // Updates state (though redundant in this example)
+  }, []);
 
   return (
     <div>
@@ -43,7 +39,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

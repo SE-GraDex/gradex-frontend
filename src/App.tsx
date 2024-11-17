@@ -14,6 +14,7 @@ import Hungry from './pages/WhoHungry';
 import Recipe from './pages/Recipe/Recipe';
 import Sub from './pages/Subscribtion'
 import History from './pages/History'
+import Food from './pages/Recipe/RecipeFood'
 
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/recipe-book" element={<Recipe />} />
           <Route path="/sub" element={<Sub />} />
           <Route path="/shipping" element={<History />} />
+          <Route path="/recipe-food" element={<Food />} />
         </Routes>
       </Layout>
     </Router>
