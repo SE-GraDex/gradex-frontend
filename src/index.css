@@ -4,6 +4,7 @@
 
 .custom-scrollbar::-webkit-scrollbar {
     width: 10px;
+    /* margin-right: 5px; */
     /* กำหนดความกว้างของ scroll bar */
 }
 
@@ -28,11 +29,71 @@
     /* เปลี่ยนสี thumb เมื่อ hover */
 }
 
-.custom-scrollbar {
-    /* padding: 30px; */
-    margin-right: 8px;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+.custom-scrollbarIngredient::-webkit-scrollbar {
+    width: 15px;
+    /* กำหนดความกว้างของ scroll bar */
+}
+
+.custom-scrollbarIngredient::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    /* สีพื้นหลังของ track */
+    border-radius: 10px;
+    /* ปรับมุมให้โค้งมน */
+}
+
+.custom-scrollbarIngredient::-webkit-scrollbar-thumb {
+    background-color: #638CAA;
+    /* สีของตัวเลื่อน (thumb) */
+    border-radius: 10px;
+    /* ปรับมุมให้โค้งมน */
+    border: 2px solid #f0f0f0;
+    /* ขอบสีรอบๆ thumb */
+}
+
+.custom-scrollbarIngredient:hover::-webkit-scrollbar-thumb {
+    background-color: #43647c;
+    /* เปลี่ยนสี thumb เมื่อ hover */
+}
+
+
+.file-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 215px;
+    height: 40px;
+    border: 2px solid #4caf50; /* สีเขียว */
+    border-radius: 15px; /* มุมโค้ง */
+    padding: 10px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .file-input-container svg {
+    width: 20px;
+    height: 20px;
+    fill: #4caf50; /* สีไอคอน */
+  }
+  
+  .file-name {
+    color: #4caf50;
+    font-size: 14px;
+    flex-grow: 1;
+    margin-left: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  input[type="file"] {
+    display: none; /* ซ่อนอินพุตไฟล์ดั้งเดิม */
+  }
+  
+
+
+
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap'); */
 
 .top-food {
     @apply flex items-center justify-center mx-20 mt-3 text-[24px] font-medium text-[#386C5F];

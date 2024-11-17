@@ -8,8 +8,10 @@ import Ongoing from './pages/DeliveryCenter/Ongoing/Ongoing'
 import Complete from './pages/DeliveryCenter/CompleteShip/CompleteShip'
 import Menu from './pages/MenuLab/MenuLab'
 import Login from './pages/LoginAndRegister/login'
-import Register from './pages/LoginAndRegister/Register'
+import Register from './pages/LoginAndRegister/register'
 import MealPreparation from './components/MealPrePage/MealPreparationPage'
+import IngredientManagement from './pages/MenuLab/IngredientManagment/IngredientManagementPage';
+import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isNotNav = location.pathname === '/delivery-center' || '/ongoing' || '/complete';
@@ -24,7 +26,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <div className="bg-[#C6FFEA] min-h-screen">
+    <div className="bg-[#7BB3B5] min-h-screen">
     <Router>
       <Layout>
         <Routes>
@@ -37,6 +39,9 @@ export default function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>
           <Route path="/meal-preparation" element={<MealPreparation />} />
+          <Route path="/ingredientmanagement" element={<IngredientManagement />} />
+          <Route path="/mealmanagementpage" element={<MealManagementPage />} />
+          
         </Routes>
       </Layout>
     </Router>
