@@ -36,9 +36,9 @@ const CalendarTest: React.FC<CalendarProps> = ({ isToggle, isMonthSelectorOpen, 
 
     const [calendarDays, setCalendarDays] = useState<(null | Day)[]>(months[currentMonth.toString() as keyof MonthlyDays]);
 
-    // useEffect(() => {
-    //     console.log("calendarDays", calendarDays);
-    // }, [calendarDays]);
+    useEffect(() => {
+        console.log("calendarDays", calendarDays);
+    }, [calendarDays]);
 
     const handleDateClick = (day: number) => {
         const newDate = new Date(currentYearState, currentMonth, day);

@@ -10,6 +10,7 @@ export type Ingredient = {
   ingredient: string
   portion: number
   unit: string
+  priceperunit?: number
 }
 
 export interface Day {
@@ -43,6 +44,7 @@ export interface MenuItem {
   name: string
   image: string
   PackageName: 'Basic' | 'Deluxe' | 'Premium'
+  Description?: string;
   ingredients: Ingredient[]
 }
 
@@ -78,6 +80,7 @@ export const menuItems: MenuItem[] = [
     name: 'Tom yum kung',
     image: TomYumKung,
     PackageName: 'Deluxe',
+    Description: 'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
     ingredients: [
       { ingredient: 'Shrimp', portion: 200, unit: 'g' },
       { ingredient: 'Lemongrass', portion: 3, unit: 'stalk' },
@@ -90,6 +93,7 @@ export const menuItems: MenuItem[] = [
     name: 'Salmon steak',
     image: SalmonSteak,
     PackageName: 'Basic',
+    Description: 'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
     ingredients: [
       { ingredient: 'King Salmon', portion: 500, unit: 'g' },
       { ingredient: 'Broccoli', portion: 5, unit: 'pcs' },
@@ -100,6 +104,7 @@ export const menuItems: MenuItem[] = [
     name: 'Pad Thai',
     image: PadThai,
     PackageName: 'Basic',
+    Description: 'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
     ingredients: [
       { ingredient: 'Rice Noodles', portion: 200, unit: 'g' },
       { ingredient: 'Shrimp', portion: 100, unit: 'g' },
@@ -112,6 +117,7 @@ export const menuItems: MenuItem[] = [
     name: 'Deep fried sea bass',
     image: FriedFish,
     PackageName: 'Premium',
+    Description: 'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
     ingredients: [
       { ingredient: 'Sea Bass', portion: 1, unit: 'fish' },
       { ingredient: 'Garlic', portion: 5, unit: 'cloves' },
@@ -120,4 +126,5 @@ export const menuItems: MenuItem[] = [
       { ingredient: 'Fish Sauce', portion: 3, unit: 'tbsp' },
     ],
   },
-]
+];
+
