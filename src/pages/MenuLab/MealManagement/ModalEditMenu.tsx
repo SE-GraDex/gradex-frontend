@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 
 import addcircle from '../../../assets/images/add_circle.svg';
 import trash from '../../../assets/images/Trash2.svg';
-import { MenuItem } from '../../../interface/calendar.types';
+import { MenuItem } from '../../../interface/global.types';
 
 interface GridRow {
     ingredient: string;
@@ -15,7 +15,7 @@ interface MealPrepModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (updatedMenu: MenuItem) => void;
-    existingMenu: MenuItem ;
+    existingMenu: MenuItem;
 }
 
 interface FormData {

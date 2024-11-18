@@ -3,7 +3,7 @@ import CardTemp from './CardTemp';
 import ImageSlider from './ImageSlider';
 import bowlrice from '../../assets/images/imagesForMealPre/bowl-rice.svg';
 import { useState } from 'react';
-import { MonthlyDays, IngredientsData, menuItems } from '../../interface/calendar.types';
+import { MonthlyDays, IngredientsData, menuItems } from '../../interface/global.types';
 import MealPrepModal from './MealPrepModal';
 
 

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Search from '../../assets/images/imagesForMealPre/search.svg';
-import { menuItems  , packageItems} from '../../interface/calendar.types';
+import { menuItems, packageItems } from '../../interface/global.types';
 
 // const menuItems: MenuItem[] = [
-    //     { name: 'Tom yum kung', image: TomYumKung, PackageName: 'Deluxe' },
-    //     { name: 'Salmon steak', image: SalmonSteak, PackageName: 'Basic' },
-    //     { name: 'Pad Thai', image: PadThai, PackageName: 'Basic' },
-    //     { name: 'Deep fried sea bass', image: FriedFish, PackageName: 'Premium' },
-    // ];
-    interface switchCardProps {
-        Toggle: (value: string) => void;
-    }
-    
+//     { name: 'Tom yum kung', image: TomYumKung, PackageName: 'Deluxe' },
+//     { name: 'Salmon steak', image: SalmonSteak, PackageName: 'Basic' },
+//     { name: 'Pad Thai', image: PadThai, PackageName: 'Basic' },
+//     { name: 'Deep fried sea bass', image: FriedFish, PackageName: 'Premium' },
+// ];
+interface switchCardProps {
+    Toggle: (value: string) => void;
+}
+
 const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [searchTerm, setSearchTerm] = useState('');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { packageItems } from '../../interface/calendar.types';
+import { packageItems } from '../../interface/global.types';
 
 interface Menu {
     name: string;

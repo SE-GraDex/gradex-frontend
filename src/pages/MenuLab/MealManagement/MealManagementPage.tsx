@@ -5,7 +5,7 @@ import pulscircle from '../../../assets/images/plus-circle.svg';
 import edit from '../../../assets/images/Edit.svg';
 import info from '../../../assets/images/Info.svg';
 
-import { menuItems, MenuItem } from '../../../interface/calendar.types';
+import { menuItems, MenuItem } from '../../../interface/global.types';
 import ModalNewMenu from './ModalNewMenu';
 import ModalViewMenu from './ModalViewMenu';
 import ModalEditMenu from './ModalEditMenu';
@@ -73,12 +73,12 @@ const MealManagementPage: React.FC = () => {
                         </div>
                         <div className='w-[25px] h-[25px]'></div>
                         <div className="flex justify-center items-center hover:cursor-pointer"
-                         onClick={
-                            () => {
-                                setSelectedIndex(index);
-                                setIsPopUpOpenEdit(true);
-                            }
-                         }>
+                            onClick={
+                                () => {
+                                    setSelectedIndex(index);
+                                    setIsPopUpOpenEdit(true);
+                                }
+                            }>
                             <img src={edit} className="w-[25px] h-[25px]" alt="Edit" />
                         </div>
                         <div className="flex justify-center items-center hover:cursor-pointer"

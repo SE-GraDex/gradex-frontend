@@ -34,12 +34,6 @@ export interface MonthlyDays {
   '11': (null | Day)[]
 }
 
-// export interface userStatusLabel {
-//   name: string
-//   surname: string
-//   months: MonthlyDays
-// }
-
 export interface MenuItem {
   name: string
   image: string

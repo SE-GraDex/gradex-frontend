@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem } from '../../../interface/calendar.types';
+import { MenuItem } from '../../../interface/global.types';
 
 interface ModalViewMenuProps {
     isOpen: boolean;

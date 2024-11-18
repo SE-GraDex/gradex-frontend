@@ -9,7 +9,7 @@ import Complete from './pages/DeliveryCenter/CompleteShip/CompleteShip'
 import Menu from './pages/MenuLab/MenuLab'
 import Login from './pages/LoginAndRegister/login'
 import Register from './pages/LoginAndRegister/register'
-import MealPreparation from './components/MealPrePage/MealPreparationPage'
+import MealPreparation from './pages/MealPrePage/MealPreparationPage'
 import Hungry from './pages/WhoHungry';
 import Recipe from './pages/Recipe/Recipe';
 import Sub from './pages/Subscribtion'
@@ -19,7 +19,7 @@ import IngredientManagement from './pages/MenuLab/IngredientManagment/Ingredient
 import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register','/hungry'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry'].includes(location.pathname);
 
   return (
     <div>
@@ -32,28 +32,28 @@ function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <div className="bg-[#7BB3B5] min-h-screen">
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/top" element={<Top />} />
-          <Route path="/delivery-center" element={<Delivery />} />
-          <Route path="/ongoing" element={<Ongoing />} />
-          <Route path="/complete" element={<Complete />}/>
-          <Route path="/menulab" element={<Menu />}/>
-          <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<Register />}/>
-          <Route path="/meal-preparation" element={<MealPreparation />} />
-          <Route path="/hungry" element={<Hungry />} />
-          <Route path="/recipe-book" element={<Recipe />} />
-          <Route path="/sub" element={<Sub />} />
-          <Route path="/shipping" element={<History />} />
-          <Route path="/recipe-food" element={<Food />} />
-          <Route path="/ingredientmanagement" element={<IngredientManagement />} />
-          <Route path="/mealmanagementpage" element={<MealManagementPage />} />
-        </Routes>
-      </Layout>
-    </Router>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/top" element={<Top />} />
+            <Route path="/delivery-center" element={<Delivery />} />
+            <Route path="/ongoing" element={<Ongoing />} />
+            <Route path="/complete" element={<Complete />} />
+            <Route path="/menulab" element={<Menu />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/meal-preparation" element={<MealPreparation />} />
+            <Route path="/hungry" element={<Hungry />} />
+            <Route path="/recipe-book" element={<Recipe />} />
+            <Route path="/sub" element={<Sub />} />
+            <Route path="/shipping" element={<History />} />
+            <Route path="/recipe-food" element={<Food />} />
+            <Route path="/ingredientmanagement" element={<IngredientManagement />} />
+            <Route path="/mealmanagementpage" element={<MealManagementPage />} />
+          </Routes>
+        </Layout>
+      </Router>
     </div>
   );
 }

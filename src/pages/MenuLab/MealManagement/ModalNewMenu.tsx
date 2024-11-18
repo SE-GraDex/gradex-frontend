@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 
 import addcircle from '../../../assets/images/add_circle.svg';
 import trash from '../../../assets/images/Trash2.svg';
-import { MenuItem } from '../../../interface/calendar.types';
+import { MenuItem } from '../../../interface/global.types';
 interface GridRow {
     ingredient: string;
     portion: string;
@@ -197,12 +197,12 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                             onChange={(e) => setPortion(e.target.value)}
                         />
                     </div>
-                        <img
-                            src={addcircle}
-                            alt=""
-                            className='w-[25px] h-[25px] cursor-pointer justify-self-center'
-                            onClick={handleAddToGrid}
-                        />
+                    <img
+                        src={addcircle}
+                        alt=""
+                        className='w-[25px] h-[25px] cursor-pointer justify-self-center'
+                        onClick={handleAddToGrid}
+                    />
                 </div>
                 <div className='w-[500px] grid grid-cols-4 mb-2 font-medium justify-self-center text-[#386C5F]'>
                     <div className='col-span-2'>Ingredient</div>

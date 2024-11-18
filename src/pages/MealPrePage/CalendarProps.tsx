@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {MonthlyDays ,Day ,} from '../../interface/calendar.types';
+import { MonthlyDays, Day, } from '../../interface/global.types';
 
 interface CalendarProps {
     isToggle: boolean;
@@ -48,7 +48,7 @@ const CalendarTest: React.FC<CalendarProps> = ({ isToggle, isMonthSelectorOpen, 
         setCalendarDays((prevCalendarDays) => {
             const updatedCalendarDays = [...prevCalendarDays];
             const index = updatedCalendarDays.findIndex((item) => item && item.day === day);
-        
+
             if (index !== -1 && updatedCalendarDays[index]) {
                 const currentStatus = updatedCalendarDays[index]?.status;
                 updatedCalendarDays[index] = {
@@ -59,7 +59,7 @@ const CalendarTest: React.FC<CalendarProps> = ({ isToggle, isMonthSelectorOpen, 
             }
             return updatedCalendarDays;
         });
-        
+
         toggle(!isToggle);
     };
 
