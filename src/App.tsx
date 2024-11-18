@@ -15,7 +15,8 @@ import Recipe from './pages/Recipe/Recipe';
 import Sub from './pages/Subscribtion'
 import History from './pages/History'
 import Food from './pages/Recipe/RecipeFood'
-
+import IngredientManagement from './pages/MenuLab/IngredientManagment/IngredientManagementPage';
+import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register','/hungry'].includes(location.pathname);
@@ -30,7 +31,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <div className="bg-[#C6FFEA] min-h-screen">
+    <div className="bg-[#7BB3B5] min-h-screen">
     <Router>
       <Layout>
         <Routes>
@@ -48,6 +49,8 @@ export default function App() {
           <Route path="/sub" element={<Sub />} />
           <Route path="/shipping" element={<History />} />
           <Route path="/recipe-food" element={<Food />} />
+          <Route path="/ingredientmanagement" element={<IngredientManagement />} />
+          <Route path="/mealmanagementpage" element={<MealManagementPage />} />
         </Routes>
       </Layout>
     </Router>
