@@ -10,11 +10,16 @@ import Menu from './pages/MenuLab/MenuLab'
 import Login from './pages/LoginAndRegister/login'
 import Register from './pages/LoginAndRegister/register'
 import MealPreparation from './components/MealPrePage/MealPreparationPage'
+import Hungry from './pages/WhoHungry';
+import Recipe from './pages/Recipe/Recipe';
+import Sub from './pages/Subscribtion'
+import History from './pages/History'
+import Food from './pages/Recipe/RecipeFood'
 import IngredientManagement from './pages/MenuLab/IngredientManagment/IngredientManagementPage';
 import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = location.pathname === '/delivery-center' || '/ongoing' || '/complete';
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register','/hungry'].includes(location.pathname);
 
   return (
     <div>
@@ -39,9 +44,13 @@ export default function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>
           <Route path="/meal-preparation" element={<MealPreparation />} />
+          <Route path="/hungry" element={<Hungry />} />
+          <Route path="/recipe-book" element={<Recipe />} />
+          <Route path="/sub" element={<Sub />} />
+          <Route path="/shipping" element={<History />} />
+          <Route path="/recipe-food" element={<Food />} />
           <Route path="/ingredientmanagement" element={<IngredientManagement />} />
           <Route path="/mealmanagementpage" element={<MealManagementPage />} />
-          
         </Routes>
       </Layout>
     </Router>

@@ -19,7 +19,7 @@ const Home = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-white w-[386px] h-[52px] border border-[#47C171] text-[16px] mt-4 rounded-2xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:border-blue-500"
+              className="bg-white w-[386px] h-[52px] border border-[#47C171] text-[16px] mt-4 rounded-2xl focus:ring-blue-500 focus:border-blue-500 block p-2.5"
             />
           </div>
         </div>
@@ -29,7 +29,7 @@ const Home = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="bg-white w-[386px] h-[52px] border border-[#47C171] text-[16px] mt-4 rounded-2xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:border-blue-500"
+            className="bg-white w-[386px] h-[52px] border border-[#47C171] text-[16px] mt-4 rounded-2xl focus:ring-blue-500 focus:border-blue-500 block p-2.5"
           />
         </div>
         <div className="flex items-center justify-center">
