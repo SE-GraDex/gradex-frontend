@@ -4,9 +4,11 @@ import { useState } from 'react';
 import pulscircle from '../../../assets/images/plus-circle.svg';
 import edit from '../../../assets/images/Edit.svg';
 import info from '../../../assets/images/Info.svg';
-import ModalNewMenu from './ModalNewMenu';
 
 import { menuItems, MenuItem } from '../../../interface/calendar.types';
+import ModalNewMenu from './ModalNewMenu';
+import ModalViewMenu from './ModalViewMenu';
+import ModalEditMenu from './ModalEditMenu';
 
 
 
@@ -14,11 +16,14 @@ const MealManagementPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
     const [menuList, setMenuList] = useState<MenuItem[]>(menuItems);
+    const [isPopUpOpenView, setIsPopUpOpenView] = useState(false);
+    const [isPopUpOpenEdit, setIsPopUpOpenEdit] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     const handleAddNewMenu = (newMenu: MenuItem) => {
         setMenuList([...menuList, newMenu]);
     };
-    
+
 
     return (
         <div className='flex flex-col items-center'>
@@ -58,26 +63,38 @@ const MealManagementPage: React.FC = () => {
                 </div>
             </div>
             {menuList.map((menu, index) => (
-                 <div className='w-[573px] grid grid-cols-2 gap-2' key={index}>
-                 <div className=''>
-                     {menu.name}
-                 </div>
-                 <div className='flex justify-self-end gap-2'>
-                     <div className=''>
-                         {menu.PackageName}
-                     </div>
-                     <div className='w-[25px] h-[25px]'></div>
-                     <div className="flex justify-center items-center hover:cursor-pointer">
-                         <img src={edit} className="w-[25px] h-[25px]" alt="Edit" />
-                     </div>
-                     <div className="flex justify-center items-center hover:cursor-pointer">
-                         <img src={info} className="w-[25px] h-[25px]" alt="Edit" />
-                     </div>
-                 </div>
-             </div>
+                <div className='w-[573px] grid grid-cols-2 gap-2 mb-5' key={index}>
+                    <div className=''>
+                        {menu.name}
+                    </div>
+                    <div className='flex justify-self-end gap-2'>
+                        <div className=''>
+                            {menu.PackageName}
+                        </div>
+                        <div className='w-[25px] h-[25px]'></div>
+                        <div className="flex justify-center items-center hover:cursor-pointer"
+                         onClick={
+                            () => {
+                                setSelectedIndex(index);
+                                setIsPopUpOpenEdit(true);
+                            }
+                         }>
+                            <img src={edit} className="w-[25px] h-[25px]" alt="Edit" />
+                        </div>
+                        <div className="flex justify-center items-center hover:cursor-pointer"
+                            onClick={() => {
+                                setSelectedIndex(index); // เก็บ index ของเมนูที่เลือก
+                                setIsPopUpOpenView(true); // เปิด Modal
+                            }}>
+                            <img src={info} className="w-[25px] h-[25px]" alt="Info" />
+                        </div>
+                    </div>
+                </div>
             )
             )}
-            {isPopUpOpen && <ModalNewMenu isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)}  onSubmit={handleAddNewMenu} />}
+            {isPopUpOpen && <ModalNewMenu isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)} onSubmit={handleAddNewMenu} />}
+            {isPopUpOpenView && <ModalViewMenu isOpen={isPopUpOpenView} onClose={() => setIsPopUpOpenView(false)} menu={menuList[selectedIndex]} />}
+            {isPopUpOpenEdit && <ModalEditMenu isOpen={isPopUpOpenEdit} onClose={() => setIsPopUpOpenEdit(false)} onSubmit={handleAddNewMenu} existingMenu={menuList[selectedIndex]} />}
         </div>
     );
 };

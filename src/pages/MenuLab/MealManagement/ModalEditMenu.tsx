@@ -1,8 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 
 import addcircle from '../../../assets/images/add_circle.svg';
 import trash from '../../../assets/images/Trash2.svg';
 import { MenuItem } from '../../../interface/calendar.types';
+
 interface GridRow {
     ingredient: string;
     portion: string;
@@ -13,7 +14,8 @@ interface GridRow {
 interface MealPrepModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (newMenu: MenuItem) => void;
+    onSubmit: (updatedMenu: MenuItem) => void;
+    existingMenu: MenuItem ;
 }
 
 interface FormData {
@@ -22,9 +24,7 @@ interface FormData {
     unit: string;
 }
 
-
-
-const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit, existingMenu }) => {
     if (!isOpen) return null;
 
     const [ingredientList, setIngredientList] = useState<FormData[]>([
@@ -40,23 +40,64 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
         { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
     ]);
 
-    const [fileName, setFileName] = useState<string>('');
-    const [nameMenu, setNameMenu] = useState<string>('');
-    const [selectedPackage, setSelectedPackage] = useState<string>('');
+    const [fileName, setFileName] = useState<string>(existingMenu?.image || '');
+    const [nameMenu, setNameMenu] = useState<string>(existingMenu?.name || '');
+    const [selectedPackage, setSelectedPackage] = useState<string>(existingMenu?.PackageName || '');
+    const [description, setDescription] = useState<string>(existingMenu?.Description || '');
+    const [pricePerUnit, setPricePerUnit] = useState<string>('');
+    const [ingredient, setIngredient] = useState<string>('');
+    const [portion, setPortion] = useState<string>('');
+    const [unit, setUnit] = useState<string>('grams');
+    const [gridData, setGridData] = useState<GridRow[]>(existingMenu?.ingredients.map(ingredient => ({
+        ingredient: ingredient.ingredient,
+        portion: ingredient.portion.toString(),
+        unit: ingredient.unit,
+        pricePerUnit: (ingredient.priceperunit || 0).toString(),
+    })) || []);
+
+    useEffect(() => {
+        if (existingMenu) {
+            setFileName(existingMenu.image);
+            setNameMenu(existingMenu.name);
+            setSelectedPackage(existingMenu.PackageName);
+            setDescription(existingMenu.Description || '');
+            setGridData(existingMenu.ingredients.map(ingredient => ({
+                ingredient: ingredient.ingredient,
+                portion: ingredient.portion.toString(),
+                unit: ingredient.unit,
+                pricePerUnit: (ingredient.priceperunit?.toString() || '0'),
+            })));
+        }
+    }, [existingMenu]);
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         setFileName(file ? file.name : '');
     };
 
-    const [description, setDescription] = useState<string>('');
-    const [pricePerUnit, setPricePerUnit] = useState<string>('');
-    const [ingredient, setIngredient] = useState<string>('');
-    const [portion, setPortion] = useState<string>('');
-    const [unit, setUnit] = useState<string>('grams');
-    const [gridData, setGridData] = useState<GridRow[]>([]);
+    const handleAddToGrid = () => {
+        if (ingredient && portion && unit) {
+            setGridData([...gridData, { ingredient, portion, unit, pricePerUnit }]);
+            setIngredient('');
+            setPortion('');
+        }
+    };
 
-    const ShowAllvalue = () => {
-        const newMenu: MenuItem = {
+    const handleDeleteRow = (index: number) => {
+        const newGridData = [...gridData];
+        newGridData.splice(index, 1);
+        setGridData(newGridData);
+    };
+
+    const handleResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+        setDescription(textarea.value);
+    };
+
+    const handleSubmit = () => {
+        const updatedMenu: MenuItem = {
             name: nameMenu,
             image: fileName,
             PackageName: selectedPackage as 'Basic' | 'Deluxe' | 'Premium',
@@ -69,29 +110,8 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
             })),
         };
 
-        onSubmit(newMenu); // ส่งข้อมูลกลับไปที่ Parent
-        onClose(); // ปิด Modal
-    };
-
-
-    const handleAddToGrid = () => {
-        if (ingredient && portion && unit) {
-            setGridData([...gridData, { ingredient, portion, unit, pricePerUnit }]);
-            setIngredient('');
-            setPortion('');
-        }
-    };
-    const handleDeleteRow = (index: number) => {
-        const newGridData = [...gridData];
-        newGridData.splice(index, 1);
-        setGridData(newGridData);
-    };
-
-    const handleResize = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const textarea = e.target;
-        textarea.style.height = 'auto'; // รีเซ็ตความสูงก่อน
-        textarea.style.height = `${textarea.scrollHeight}px`; // ปรับตาม scrollHeight
-        setDescription(textarea.value);
+        onSubmit(updatedMenu);
+        onClose();
     };
 
     return (
@@ -106,7 +126,7 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                     </svg>
                 </button>
                 <div className="text-[#066426] text-3xl font-medium justify-self-center mt-5 mb-12">
-                    Assign New Information
+                    Edit Menu Information
                 </div>
                 <div className='text-[#066426]'>
                     <div className='w-[341px] justify-self-center flex justify-between items-center mb-4 '>
@@ -126,7 +146,7 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                         </div>
                         <textarea
                             className="w-[215px] h-[40px] rounded-2xl border border-[#47C171] pl-3 outline-none"
-                            style={{ overflow: 'hidden', minHeight: '40px' }} // ตั้งค่า overflow และความสูงเริ่มต้น
+                            style={{ overflow: 'hidden', minHeight: '40px' }}
                             value={description}
                             onChange={handleResize}
                         />
@@ -157,6 +177,7 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                         <div className="">Package</div>
                         <select
                             className="w-[215px] h-[40px] rounded-2xl border border-[#47C171] pl-3 outline-none"
+                            value={selectedPackage}
                             onChange={(e) => setSelectedPackage(e.target.value)}
                         >
                             <option value="" hidden></option>
@@ -187,7 +208,6 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                         </select>
                     </div>
 
-
                     <div className='w-[341px] justify-self-center flex justify-between items-center mb-4'>
                         <div className=''>Portion</div>
                         <input
@@ -197,12 +217,12 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                             onChange={(e) => setPortion(e.target.value)}
                         />
                     </div>
-                        <img
-                            src={addcircle}
-                            alt=""
-                            className='w-[25px] h-[25px] cursor-pointer justify-self-center'
-                            onClick={handleAddToGrid}
-                        />
+                    <img
+                        src={addcircle}
+                        alt=""
+                        className='w-[25px] h-[25px] cursor-pointer justify-self-center'
+                        onClick={handleAddToGrid}
+                    />
                 </div>
                 <div className='w-[500px] grid grid-cols-4 mb-2 font-medium justify-self-center text-[#386C5F]'>
                     <div className='col-span-2'>Ingredient</div>
@@ -221,7 +241,7 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                 ))}
                 <div className="justify-self-center">
                     <button className="mt-6 w-[134px] h-[48px] bg-[#30E06C] text-[#1E1E1E] py-2 rounded-full hover:bg-white hover:text-[#066426] hover:border hover:border-[#30E06C]"
-                        onClick={ShowAllvalue}
+                        onClick={handleSubmit}
                     >
                         Submit
                     </button>
@@ -231,4 +251,4 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
     );
 };
 
-export default ModalNewMenu;
+export default ModalEditMenu;
