@@ -209,16 +209,18 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                     <div className=''>Portion</div>
                     <div className=''>Unit</div>
                 </div>
+                <div className='overflow-y-auto max-h-[200px] custom-scrollbarIngredient'>
                 {gridData.map((row, index) => (
-                    <div key={index} className='w-[500px] grid grid-cols-4 mb-2 justify-self-center text-[#386C5F]'>
+                    <div key={index} className='w-[500px] grid grid-cols-4 mb-2 justify-self-center text-[#386C5F] '>
                         <div className='col-span-2'>{row.ingredient}</div>
                         <div className=''>{row.portion}</div>
-                        <div className='flex gap-2'>
+                        <div className='flex justify-between'>
                             <div className=''>{row.unit}</div>
                             <img src={trash} alt="" className='w-[25px] h-[25px] cursor-pointer' onClick={() => handleDeleteRow(index)} />
                         </div>
                     </div>
                 ))}
+                </div>
                 <div className="justify-self-center">
                     <button className="mt-6 w-[134px] h-[48px] bg-[#30E06C] text-[#1E1E1E] py-2 rounded-full hover:bg-white hover:text-[#066426] hover:border hover:border-[#30E06C]"
                         onClick={ShowAllvalue}

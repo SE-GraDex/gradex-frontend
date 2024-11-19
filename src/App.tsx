@@ -19,7 +19,7 @@ import IngredientManagement from './pages/MenuLab/IngredientManagment/Ingredient
 import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry' ,'/mealmanagementpage'].includes(location.pathname);
 
   return (
     <div>
