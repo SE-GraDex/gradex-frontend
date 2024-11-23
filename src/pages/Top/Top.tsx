@@ -2,6 +2,8 @@ import { useState } from 'react'
 import crownlogo from '../../assets/images/crown-logo.svg'
 import diamondlogo from '../../assets/images/diamond-logo.svg'
 import premiumfood from '../../assets/images/premium-food.svg'
+import basicfood from '../../assets/images/basic-food.svg'
+import deluxefood from '../../assets/images/deluxe-food.svg'
 import ricelogo from '../../assets/images/rice-logo.svg'
 import Modal from '../../components/ModalMeal'
 
@@ -36,73 +38,79 @@ const Home: React.FC = () => {
       <div className="flex items-center justify-center mx-20 mt-3">
         <div className="grid grid-cols-1 md:grid-cols-3 mx-10">
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={ricelogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={ricelogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={basicfood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Basic',
+                      ricelogo,
+                      'Pad Thai'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Pad Thai</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Basic',
-                    ricelogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={ricelogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={ricelogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={basicfood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Basic',
+                      ricelogo,
+                      'Pad Thai'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Pad Thai</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Basic',
-                    ricelogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={ricelogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={ricelogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={basicfood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Basic',
+                      ricelogo,
+                      'Pad Thai'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Pad Thai</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Basic',
-                    ricelogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
         </div>
       </div>
@@ -111,73 +119,79 @@ const Home: React.FC = () => {
       <div className="flex items-center justify-center mx-20 mt-3">
         <div className="grid grid-cols-1 md:grid-cols-3 mx-10">
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={diamondlogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={diamondlogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={deluxefood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Deluxe',
+                      diamondlogo,
+                      'Tom Yum Kung'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Tom Yum Kung</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Deluxe',
-                    diamondlogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={diamondlogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={diamondlogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={deluxefood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Deluxe',
+                      diamondlogo,
+                      'Tom Yum Kung'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Tom Yum Kung</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Deluxe',
-                    diamondlogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={diamondlogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={diamondlogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={deluxefood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Deluxe',
+                      diamondlogo,
+                      'Tom Yum Kung'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Tom Yum Kung</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Deluxe',
-                    diamondlogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
         </div>
       </div>
@@ -186,73 +200,79 @@ const Home: React.FC = () => {
       <div className="flex items-center justify-center mx-20 mt-3">
         <div className="grid grid-cols-1 md:grid-cols-3 mx-10">
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={crownlogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={crownlogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={premiumfood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Premium',
+                      crownlogo,
+                      'Salmon steak'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Salmon Steak</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Premium',
-                    crownlogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={crownlogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={crownlogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={premiumfood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Premium',
+                      crownlogo,
+                      'Salmon steak'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Salmon Steak</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Premium',
-                    crownlogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
           <div className="p-4">
-            <div className="flex items-center justify-center">
-              <img src={crownlogo} alt="Logo" width="24" height="24" />
+            <div className='w-[400px]'>
+              <div className="flex items-center justify-center">
+                <img src={crownlogo} alt="Logo" width="24" height="24" />
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <img
+                  src={premiumfood}
+                  alt="Logo"
+                  width="100"
+                  height="100"
+                  onClick={() =>
+                    openModal(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      'Premium',
+                      crownlogo,
+                      'Salmon steak'
+                    )
+                  }
+                  className="cursor-pointer"
+                />
+              </div>
+              <div className="top-food">Salmon Steak</div>
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <img
-                src={premiumfood}
-                alt="Logo"
-                width="100"
-                height="100"
-                onClick={() =>
-                  openModal(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
-                    'Premium',
-                    crownlogo,
-                    'Salmon steak'
-                  )
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div className="top-food">Salmon Steak</div>
           </div>
         </div>
       </div>

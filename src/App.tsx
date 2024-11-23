@@ -31,7 +31,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <div className="bg-[#7BB3B5] min-h-screen">
+    <div className="bg-[#C6FFEA] min-h-screen">
       <Router>
         <Layout>
           <Routes>

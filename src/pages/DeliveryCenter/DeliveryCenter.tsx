@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import ButtonLink from '../../components/button/ButtonLink';
 import personlogo from '../../assets/images/person.svg';
 import check from '../../assets/images/Check-square.svg';
-import shippingTasksData from '../DeliveryCenter/CompleteShip/ship_complete.json';
 
 const Home = () => {
   const [userName, setUserName] = useState("Mr. xxx xxx");
@@ -11,11 +10,25 @@ const Home = () => {
   const [completedShipments, setCompletedShipments] = useState(0);
 
   useEffect(() => {
-    const ongoing = shippingTasksData.filter((task) => task.status === "");
-    const completed = shippingTasksData.filter((task) => task.status !== "");
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/shipping/getAllShippings');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const shippingData = await response.json();
 
-    setOngoingTasks(ongoing.length);
-    setCompletedShipments(completed.length);
+        const ongoing = shippingData.filter((task) => task.status === 'Ongoing');
+        const completed = shippingData.filter((task) => task.status === 'Derivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
+
+        setOngoingTasks(ongoing.length);
+        setCompletedShipments(completed.length);
+      } catch (error) {
+        console.error('Error fetching shipping data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

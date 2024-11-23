@@ -1,10 +1,26 @@
-import { useState } from 'react';
-import ButtonLink from '../../components/button/ButtonLink';
-import LogoYai from '../../assets/images/LogoYai.svg';
+import { useState } from 'react'
+import ButtonLink from '../../components/button/ButtonLink'
+import LogoYai from '../../assets/images/LogoYai.svg'
+import axios from 'axios'
 
 const Home = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const handleSubmit = () => {
+    const payload = { email, password }
+    console.log('Payload:', payload) // Log payload
+
+    axios
+      .post('http://localhost:8080/api/auth/login', payload, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log('Login successful:', response.data)
+      })
+      .catch((error) => {
+        console.error('Login failed:', error.response?.data || error.message)
+      })
+  }
 
   return (
     <div className="bg-[#386C5F] min-h-screen flex justify-center items-center">
@@ -32,12 +48,10 @@ const Home = () => {
             className="bg-white w-[386px] h-[52px] border border-[#47C171] text-[16px] mt-4 rounded-2xl focus:ring-blue-500 focus:border-blue-500 block p-2.5"
           />
         </div>
-        <div className="flex items-center justify-center">
-          <ButtonLink
-            label="เข้าสู่ระบบ"
-            link=""
-            className="w-[175px] h-[48px] mb-5 text-[16px] bg-[#30E06C] border rounded-full text-black hover:bg-white hover:text-[#066426] hover:border-[#30E06C] transition-all duration-200 flex items-center justify-center"
-          />
+        <div className="flex items-center justify-center" onClick={handleSubmit}>
+          <button className="w-[175px] h-[48px] mb-5 text-[16px] bg-[#30E06C] border rounded-full text-black hover:bg-white hover:text-[#066426] hover:border-[#30E06C] transition-all duration-200 flex items-center justify-center">
+            เข้าสู่ระบบ
+          </button>
         </div>
         <div className="flex items-center justify-center">
           <ButtonLink
@@ -48,7 +62,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
