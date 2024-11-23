@@ -13,7 +13,7 @@ import MealPreparation from './pages/MealPrePage/MealPreparationPage'
 import Hungry from './pages/WhoHungry';
 import Recipe from './pages/Recipe/Recipe';
 import Sub from './pages/Subscribtion'
-import History from './pages/History'
+import History from './pages/ShippingPage/History'
 import Food from './pages/Recipe/RecipeFood'
 import IngredientManagement from './pages/MenuLab/IngredientManagment/IngredientManagementPage';
 import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
@@ -51,6 +51,7 @@ export default function App() {
             <Route path="/recipe-food" element={<Food />} />
             <Route path="/ingredientmanagement" element={<IngredientManagement />} />
             <Route path="/mealmanagementpage" element={<MealManagementPage />} />
+            
           </Routes>
         </Layout>
       </Router>

@@ -78,16 +78,16 @@ const MealManagementPage: React.FC = () => {
                 <div>Premium Menu : {filteredIngredients.filter(item => item.PackageName === "Premium").length}</div>
             </div>
             <div className="w-[573px] grid grid-cols-2 gap-2 text-center font-semibold mb-2 text-[#386C5F]">
-                <div className="w-[158px] h-[48px] bg-[#F3FFF9] rounded-full flex justify-center items-center">Menu</div>
+                <div className="w-[158px] h-[48px] bg-[#F3FFF9] rounded-full flex justify-center items-center text-lg">Menu</div>
                 <div className="flex justify-self-end gap-2">
-                    <div className="w-[110px] h-[48px] bg-[#F3FFF9] rounded-full flex justify-center items-center justify-self-end">Tier</div>
+                    <div className="w-[110px] h-[48px] bg-[#F3FFF9] rounded-full flex justify-center items-center justify-self-end text-lg">Tier</div>
                     <div className="flex justify-center items-center hover:cursor-pointer">
                         <img src={pulscircle} className="w-[25px] h-[25px]" alt="Plus Circle" onClick={() => setIsPopUpOpen(true)} />
                     </div>
                     <div className='w-[25px] h-[25px]'></div>
                 </div>
             </div>
-            <div className='overflow-y-auto max-h-[300px] custom-scrollbarIngredient'>
+            <div className='overflow-y-auto max-h-[300px] custom-scrollbarIngredient text-lg'>
                 {filteredIngredients.map((menu, index) => (
                     <div className='w-[573px] grid grid-cols-2 gap-2 mb-5  text-white' key={index}>
                         <div className=''>

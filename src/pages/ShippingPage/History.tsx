@@ -22,7 +22,7 @@ const Home = () => {
         <div className="text-[64px] font-bold text-topic ml-20 mt-6">Shipping History</div>
         {orders.map((order, index) => (
           <div key={index} className="flex items-center ml-44 mt-8">
-            <div className="w-[518px] h-[110px] bg-[#7BB3B5] flex items-center justify-center text-white font-bold text-[32px] rounded-3xl">
+            <div className="w-[518px] h-[110px] bg-[#7BB3B5] flex items-center justify-center text-white font-bold text-[32px] rounded-3xl hover:cursor-pointer">
               {order.month} Order
             </div>
             <div
