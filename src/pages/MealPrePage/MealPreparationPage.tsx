@@ -27,8 +27,8 @@ const MonthSelector: React.FC<{ onMonthChange: (month: string) => void }> = ({ o
 
 
     return (
-        <div className="w-[368px] h-[50px] flex items-center bg-white mt-7 mb-7">
-            <div className='w-[273px] h-[50px] border rounded-l-lg border-green-400 flex items-center justify-start'>
+        <div className="w-[368px] h-[50px] flex items-center mt-7 mb-7">
+            <div className='w-[273px] h-[50px] border rounded-l-lg border-green-400 flex items-center justify-start bg-white'>
                 <div className={`text-xl p-2 ${!selectedMonth ? 'text-gray-400' : 'text-black'}`}>
                     {selectedMonth || 'Select month'}
                 </div>

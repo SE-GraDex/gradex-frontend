@@ -104,7 +104,7 @@ const MenuSelectorCard: React.FC<MunuSelectorCardProps> = ({ DateCurrent, parent
                         className='w-[134px] h-[48px] bg-[#1E1E1E] text-white justify-self-center text-lg rounded-3xl flex items-center justify-center mt-5 hover:bg-white hover:text-black hover:border hover:border-black hover:cursor-pointer'
                         onClick={openPopUp} // Open the modal first
                     >
-                        Summit
+                        Submit
                     </div>
 
                     {/* Modal rendering */}

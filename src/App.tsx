@@ -12,14 +12,19 @@ import Register from './pages/LoginAndRegister/register'
 import MealPreparation from './pages/MealPrePage/MealPreparationPage'
 import Hungry from './pages/WhoHungry';
 import Recipe from './pages/Recipe/Recipe';
-import Sub from './pages/Subscribtion'
-import History from './pages/History'
+import Sub from './pages/Subscribtion/Subscribtion'
+import History from './pages/ShippingPage/History'
 import Food from './pages/Recipe/RecipeFood'
 import IngredientManagement from './pages/MenuLab/IngredientManagment/IngredientManagementPage';
 import MealManagementPage from './pages/MenuLab/MealManagement/MealManagementPage';
+import ShippingSelectMonth from './pages/ShippingPage/ShippingSelectMonth';
+import Subscription from './pages/Subscribtion/Subscribtion';
+import CreditCardPaymentPage from './pages/Subscribtion/CreditCardPaymentPage';
+import QRCodePaymentPage from './pages/Subscribtion/QRCodePaymentPage';
+import AllPaymentPage from './pages/Subscribtion/AllPaymentPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage'].includes(location.pathname);
 
   return (
     <div>
@@ -51,6 +56,11 @@ export default function App() {
             <Route path="/recipe-food" element={<Food />} />
             <Route path="/ingredientmanagement" element={<IngredientManagement />} />
             <Route path="/mealmanagementpage" element={<MealManagementPage />} />
+            <Route path="/shippingselectmonth" element={<ShippingSelectMonth />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/credit-card-payment" element={<CreditCardPaymentPage />} />
+            <Route path="/qr-code-payment" element={<QRCodePaymentPage />} />
+            <Route path="/all-payment" element={<AllPaymentPage />} />
           </Routes>
         </Layout>
       </Router>
