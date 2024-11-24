@@ -9,7 +9,7 @@ const Home = () => {
     { month: 'September', status: 'Completed' },
   ];
 
-  const getStatusStyles = (status:string) => {
+  const getStatusStyles = (status: string) => {
     if (status === 'Completed') {
       return 'bg-[#30E06C] text-black';
     } else if (status === 'In coming') {
@@ -18,8 +18,8 @@ const Home = () => {
     return '';
   };
 
-  const handleClick = (element:string) => {
-    navigate('/shippingselectmonth', { state: { month:element } });
+  const handleClick = (element: string) => {
+    navigate('/shippingselectmonth', { state: { month: element } });
   };
 
   return (
