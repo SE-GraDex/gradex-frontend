@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Edit from '../../../assets/images/Edit.svg';
 import Modal from '../../../components/ModalEditStatus';
+import axios from 'axios';
 
 interface IShipping {
   tracking_number: string;
@@ -10,19 +11,21 @@ interface IShipping {
   status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
 }
 
-const Home: React.FC = () => {
+const CompleteShip: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [modalTrackingNumber, setModalTrackingNumber] = useState<string>('');
   const [modalCustomerName, setModalCustomerName] = useState<string>('');
   const [modalAddress, setModalAddress] = useState<string>('');
   const [modalContact, setModalContact] = useState<string>('');
+  const [modalStatus, setModalStatus] = useState<IShipping['status']>('Delivered');
   const [ongoingTasks, setOngoingTasks] = useState<IShipping[]>([]);
 
-  const openModal = (trackingNumber: string, customerName: string, address: string, contact: string) => {
+  const openModal = (trackingNumber: string, customerName: string, address: string, contact: string, status:IShipping['status']) => {
     setModalTrackingNumber(trackingNumber);
     setModalCustomerName(customerName);
     setModalAddress(address);
     setModalContact(contact);
+    setModalStatus(status);
     setModalOpen(true);
   };
 
@@ -39,7 +42,7 @@ const Home: React.FC = () => {
         console.log('Fetched Data:', shippingData);  // Debug: Check the structure of fetched data
         
         // Standardize the data to camelCase
-        const standardizedData: IShipping[] = shippingData.map((task: any) => ({
+        const standardizedData: IShipping[] = shippingData.map((task: IShipping) => ({
           tracking_number: task.tracking_number,
           customer_name: task.customer_name,
           address: task.address,
@@ -64,15 +67,48 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
+  const handleChangeStatus = (updatedShipping: IShipping) => {
+    const updateStatus = async () => {
+      try {
+        const response = await axios.put(
+          `http://localhost:8080/api/shipping/updateShipping/${updatedShipping.tracking_number}`,
+          { status: updatedShipping.status }
+        );
+        console.log('Updated successfully:', response);
+  
+        // Update the local state with the new status
+        setOngoingTasks((prevTasks) =>
+          prevTasks
+            .map((task) =>
+              task.tracking_number === updatedShipping.tracking_number
+                ? { ...task, status: updatedShipping.status }
+                : task
+            )
+            .filter(
+              (task) =>
+                task.status === 'Delivered' ||
+                task.status === 'Returned' ||
+                task.status === 'Failed to Deliver'
+            )
+        );
+      } catch (error) {
+        console.error('Error updating status:', error);
+      }
+    };
+    updateStatus();
+  };
+
   return (
     <div>
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
+        onSubmit={handleChangeStatus}
         trackNum={modalTrackingNumber}
         name={modalCustomerName}
         address={modalAddress}
         contact={modalContact}
+        status={modalStatus}
       />
       <div className="bg-[#7BB3B5] min-h-screen z-0">
         <div className="text-[40px] pt-10 text-white flex items-center justify-center">Completed Shipments</div>
@@ -111,7 +147,7 @@ const Home: React.FC = () => {
                   width="24"
                   height="24"
                   onClick={() =>
-                    openModal(task.tracking_number, task.customer_name, task.address, task.contact)
+                    openModal(task.tracking_number, task.customer_name, task.address, task.contact, task.status)
                   }
                   className="cursor-pointer"
                 />
@@ -124,4 +160,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default CompleteShip;

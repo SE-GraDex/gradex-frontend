@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import search from '../../../assets/images/search-sky.svg';
 import pulscircle from '../../../assets/images/plus-circle.svg';
 import edit from '../../../assets/images/Edit.svg';
 import Modallngred from './Modallngred';
 import ModallngredEdit from './ModallngredEdit';
+import axios from 'axios';
 
 interface FormData {
     ingredientName: string;
@@ -14,21 +15,31 @@ interface FormData {
 const IngredientManagementPage: React.FC = () => {
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
     const [isPopUpOpenEdit, setIsPopUpOpenEdit] = useState(false);
-    const [ingredientList, setIngredientList] = useState<FormData[]>([
-        { ingredientName: 'Pork', pricePerUnit: '0.2', unit: 'gram' },
-        { ingredientName: 'Chicken', pricePerUnit: '0.15', unit: 'gram' },
-        { ingredientName: 'Rice', pricePerUnit: '0.5', unit: 'kg' },
-        { ingredientName: 'Tomato', pricePerUnit: '1.0', unit: 'kg' },
-        { ingredientName: 'Lettuce', pricePerUnit: '0.3', unit: 'kg' },
-        { ingredientName: 'Egg', pricePerUnit: '0.7', unit: 'unit' },
-        { ingredientName: 'Garlic', pricePerUnit: '0.1', unit: 'gram' },
-        { ingredientName: 'Carrot', pricePerUnit: '0.6', unit: 'kg' },
-        { ingredientName: 'Onion', pricePerUnit: '0.2', unit: 'kg' },
-        { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
-    ]);
+    const [ingredientList, setIngredientList] = useState<FormData[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
-
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/ingredient/getIngredients")
+        .then((res) => {
+            // res.data
+            const mappedData: FormData[] = res.data.map((item: any) => ({
+                ingredientName: item.name,
+                pricePerUnit: item.priceperunit.toString(),
+                unit: item.unit,
+            }));
+            setIngredientList(mappedData);
+            setIsLoading(false);
+        })
+        .catch((err: any) => {
+            console.log(err);
+        })
+    },[]);
+    
+    if(isLoading) {
+        return <div>Loading...</div>
+    }
     const openPopUpEdit = (ingredient: FormData) => {
         setSelectedIngredient(ingredient);
         setIsPopUpOpenEdit(true);
@@ -40,11 +51,34 @@ const IngredientManagementPage: React.FC = () => {
     };
 
     const handleNewIngredient = (newIngredient: FormData) => {
-        setIngredientList((prevList) => [...prevList, newIngredient]);
+        axios
+        .post("http://localhost:8080/api/ingredient/createIngredient", 
+            {
+                name: newIngredient.ingredientName,
+                priceperunit: Number(newIngredient.pricePerUnit),
+                unit: newIngredient.unit
+            }
+        )
+        .then((res) => {
+            console.log("Ingredient created successfully:", res.data);
+            // Add the new ingredient to the state
+            setIngredientList((prevList) => [...prevList, newIngredient]);
+        })
+        .catch((err: any) => {
+            console.error("Error creating ingredient:", err);
+        });
     };
 
     const handleDeleteIngredient = (ingredientName: string) => {
-        setIngredientList((prevList) => prevList.filter((ingredient) => ingredient.ingredientName !== ingredientName));
+        axios
+        .delete(`http://localhost:8080/api/ingredient/deleteIngredient/${ingredientName}`)
+        .then((res) => { 
+            console.log(res);
+            setIngredientList((prevList) => prevList.filter((ingredient) => ingredient.ingredientName !== ingredientName));
+        })
+        .catch((err: any) => {
+            console.log(err);
+        })
     };
 
     const filteredIngredients = ingredientList.filter((ingredient) =>
@@ -109,6 +143,18 @@ const IngredientManagementPage: React.FC = () => {
                                     : ingredient
                             )
                         );
+                        axios.put(`http://localhost:8080/api/ingredient/updateIngredient/${selectedIngredient.ingredientName}`, 
+                            { 
+                                name : updatedIngredient.ingredientName,
+                                priceperunit : Number(updatedIngredient.pricePerUnit),
+                                unit : updatedIngredient.unit
+                            })
+                            .then((res) => { 
+                                console.log(res);
+                            })
+                            .catch((err: any) => {
+                                console.log(err);
+                            })
                         closePopUpEdit();
                     }}
                     onDelete={handleDeleteIngredient}

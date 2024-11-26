@@ -3,32 +3,49 @@ import ButtonLink from '../../components/button/ButtonLink';
 import personlogo from '../../assets/images/person.svg';
 import check from '../../assets/images/Check-square.svg';
 
-const Home = () => {
-  const [userName, setUserName] = useState("Mr. xxx xxx");
-  const [userRole, setUserRole] = useState("Senior Messenger");
+interface IShipping {
+  tracking_number: string;
+  customer_name: string;
+  address: string;
+  contact: string;
+  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
+}
+
+const DeliveryCenter: React.FC = () => {
+  const [userName, setUserName] = useState('');
+  const [userRole, setUserRole] = useState('Senior Messenger');
   const [ongoingTasks, setOngoingTasks] = useState(0);
   const [completedShipments, setCompletedShipments] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/shipping/getAllShippings');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const shippingData = await response.json();
-
-        const ongoing = shippingData.filter((task) => task.status === 'Ongoing');
-        const completed = shippingData.filter((task) => task.status === 'Derivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
-
-        setOngoingTasks(ongoing.length);
-        setCompletedShipments(completed.length);
-      } catch (error) {
-        console.error('Error fetching shipping data:', error);
+  // Function to refetch data and update counts
+  const refreshData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/shipping/getAllShippings');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    };
+      const shippingData = await response.json();
 
-    fetchData();
+      // Filter and update counts for ongoing and completed tasks
+      const ongoing = shippingData.filter((task: IShipping) => task.status === 'Ongoing');
+      const completed = shippingData.filter(
+        (task: IShipping) =>
+          task.status === 'Delivered' ||
+          task.status === 'Returned' ||
+          task.status === 'Failed to Deliver'
+      );
+
+      setUserName(shippingData[0]?.customer_name || ''); // Optional check for safe access
+      setOngoingTasks(ongoing.length);
+      setCompletedShipments(completed.length);
+    } catch (error) {
+      console.error('Error fetching shipping data:', error);
+    }
+  };
+
+  // Initial fetch on component mount
+  useEffect(() => {
+    refreshData();
   }, []);
 
   return (
@@ -83,4 +100,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default DeliveryCenter;
