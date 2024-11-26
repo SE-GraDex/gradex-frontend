@@ -73,7 +73,7 @@ const Home = () => {
                 {pkg.package_name === 'Deluxe' && <img src={deluxefood} alt="Logo" width="100" height="100" />}
                 {pkg.package_name === 'Premium' && <img src={premiumfood} alt="Logo" width="100" height="100" />}
               </div>
-              <div className="flex items-center justify-center text-[25px] font-bold text-topic mt-3">
+              <div className="flex place-content-center text-[25px] font-bold text-topic mt-3">
                 {pkg.package_name}
                 {pkg.package_name === 'Basic' && <img src={ricelogo} alt="Logo" width="24" height="24" className="ml-2" />}
                 {pkg.package_name === 'Deluxe' && <img src={diamondlogo} alt="Logo" width="24" height="24" className="ml-2" />}
@@ -82,7 +82,7 @@ const Home = () => {
               <div className="text-[13px] text-center font-bold flex items-center justify-center mt-5">
                 {pkg.features}
               </div>
-              <div className="flex items-center justify-center mx-20 mt-10">
+              <div className="flex items-center justify-center mt-10">
                 <ButtonLink
                   label={`${pkg.price} บาท/เดือน`}
                   link={''}
