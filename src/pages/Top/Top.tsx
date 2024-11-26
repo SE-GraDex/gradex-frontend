@@ -8,8 +8,12 @@ import deluxefood from '../../assets/images/deluxe-food.svg'
 import ricelogo from '../../assets/images/rice-logo.svg'
 import Modal from '../../components/ModalMeal'
 
-const Home: React.FC = () => {
-  const [isModalOpen, setModalOpen] = useState<boolean>(false)
+interface HomeProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
+}
+
+const Home: React.FC<HomeProps> = ({ isModalOpen, setIsModalOpen }) => {
   const [modalContent, setModalContent] = useState<string>('')
   const [modalType, setModalType] = useState<string>('')
   const [modalLogo, setModalLogo] = useState<string>('')
@@ -21,11 +25,11 @@ const Home: React.FC = () => {
     setModalType(type)
     setModalLogo(logo)
     setModalFood(food)
-    setModalOpen(true)
+    setIsModalOpen(true)
     setModalFoodLogo(foodLogo)
   }
 
-  const closeModal = () => setModalOpen(false)
+  const closeModal = () => setIsModalOpen(false)
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -41,36 +45,36 @@ const Home: React.FC = () => {
   }, [])
 
   const basicMenus = [
-    { food: 'Pad Thai', logo: ricelogo, image: basicfood },
-    { food: 'Fried Rice', logo: ricelogo, image: basicfood },
-    { food: 'Green Curry', logo: ricelogo, image: basicfood },
+    { food: 'Pad Thai', logo: ricelogo, image: basicfood, content: "Lorem ipsum dolor sit amet consectetur" },
+    { food: 'Fried Rice', logo: ricelogo, image: basicfood, content: "Lorem ipsum dolor sit amet consectetur" },
+    { food: 'Green Curry', logo: ricelogo, image: basicfood, content: "Lorem ipsum dolor sit amet consectetur" },
   ]
 
   const deluxeMenus = [
-    { food: 'Tom Yum Kung', logo: diamondlogo, image: deluxefood },
-    { food: 'Spicy Basil', logo: diamondlogo, image: deluxefood },
-    { food: 'Massaman Curry', logo: diamondlogo, image: deluxefood },
+    { food: 'Tom Yum Kung', logo: diamondlogo, image: deluxefood, content: "Lorem ipsum dolor sit amet consectetur" },
+    { food: 'Spicy Basil', logo: diamondlogo, image: deluxefood, content: "Lorem ipsum dolor sit amet consectetur" },
+    { food: 'Massaman Curry', logo: diamondlogo, image: deluxefood, content: "Lorem ipsum dolor sit amet consectetur" },
   ]
 
   const premiumMenus = [
-    { food: 'Salmon Steak', logo: crownlogo, image: premiumfood },
-    { food: 'Wagyu Beef', logo: crownlogo, image: premiumfood },
-    { food: 'Lobster', logo: crownlogo, image: premiumfood },
+    { food: 'Salmon Steak', logo: crownlogo, image: premiumfood, content: "Lorem ipsum dolor sit amet consectetur" },
+    { food: 'Wagyu Beef', logo: crownlogo, image: premiumfood, content: "Lorem ipsum dolor sit amet consectetur" },
+    { food: 'Lobster', logo: crownlogo, image: premiumfood, content: "Lorem ipsum dolor sit amet consectetur" },
   ]
 
-  
+
   packages.forEach((element: any) => {
     if (element.package === 'Basic') {
-      basicMenus.push({ food: element.menu_name, logo: ricelogo, image: basicfood })
+      basicMenus.push({ food: element.menu_title, logo: crownlogo, image: element.menu_image, content: element.menu_description })
     } else if (element.package === 'Deluxe') {
-      deluxeMenus.push({ food: element.menu_name, logo: diamondlogo, image: deluxefood })
+      deluxeMenus.push({ food: element.menu_title, logo: crownlogo, image: element.menu_image, content: element.menu_description })
     } else if (element.package === 'Premium') {
-      console.log('Element:', element);
-      premiumMenus.push({ food: element.menu_title, logo: crownlogo, image: element.menu_image })
+      // console.log('Element:', element);
+      premiumMenus.push({ food: element.menu_title, logo: crownlogo, image: element.menu_image, content: element.menu_description })
     }
   });
 
-  const renderMenu = (menus: { food: string; logo: string; image: string }[], type: string) =>
+  const renderMenu = (menus: { food: string; logo: string; image: string, content: string }[], type: string) =>
     menus.map((menu, index) => (
       <div className="p-4" key={index}>
         <div className="w-[400px]">
@@ -85,11 +89,12 @@ const Home: React.FC = () => {
               height="100"
               onClick={() =>
                 openModal(
-                  (menu.food) ?menu.food : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                  (menu.content) ? menu.content : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                   type,
                   menu.logo,
                   menu.food,
-                  menu.image
+                  menu.image,
+
                 )
               }
               className="cursor-pointer overflow-hidden rounded-full"
