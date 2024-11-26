@@ -24,7 +24,7 @@ import QRCodePaymentPage from './pages/Subscribtion/QRCodePaymentPage';
 import AllPaymentPage from './pages/Subscribtion/AllPaymentPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage' , '/ingredientmanagement'].includes(location.pathname);
 
   return (
     <div>
