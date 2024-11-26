@@ -9,9 +9,10 @@ interface ModalProps {
   type: string
   logo: string
   food: string
+  logofood?: string
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, food }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, food , logofood}) => {
   if (!isOpen) return null
 
   return (
@@ -29,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, foo
               />
         </button>
         <div className="flex items-center justify-center">
-          <img src={premiumfood} alt="Logo" width="250" height="250" className="mt-3" />
+          <img src={logofood} alt="Logo" width="250" height="250" className="mt-3 rounded-full" />
         </div>
         <div className="flex items-center justify-center mt-1">
           <img src={logo} alt="Logo" width="24" height="24" />

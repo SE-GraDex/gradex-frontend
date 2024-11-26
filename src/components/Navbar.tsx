@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 import React from 'react';
 import LogoYai from '../assets/images/LogoYai.svg';
 import ButtonLink from './button/ButtonLink';
@@ -18,9 +17,9 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <div className="flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto mt-3">
-      <div className='mb-10'>
-        <a aria-label="Home" href='/'>
+    <div className="sticky top-0 z-50 flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto shadow-md">
+      <div className="mb-8">
+        <a aria-label="Home" href="/">
           <img src={LogoYai} alt="Logo" width="400" height="400" />
         </a>
       </div>
@@ -28,13 +27,12 @@ const Navbar: React.FC = () => {
         {navItems.map((item, index) => (
           <ButtonLink key={index} label={item.label} link={item.link} />
         ))}
-        <button className="border border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200">
+        <a href="/login" className="border border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200">
           Login
-        </button>
+        </a>
       </div>
     </div>
   );
-  
 };
 
 export default Navbar;

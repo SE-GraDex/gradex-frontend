@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/LandingPage/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Top from './pages/Top/Top';
@@ -22,9 +22,10 @@ import Subscription from './pages/Subscribtion/Subscribtion';
 import CreditCardPaymentPage from './pages/Subscribtion/CreditCardPaymentPage';
 import QRCodePaymentPage from './pages/Subscribtion/QRCodePaymentPage';
 import AllPaymentPage from './pages/Subscribtion/AllPaymentPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage' , '/'].includes(location.pathname);
 
   return (
     <div>
@@ -40,7 +41,8 @@ export default function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/top" element={<Top />} />
             <Route path="/delivery-center" element={<Delivery />} />
             <Route path="/ongoing" element={<Ongoing />} />

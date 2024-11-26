@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import ButtonLink from '../components/button/ButtonLink'
-import basicfood from '../assets/images/basic-food.svg'
-import premiumfood from '../assets/images/premium-food.svg'
-import deluxefood from '../assets/images/deluxe-food.svg'
-import crownlogo from '../assets/images/crown-logo.svg'
-import diamondlogo from '../assets/images/diamond-logo.svg'
-import ricelogo from '../assets/images/rice-logo.svg'
+import ButtonLink from '../../components/button/ButtonLink'
+import basicfood from '../../assets/images/basic-food.svg'
+import premiumfood from '../../assets/images/premium-food.svg'
+import deluxefood from '../../assets/images/deluxe-food.svg'
+import crownlogo from '../../assets/images/crown-logo.svg'
+import diamondlogo from '../../assets/images/diamond-logo.svg'
+import ricelogo from '../../assets/images/rice-logo.svg'
 import axios from 'axios';
 
 interface IPackage {
