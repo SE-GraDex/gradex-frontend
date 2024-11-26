@@ -18,8 +18,8 @@ const Home = () => {
         }
         const shippingData = await response.json();
 
-        const ongoing = shippingData.filter((task) => task.status === 'Ongoing');
-        const completed = shippingData.filter((task) => task.status === 'Derivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
+        const ongoing = shippingData.filter((task:any) => task.status === 'Ongoing');
+        const completed = shippingData.filter((task:any) => task.status === 'Derivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
 
         setOngoingTasks(ongoing.length);
         setCompletedShipments(completed.length);
