@@ -43,7 +43,7 @@ export default function App() {
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
             <Route path="/" element={<LandingPage />} />
-            <Route path="/top" element={<Top />} />
+            {/* <Route path="/top" element={<Top />} /> */}
             <Route path="/delivery-center" element={<Delivery />} />
             <Route path="/ongoing" element={<Ongoing />} />
             <Route path="/complete" element={<Complete />} />

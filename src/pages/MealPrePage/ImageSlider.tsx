@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Search from '../../assets/images/imagesForMealPre/search.svg';
-import { menuItems, packageItems } from '../../interface/global.types';
+import { menuItems, packageItems  , MenuItem ,menuItems2} from '../../interface/global.types';
+import axios from 'axios';
 
 // const menuItems: MenuItem[] = [
 //     { name: 'Tom yum kung', image: TomYumKung, PackageName: 'Deluxe' },
@@ -17,19 +18,57 @@ const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [SelectOrder, setSelectOrder] = useState<string>('');
-
+    console.log('this ->',menuItems2);
     useEffect(() => {
         Toggle(SelectOrder);
     }, [SelectOrder]);
+
+    useEffect(() => {
+        const fetchMenus = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/menu/getMenus');
+                // console.log(response.data);
+
+                const mappedMenus :MenuItem[]  = response.data.map((item: any) => ({
+                    name: item.menu_title,
+                    image: item.menu_image,
+                    packageName: item.package,
+                    Description: item.menu_description,
+                    ingredients: [ item.ingredient_list.map((ingredient: any) => ({
+                        ingredient: ingredient.name,
+                        portion: ingredient.portion,
+                        unit: 'unit',
+                        priceperunit: 0
+                    }))
+                    ],
+                }));
+                // console.log('this ->',mappedMenus[0]);
+            } catch (err) {
+                console.log('Error fetching menu data', err);
+            }
+        };
+
+        fetchMenus();
+    }, []);
 
     const itemsPerPage = 4;
     const filteredItems = menuItems.filter(item =>
         item.name.includes(searchTerm)
     );
 
+    // useEffect(() => {
+    //     axios.get("http://localhost:8080/api/user/getCurrentUserPackage",{
+    //         withCredentials: true,
+    //     }).then((res: any) => {
+    //         console.log(res.data);
+    //     }).catch((err: any) => {
+    //         console.log("Error occurs", err);
+    //     });
+    // } , [])
     // const filteredItems = menuItems.filter(item =>
     //     item.name.toLowerCase().includes(searchTerm.toLowerCase())
     // );
+
 
     const totalItems = filteredItems.length;
 

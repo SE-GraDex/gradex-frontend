@@ -5,7 +5,7 @@ import FriedFish from '../assets/images/imagesForMealPre/fried-fish.svg'
 import PadThai from '../assets/images/imagesForMealPre/pad-thai.svg'
 import SalmonSteak from '../assets/images/imagesForMealPre/salmon-steak.svg'
 import TomYumKung from '../assets/images/imagesForMealPre/tom-yum-kung.svg'
-
+import axios from 'axios'
 export type Ingredient = {
   ingredient: string
   portion: number
@@ -38,15 +38,15 @@ export interface MenuItem {
   name: string
   image: string
   PackageName: 'Basic' | 'Deluxe' | 'Premium'
-  Description?: string;
+  Description?: string
   ingredients: Ingredient[]
 }
 
 // export type IngredientsData = Record<string, Ingredient[]>
 
 export type IngredientsData = {
-    [key: string]: Ingredient[]; // key เป็น string, value คืออาเรย์ของ Ingredient
-  };
+  [key: string]: Ingredient[] // key เป็น string, value คืออาเรย์ของ Ingredient
+}
 
 export const months: string[] = [
   'January',
@@ -69,84 +69,109 @@ export const packageItems = {
   Premium: crownImages,
 }
 
-export interface packageDetill{
-  package_name:string;
-  price:number;
-  features:string;
-  package_start_date:Date;
+export interface packageDetill {
+  package_name: string
+  price: number
+  features: string
+  package_start_date: Date
 }
 
-export const packageDetail:packageDetill[] = [
+export const packageDetail: packageDetill[] = [
   {
-      package_name:'Basic',
-      price:180,
-      features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 80 บาท อิ่มอร่อยง่าย แถมมีประโยชน์ เหมาะกับลูกค้าทุกคน',
-      package_start_date: new Date(Date.now()),
+    package_name: 'Basic',
+    price: 180,
+    features: 'ทุกเมนูอาหารที่มีราคาไม่เกิน 80 บาท อิ่มอร่อยง่าย แถมมีประโยชน์ เหมาะกับลูกค้าทุกคน',
+    package_start_date: new Date(Date.now()),
   },
   {
-      package_name:'Deluxe',
-      price:250,
-      features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 150 บาท ปลดล็อคจานโปรดแบบใหม่ให้กับทุกคนได้ทานอย่างมีความสุข',
-      package_start_date:new Date()
+    package_name: 'Deluxe',
+    price: 250,
+    features: 'ทุกเมนูอาหารที่มีราคาไม่เกิน 150 บาท ปลดล็อคจานโปรดแบบใหม่ให้กับทุกคนได้ทานอย่างมีความสุข',
+    package_start_date: new Date(),
   },
   {
-      package_name:'Premium',
-      price:350,
-      features:'ปลดล็อกทุกเมนูอาหารจานโปรดของคุณ เพื่อให้คุณได้เข้าถึงเมนูที่มีประโยชน์ทุกจาน ',
-      package_start_date:new Date()
-  }
+    package_name: 'Premium',
+    price: 350,
+    features: 'ปลดล็อกทุกเมนูอาหารจานโปรดของคุณ เพื่อให้คุณได้เข้าถึงเมนูที่มีประโยชน์ทุกจาน ',
+    package_start_date: new Date(),
+  },
 ]
 
-export const menuItems: MenuItem[] = [
-  {
-    name: 'Tom yum kung',
-    image: TomYumKung,
-    PackageName: 'Deluxe',
-    Description: 'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
-    ingredients: [
-      { ingredient: 'Shrimp', portion: 200, unit: 'g' },
-      { ingredient: 'Lemongrass', portion: 3, unit: 'stalk' },
-      { ingredient: 'Kaffir Lime Leaves', portion: 5, unit: 'leaves' },
-      { ingredient: 'Chili', portion: 2, unit: 'pcs' },
-      { ingredient: 'Fish Sauce', portion: 2, unit: 'tbsp' },
-    ],
-  },
-  {
-    name: 'Salmon steak',
-    image: SalmonSteak,
-    PackageName: 'Basic',
-    Description: 'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
-    ingredients: [
-      { ingredient: 'King Salmon', portion: 500, unit: 'g' },
-      { ingredient: 'Broccoli', portion: 5, unit: 'pcs' },
-      { ingredient: 'Lemon', portion: 3, unit: 'slice' },
-    ],
-  },
-  {
-    name: 'Pad Thai',
-    image: PadThai,
-    PackageName: 'Basic',
-    Description: 'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
-    ingredients: [
-      { ingredient: 'Rice Noodles', portion: 200, unit: 'g' },
-      { ingredient: 'Shrimp', portion: 100, unit: 'g' },
-      { ingredient: 'Egg', portion: 2, unit: 'pcs' },
-      { ingredient: 'Peanuts', portion: 2, unit: 'tbsp' },
-      { ingredient: 'Tamarind Paste', portion: 1, unit: 'tbsp' },
-    ],
-  },
-  {
-    name: 'Deep fried sea bass',
-    image: FriedFish,
-    PackageName: 'Premium',
-    Description: 'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
-    ingredients: [
-      { ingredient: 'Sea Bass', portion: 1, unit: 'fish' },
-      { ingredient: 'Garlic', portion: 5, unit: 'cloves' },
-      { ingredient: 'Chili', portion: 3, unit: 'pcs' },
-      { ingredient: 'Lime', portion: 2, unit: 'pcs' },
-      { ingredient: 'Fish Sauce', portion: 3, unit: 'tbsp' },
-    ],
-  },
-];
+// export const menuItems: MenuItem[] = [
+//   {
+//     name: 'Tom yum kung',
+//     image: TomYumKung,
+//     PackageName: 'Deluxe',
+//     Description: 'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
+//     ingredients: [
+//       { ingredient: 'Shrimp', portion: 200, unit: 'g' },
+//       { ingredient: 'Lemongrass', portion: 3, unit: 'stalk' },
+//       { ingredient: 'Kaffir Lime Leaves', portion: 5, unit: 'leaves' },
+//       { ingredient: 'Chili', portion: 2, unit: 'pcs' },
+//       { ingredient: 'Fish Sauce', portion: 2, unit: 'tbsp' },
+//     ],
+//   },
+//   {
+//     name: 'Salmon steak',
+//     image: SalmonSteak,
+//     PackageName: 'Basic',
+//     Description: 'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
+//     ingredients: [
+//       { ingredient: 'King Salmon', portion: 500, unit: 'g' },
+//       { ingredient: 'Broccoli', portion: 5, unit: 'pcs' },
+//       { ingredient: 'Lemon', portion: 3, unit: 'slice' },
+//     ],
+//   },
+//   {
+//     name: 'Pad Thai',
+//     image: PadThai,
+//     PackageName: 'Basic',
+//     Description: 'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
+//     ingredients: [
+//       { ingredient: 'Rice Noodles', portion: 200, unit: 'g' },
+//       { ingredient: 'Shrimp', portion: 100, unit: 'g' },
+//       { ingredient: 'Egg', portion: 2, unit: 'pcs' },
+//       { ingredient: 'Peanuts', portion: 2, unit: 'tbsp' },
+//       { ingredient: 'Tamarind Paste', portion: 1, unit: 'tbsp' },
+//     ],
+//   },
+//   {
+//     name: 'Deep fried sea bass',
+//     image: FriedFish,
+//     PackageName: 'Premium',
+//     Description: 'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
+//     ingredients: [
+//       { ingredient: 'Sea Bass', portion: 1, unit: 'fish' },
+//       { ingredient: 'Garlic', portion: 5, unit: 'cloves' },
+//       { ingredient: 'Chili', portion: 3, unit: 'pcs' },
+//       { ingredient: 'Lime', portion: 2, unit: 'pcs' },
+//       { ingredient: 'Fish Sauce', portion: 3, unit: 'tbsp' },
+//     ],
+//   },
+// ];
 
+export const fetchMenus = async (): Promise<MenuItem[]> => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/menu/getMenus')
+    // console.log(response.data);
+
+    const mappedMenus: MenuItem[] = response.data.map((item: any) => ({
+      name: item.menu_title,
+      image: item.menu_image,
+      PackageName: item.package,
+      Description: item.menu_description,
+      ingredients: item.ingredient_list.map((ingredient: any) => ({
+        ingredient: ingredient.name,
+        portion: ingredient.portion,
+        unit: 'unit',
+        priceperunit: 0,
+      })),
+    }))
+    return mappedMenus
+  } catch (err) {
+    console.log('Error fetching menu data', err)
+    return []
+  }
+}
+
+export const menuItems: Promise<MenuItem[]> = fetchMenus()

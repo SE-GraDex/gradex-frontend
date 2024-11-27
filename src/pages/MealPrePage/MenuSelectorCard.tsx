@@ -3,15 +3,36 @@ import CardTemp from './CardTemp';
 import ImageSlider from './ImageSlider';
 import bowlrice from '../../assets/images/imagesForMealPre/bowl-rice.svg';
 import { useState } from 'react';
-import { MonthlyDays, IngredientsData, menuItems } from '../../interface/global.types';
+import { MonthlyDays, IngredientsData, fetchMenus,Ingredient } from '../../interface/global.types';
 import MealPrepModal from './MealPrepModal';
 import axios from 'axios';
 
+export interface MenuItem {
+    name: string
+    image: string
+    PackageName: 'Basic' | 'Deluxe' | 'Premium'
+    Description?: string
+    ingredients: Ingredient[]
+  }
 
-const ingredientsData: IngredientsData = menuItems.reduce<IngredientsData>((acc, item) => {
-    acc[item.name] = item.ingredients;
-    return acc;
-}, {});
+export const loadMenuItems = async (): Promise<MenuItem[]> => {
+    const menuItems = await fetchMenus();  // This waits for the promise to resolve
+    return menuItems;
+  };
+  
+  // Example usage in a component or function where you want to use the resolved data
+  const displayMenuItems = async () => {
+    const menuItems = await loadMenuItems();  // Now this will give you the MenuItem[] directly
+    const ingredientsData: IngredientsData = menuItems.reduce<IngredientsData>((acc, item) => {
+        acc[item.name] = item.ingredients;
+        return acc;
+    }, {});
+    console.log(ingredientsData);  // Display the menu items
+  };
+
+  await displayMenuItems();
+
+
 
 // console.log(ingredientsData);
 

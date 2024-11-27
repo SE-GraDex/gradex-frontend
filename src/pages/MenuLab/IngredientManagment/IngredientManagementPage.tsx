@@ -5,7 +5,6 @@ import edit from '../../../assets/images/Edit.svg';
 import Modallngred from './Modallngred';
 import ModallngredEdit from './ModallngredEdit';
 import axios from 'axios';
-import { useEffect } from 'react';
 
 interface FormData {
     ingredientName: string;
@@ -29,22 +28,14 @@ const IngredientManagementPage: React.FC = () => {
     //     { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
     // ]);
     const [ingredientList, setIngredientList] = useState<FormData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
-    const [ingredientList, setIngredientList] = useState<FormData[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
     useEffect(() => {
         axios.get("http://localhost:8080/api/ingredient/getIngredients")
-        .then((res) => {
+        .then((res:any) => {
             console.log(res.data);
-            const mappedData: FormData[] = res.data.map((item: any) => ({
-                ingredientName: item.name,
-                pricePerUnit: item.priceperunit ? item.priceperunit.toString() : '', // Check if priceperunit exists
-            // res.data
             const mappedData: FormData[] = res.data.map((item: any) => ({
                 ingredientName: item.name,
                 pricePerUnit: item.priceperunit.toString(),
