@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Edit from '../../../assets/images/Edit.svg';
 import Modal from '../../../components/ModalEditStatus';
-import axios from 'axios';
 
 interface IShipping {
   tracking_number: string;
@@ -18,48 +18,29 @@ const Home: React.FC = () => {
   const [modalAddress, setModalAddress] = useState<string>('');
   const [modalContact, setModalContact] = useState<string>('');
 
-  // Update ongoingTasks type to IShipping[] to match the interface
-  const [ongoingTasks, setOngoingTasks] = useState<IShipping[]>([]); // State for ongoing tasks
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/shipping/getAllShippings');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const shippingData = await response.json();
-        console.log('Fetched Data:', shippingData);  // Debug: Check the structure of fetched data
-        
-        // Standardize the data to camelCase
-        const standardizedData: IShipping[] = shippingData.map((task: any) => ({
-          tracking_number: task.tracking_number,
-          customer_name: task.customer_name,
-          address: task.address,
-          contact: task.contact,
-          status: task.status
-        }));
+  const [ongoingTasks, setOngoingTasks] = useState<IShipping[]>([]);
 
-        // Filter and set only ongoing tasks
-        setOngoingTasks(standardizedData.filter((task) => task.status === 'Ongoing'));
-      } catch (error) {
-        console.error('Error fetching shipping data:', error);
-      }
-    };
-  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<IShipping[]>('http://localhost:8080/api/shipping/getAllShippings');
+      setOngoingTasks(response.data.filter((task) => task.status === 'Ongoing'));
+    } catch (error) {
+      console.error('Error fetching shipping data:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
-
   const openModal = (trackingNumber: string, customerName: string, address: string, contact: string) => {
-    console.log({ trackingNumber, customerName, address, contact });  // Debug: Check values passed to the modal
     setModalTrackingNumber(trackingNumber);
     setModalCustomerName(customerName);
     setModalAddress(address);
     setModalContact(contact);
     setModalOpen(true);
   };
-  
+
 
   const closeModal = () => setModalOpen(false);
 
@@ -68,10 +49,12 @@ const Home: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
+        onSubmit={handleChangeStatus}
         trackNum={modalTrackingNumber}
         name={modalCustomerName}
         address={modalAddress}
         contact={modalContact}
+        onUpdate={fetchData}
       />
       <div className="bg-[#7BB3B5] min-h-screen z-0">
         <div className="text-[40px] pt-10 text-white flex items-center justify-center">
@@ -89,8 +72,8 @@ const Home: React.FC = () => {
         <div className="flex justify-center">
           <div className="mx-24 pt-3 px-10 my-5 overflow-auto h-[600px]">
             {ongoingTasks.map((task) => (
-              <div key={task.tracking_number} className="flex">
-                <div className="flex my-5 rounded-2xl bg-[#F1FCF1] ml-20 mr-8 items-center relative">
+              <div key={task.tracking_number} className="overflow-y-auto max-h-[300px] rounded-lg7 custom-scrollbarIngredient flex">
+                <div className="flex my-5 rounded-2xl bg-[#F1FCF1] ml-28 mr-7 items-center relative">
                   <div className="h-[60px] w-[250px] text-[16px] font-medium flex items-center justify-center ml-4 mr-16">
                     {task.tracking_number}
                   </div>
@@ -110,7 +93,7 @@ const Home: React.FC = () => {
                     alt="Edit"
                     width="24"
                     height="24"
-                    onClick={() => openModal(task.tracking_number, task.customer_name, task.address, task.contact)}
+                    onClick={() => openModal(task.tracking_number, task.customer_name, task.address, task.contact, task.status)}
                     className="cursor-pointer"
                   />
                 </div>
