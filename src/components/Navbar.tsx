@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto shadow-md">
+    <div className="sticky top-0 z-100 flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto shadow-md">
       <div className="mb-8">
         <a aria-label="Home" href="/">
           <img src={LogoYai} alt="Logo" width="400" height="400" />

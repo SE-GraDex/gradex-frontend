@@ -1,38 +1,13 @@
-import { useState, useEffect } from 'react'
-import ButtonLink from '../../components/button/ButtonLink'
-import basicfood from '../../assets/images/basic-food.svg'
-import premiumfood from '../../assets/images/premium-food.svg'
-import deluxefood from '../../assets/images/deluxe-food.svg'
-import crownlogo from '../../assets/images/crown-logo.svg'
-import diamondlogo from '../../assets/images/diamond-logo.svg'
-import ricelogo from '../../assets/images/rice-logo.svg'
-import axios from 'axios';
-
-interface IPackage {
-  user_id: string;
-  package_name: 'Basic' | 'Deluxe' | 'Premium';
-  price: number;
-  features: string;
-  package_start_date: Date;
-  package_end_date: Date;
-}
+import { packageDetail } from '../../interface/global.types';
+import ButtonLink from '../../components/button/ButtonLink';
+import basicfood from '../../assets/images/basic-food.svg';
+import premiumfood from '../../assets/images/premium-food.svg';
+import deluxefood from '../../assets/images/deluxe-food.svg';
+import crownlogo from '../../assets/images/crown-logo.svg';
+import diamondlogo from '../../assets/images/diamond-logo.svg';
+import ricelogo from '../../assets/images/rice-logo.svg';
 
 const Home = () => {
-  const [packages, setPackages] = useState<IPackage[]>([]);
-
-  useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/package/getAllPackages');
-        setPackages(response.data);
-      } catch (error) {
-        console.error('Failed to fetch packages:', error);
-      }
-    };
-
-    fetchPackages();
-  }, []);
-
   return (
     <div>
       <div className="mx-4 md:mx-40 lg:mx-40">
@@ -66,12 +41,12 @@ const Home = () => {
 
       <div className="flex items-center justify-center mx-60 mt-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mx-10">
-          {packages.map((pkg) => (
-            <div key={pkg.package_name} className="bg-[#F1FCF1] p-4 rounded-lg">
+          {packageDetail.map((pkg, index) => (
+            <div key={`${pkg.package_name}-${index}`} className="bg-[#F1FCF1] p-4 rounded-lg">
               <div className="flex items-center justify-center mt-3">
-                {pkg.package_name === 'Basic' && <img src={basicfood} alt="Logo" width="100" height="100" />}
-                {pkg.package_name === 'Deluxe' && <img src={deluxefood} alt="Logo" width="100" height="100" />}
-                {pkg.package_name === 'Premium' && <img src={premiumfood} alt="Logo" width="100" height="100" />}
+                {pkg.package_name === 'Basic' && <img src={basicfood} alt="Basic" width="100" height="100" />}
+                {pkg.package_name === 'Deluxe' && <img src={deluxefood} alt="Deluxe" width="100" height="100" />}
+                {pkg.package_name === 'Premium' && <img src={premiumfood} alt="Premium" width="100" height="100" />}
               </div>
               <div className="flex place-content-center text-[25px] font-bold text-topic mt-3">
                 {pkg.package_name}
