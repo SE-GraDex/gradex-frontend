@@ -5,6 +5,7 @@ import bowlrice from '../../assets/images/imagesForMealPre/bowl-rice.svg';
 import { useState } from 'react';
 import { MonthlyDays, IngredientsData, menuItems } from '../../interface/global.types';
 import MealPrepModal from './MealPrepModal';
+import axios from 'axios';
 
 
 const ingredientsData: IngredientsData = menuItems.reduce<IngredientsData>((acc, item) => {
@@ -12,6 +13,7 @@ const ingredientsData: IngredientsData = menuItems.reduce<IngredientsData>((acc,
     return acc;
 }, {});
 
+// console.log(ingredientsData);
 
 interface MunuSelectorCardProps {
     DateCurrent: Date | null;
@@ -102,7 +104,44 @@ const MenuSelectorCard: React.FC<MunuSelectorCardProps> = ({ DateCurrent, parent
 
                     <div
                         className='w-[134px] h-[48px] bg-[#1E1E1E] text-white justify-self-center text-lg rounded-3xl flex items-center justify-center mt-5 hover:bg-white hover:text-black hover:border hover:border-black hover:cursor-pointer'
-                        onClick={openPopUp} // Open the modal first
+                        onClick={() => {
+                            const index = menuItems.findIndex(item => item.name === isMenuSelected);
+                            // console.log(DateCurrent, menuItems[index]);
+                            let tmp = {
+                                "date": DateCurrent,
+                                "menu_image": menuItems[index].image,
+                                "menu_title": menuItems[index].name,
+                                "menu_description": menuItems[index].Description,
+                                "ingredient_list": menuItems[index].ingredients.map(
+                                    (item) => {
+                                        return {
+                                            "name": item.ingredient,
+                                            "priceperunit": item.priceperunit ? item.priceperunit : 0,
+                                            "portion": item.portion,
+                                            "unit": item.unit,
+                                        }
+                                    }
+                                ),
+                                "status": 1
+                            }
+                            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                            console.log("Current Timezone:", timezone);
+                            // console.log(tmp);
+                            async function addDailyOrder() {
+                                try {
+                                    const response = await axios.post(
+                                        'http://localhost:8080/api/user/addDailyOrder',
+                                        tmp, // ข้อมูลที่จะส่ง
+                                        { withCredentials: true } // การตั้งค่าเพิ่มเติม
+                                    );
+                                    console.log('Order added successfully:', response);
+                                } catch (error) {
+                                    console.error('Error adding order:', error);
+                                }
+                            }
+                            addDailyOrder();
+                            openPopUp();
+                        }} // Open the modal first
                     >
                         Submit
                     </div>

@@ -4,7 +4,8 @@ import pulscircle from '../../../assets/images/plus-circle.svg';
 import edit from '../../../assets/images/Edit.svg';
 import Modallngred from './Modallngred';
 import ModallngredEdit from './ModallngredEdit';
-
+import axios from 'axios';
+import { useEffect } from 'react';
 interface FormData {
     ingredientName: string;
     pricePerUnit: string;
@@ -14,21 +15,45 @@ interface FormData {
 const IngredientManagementPage: React.FC = () => {
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
     const [isPopUpOpenEdit, setIsPopUpOpenEdit] = useState(false);
-    const [ingredientList, setIngredientList] = useState<FormData[]>([
-        { ingredientName: 'Pork', pricePerUnit: '0.2', unit: 'gram' },
-        { ingredientName: 'Chicken', pricePerUnit: '0.15', unit: 'gram' },
-        { ingredientName: 'Rice', pricePerUnit: '0.5', unit: 'kg' },
-        { ingredientName: 'Tomato', pricePerUnit: '1.0', unit: 'kg' },
-        { ingredientName: 'Lettuce', pricePerUnit: '0.3', unit: 'kg' },
-        { ingredientName: 'Egg', pricePerUnit: '0.7', unit: 'unit' },
-        { ingredientName: 'Garlic', pricePerUnit: '0.1', unit: 'gram' },
-        { ingredientName: 'Carrot', pricePerUnit: '0.6', unit: 'kg' },
-        { ingredientName: 'Onion', pricePerUnit: '0.2', unit: 'kg' },
-        { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
-    ]);
+    // const [ingredientList, setIngredientList] = useState<FormData[]>([
+    //     { ingredientName: 'Pork', pricePerUnit: '0.2', unit: 'gram' },
+    //     { ingredientName: 'Chicken', pricePerUnit: '0.15', unit: 'gram' },
+    //     { ingredientName: 'Rice', pricePerUnit: '0.5', unit: 'kg' },
+    //     { ingredientName: 'Tomato', pricePerUnit: '1.0', unit: 'kg' },
+    //     { ingredientName: 'Lettuce', pricePerUnit: '0.3', unit: 'kg' },
+    //     { ingredientName: 'Egg', pricePerUnit: '0.7', unit: 'unit' },
+    //     { ingredientName: 'Garlic', pricePerUnit: '0.1', unit: 'gram' },
+    //     { ingredientName: 'Carrot', pricePerUnit: '0.6', unit: 'kg' },
+    //     { ingredientName: 'Onion', pricePerUnit: '0.2', unit: 'kg' },
+    //     { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
+    // ]);
+    const [ingredientList, setIngredientList] = useState<FormData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
 
+    
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/ingredient/getIngredients")
+        .then((res) => {
+            console.log(res.data);
+            const mappedData: FormData[] = res.data.map((item: any) => ({
+                ingredientName: item.name,
+                pricePerUnit: item.priceperunit ? item.priceperunit.toString() : '', // Check if priceperunit exists
+                unit: item.unit,
+            }));
+            setIngredientList(mappedData);
+            setIsLoading(false);
+        })
+        .catch((err: any) => {
+            console.log("Error occurs", err);
+        });
+    }, []);
+    
+    
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
     const openPopUpEdit = (ingredient: FormData) => {
         setSelectedIngredient(ingredient);
         setIsPopUpOpenEdit(true);
@@ -102,6 +127,7 @@ const IngredientManagementPage: React.FC = () => {
                     isOpen={isPopUpOpenEdit}
                     onClose={closePopUpEdit}
                     onSubmit={(updatedIngredient) => {
+                        console.log(updatedIngredient);
                         setIngredientList((prevList) =>
                             prevList.map((ingredient) =>
                                 ingredient.ingredientName === selectedIngredient.ingredientName

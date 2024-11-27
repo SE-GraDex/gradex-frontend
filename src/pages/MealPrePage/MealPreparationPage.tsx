@@ -4,7 +4,7 @@ import CardTemp from './CardTemp';
 import MunuSelectorCard from './MenuSelectorCard';
 import UserStatus from './UserStatus.json'
 import { months, MonthlyDays, menuItems } from '../../interface/global.types';
-// import axios from 'axios';
+import axios from 'axios';
 
 const MonthSelector: React.FC<{ onMonthChange: (month: string) => void }> = ({ onMonthChange }) => {
     const [selectedMonth, setSelectedMonth] = useState<string>('');
@@ -83,11 +83,11 @@ function fillCompleteMeals(monthData: MonthlyDays, selectedMonth: string) {
 
     // Map selectedMonth to its index (e.g., 'January' to 0, 'February' to 1, etc.)
     const selectedMonthIndex = selectedMonth as keyof MonthlyDays;
-    console.log(selectedMonthIndex);
+    // console.log(selectedMonthIndex);
     // Ensure the selectedMonthIndex exists in the data
     if (updatedMonths[selectedMonthIndex]) {
         // Iterate over each day in the selected month
-        console.log(updatedMonths[selectedMonthIndex]);
+        // console.log(updatedMonths[selectedMonthIndex]);
         updatedMonths[selectedMonthIndex] = updatedMonths[selectedMonthIndex].map((day) => {
             const randomMeal = menuItems[Math.floor(Math.random() * menuItems.length)];
             if (day === null) {
@@ -102,7 +102,7 @@ function fillCompleteMeals(monthData: MonthlyDays, selectedMonth: string) {
             }
         });
     }
-
+    console.log(updatedMonths[selectedMonthIndex]);
     return updatedMonths;
 }
 
@@ -115,8 +115,28 @@ const MealPreparation: React.FC = () => {
     const [selectedMonth, setSelectedMonth] = useState<string>('January'); // ตั้งค่าเริ่มต้นเป็นเดือนแรก
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [toggle, setToggle] = useState<boolean>(false);
-    const [selectedMonths, setSelectedMonths] = useState<MonthlyDays>(UserStatus['months']);
+    const [selectedMonths, setSelectedMonths] = useState<MonthlyDays>(() => ({} as MonthlyDays));
 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/user/updateOrderCalendar', {
+            withCredentials: true,
+        })
+            .then((response: any) => {
+                // console.log(response.data.months);
+                setSelectedMonths(response.data.months);
+                setIsLoading(false);
+            })
+            .catch((error: any) => {
+                console.error('There was an error!', error);
+            })
+    }, []);
+
+    if(isLoading) {
+        return <div>ไปล็อคอินก่อนไอโง่</div>
+    }
     // axios.post('http://localhost:3000/api/meal-preparation', { 
     //     "name": UserStatus["name"],
     //     "surname": UserStatus, "months": selectedMonths
