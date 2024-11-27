@@ -2,10 +2,11 @@ import { useState } from 'react'
 import ButtonLink from '../../components/button/ButtonLink'
 import LogoYai from '../../assets/images/LogoYai.svg'
 import axios from 'axios'
-
+import { useNavigate } from 'react-router-dom'
 const Home = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navitgate = useNavigate()
   const handleSubmit = () => {
     const payload = { email, password }
     console.log('Payload:', payload) // Log payload
@@ -16,6 +17,7 @@ const Home = () => {
       })
       .then((response) => {
         console.log('Login successful:', response.data)
+        navitgate('/')
       })
       .catch((error) => {
         console.error('Login failed:', error.response?.data || error.message)

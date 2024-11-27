@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.disabled-navbar {
+  pointer-events: none;
+  opacity: 0.5;        
+}
+
 .custom-scrollbar::-webkit-scrollbar {
     width: 10px;
     /* margin-right: 5px; */
