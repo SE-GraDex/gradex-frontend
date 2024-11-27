@@ -1,16 +1,33 @@
 import React from 'react';
 import { packageItems } from '../../interface/global.types';
 import { useNavigate } from 'react-router-dom';
+import { packageDetail } from '../../interface/global.types';
+import axios from 'axios';
 interface ModalViewMenuProps {
     isOpen: boolean;
     onClose: () => void;
     menuType: 'Basic' | 'Deluxe' | 'Premium';
 }
 
+
 const ModelPayment: React.FC<ModalViewMenuProps> = ({ isOpen, onClose, menuType }) => {
     const navigate = useNavigate();
     const goToAboutPage = () => {
-        navigate('/'); // นำทางไปยัง '/about'
+        const index = packageDetail.findIndex((item) => item.package_name === menuType)
+
+        axios.post('http://localhost:8080/api/user/addUserPackage', {
+            package_name: packageDetail[index].package_name,
+            price: packageDetail[index].price,
+            features: packageDetail[index].features,
+            package_start_date: packageDetail[index].package_start_date.toISOString()
+        }, {
+            withCredentials: true,
+        }).then((response) => {
+            console.log(response);
+            navigate('/'); // นำทางไปยัง '/about'
+        }).catch((error) => {
+            console.error('There was an error!', error);
+        });
     };
     if (!isOpen) return null;
     return (
@@ -28,7 +45,7 @@ const ModelPayment: React.FC<ModalViewMenuProps> = ({ isOpen, onClose, menuType 
                         {menuType}
                     </div>
                     <button className="border w-[126px] h-[48] border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200"
-                    onClick={goToAboutPage}>
+                        onClick={goToAboutPage}>
                         Home
                     </button>
                 </div>
