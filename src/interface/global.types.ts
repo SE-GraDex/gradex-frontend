@@ -87,13 +87,14 @@ export const packageDetail:packageDetill[] = [
       package_name:'Deluxe',
       price:250,
       features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 150 บาท ปลดล็อคจานโปรดแบบใหม่ให้กับทุกคนได้ทานอย่างมีความสุข',
-      package_start_date:new Date()
+      package_start_date: new Date(Date.now()),
   },
   {
       package_name:'Premium',
       price:350,
       features:'ปลดล็อกทุกเมนูอาหารจานโปรดของคุณ เพื่อให้คุณได้เข้าถึงเมนูที่มีประโยชน์ทุกจาน ',
-      package_start_date:new Date()
+      package_start_date: new Date(Date.now()),
+
   }
 ]
 
