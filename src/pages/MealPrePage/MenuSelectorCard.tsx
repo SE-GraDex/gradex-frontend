@@ -108,7 +108,7 @@ const MenuSelectorCard: React.FC<MunuSelectorCardProps> = ({ DateCurrent, parent
                             const index = menuItems.findIndex(item => item.name === isMenuSelected);
                             // console.log(DateCurrent, menuItems[index]);
                             let tmp = {
-                                "date": DateCurrent,
+                                "date": DateCurrent?.toISOString(),
                                 "menu_image": menuItems[index].image,
                                 "menu_title": menuItems[index].name,
                                 "menu_description": menuItems[index].Description,
@@ -124,8 +124,10 @@ const MenuSelectorCard: React.FC<MunuSelectorCardProps> = ({ DateCurrent, parent
                                 ),
                                 "status": 1
                             }
-                            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                            console.log("Current Timezone:", timezone);
+                            // const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                            // console.log("Current Timezone:", timezone);
+                            // console.log("Time:", DateCurrent);
+
                             // console.log(tmp);
                             async function addDailyOrder() {
                                 try {
