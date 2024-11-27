@@ -2,8 +2,8 @@ import React from 'react';
 import CardTemp from './CardTemp';
 import ImageSlider from './ImageSlider';
 import bowlrice from '../../assets/images/imagesForMealPre/bowl-rice.svg';
-import { useState } from 'react';
-import { MonthlyDays, IngredientsData, fetchMenus,Ingredient } from '../../interface/global.types';
+import { useState , useEffect } from 'react';
+import { MonthlyDays, IngredientsData,Ingredient  , menuItems} from '../../interface/global.types';
 import MealPrepModal from './MealPrepModal';
 import axios from 'axios';
 
@@ -15,22 +15,6 @@ export interface MenuItem {
     ingredients: Ingredient[]
   }
 
-export const loadMenuItems = async (): Promise<MenuItem[]> => {
-    const menuItems = await fetchMenus();  // This waits for the promise to resolve
-    return menuItems;
-  };
-  
-  // Example usage in a component or function where you want to use the resolved data
-  const displayMenuItems = async () => {
-    const menuItems = await loadMenuItems();  // Now this will give you the MenuItem[] directly
-    const ingredientsData: IngredientsData = menuItems.reduce<IngredientsData>((acc, item) => {
-        acc[item.name] = item.ingredients;
-        return acc;
-    }, {});
-    console.log(ingredientsData);  // Display the menu items
-  };
-
-  await displayMenuItems();
 
 
 
@@ -48,15 +32,55 @@ interface MunuSelectorCardProps {
 const MenuSelectorCard: React.FC<MunuSelectorCardProps> = ({ DateCurrent, parentsMonth, setSelectedMonths, toggle }) => {
     const [isPopUpOpen, setIsPopUpOpen] = useState(false);
     const [isMenuSelected, setIsMenuSelected] = useState<string>('');
-
+    const [menuItemsTest, setmenuItemTest] = useState<MenuItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     // Open the modal
     const openPopUp = () => setIsPopUpOpen(true);
+
 
     // Close the modal and handle the submission logic
     const closePopUp = () => {
         setIsPopUpOpen(false);
         handleSummit();
     };
+
+    useEffect(() => {
+        const fetchMenus = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/menu/getMenus');
+                // console.log(response.data);
+
+                const mappedMenus :MenuItem[]  = response.data.map((item: any) => ({
+                    name: item.menu_title,
+                    image: item.menu_image,
+                    packageName: item.package,
+                    Description: item.menu_description,
+                    ingredients: [ item.ingredient_list.map((ingredient: any) => ({
+                        ingredient: ingredient.name,
+                        portion: ingredient.portion,
+                        unit: 'unit',
+                        priceperunit: 0
+                    }))
+                    ],
+                }));
+                setmenuItemTest(mappedMenus);
+                setIsLoading(false);
+                // console.log('this ->',mappedMenus[0]);
+            } catch (err) {
+                console.log('Error fetching menu data', err);
+            }
+        };
+
+        fetchMenus();
+    }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+    const ingredientsData: IngredientsData = menuItemsTest.reduce<IngredientsData>((acc, item) => {
+        acc[item.name] = item.ingredients;
+        return acc;
+    }, {});
 
     const handleSummit = () => {
         if (DateCurrent) {

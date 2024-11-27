@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import CalendarTest from './CalendarProps';
 import CardTemp from './CardTemp';
 import MunuSelectorCard from './MenuSelectorCard';
-import UserStatus from './UserStatus.json'
 import { months, MonthlyDays, menuItems } from '../../interface/global.types';
 import axios from 'axios';
 

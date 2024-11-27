@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Search from '../../assets/images/imagesForMealPre/search.svg';
-import { menuItems, packageItems  , MenuItem ,menuItems2} from '../../interface/global.types';
+import { menuItems, packageItems  , MenuItem } from '../../interface/global.types';
 import axios from 'axios';
 
 // const menuItems: MenuItem[] = [
@@ -18,7 +18,8 @@ const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [SelectOrder, setSelectOrder] = useState<string>('');
-    console.log('this ->',menuItems2);
+    const [menuItemTest , setmenuItemTest] = useState<MenuItem[]>([]);
+    const [isLoading  ,   setIsLoading] = useState<boolean>(true);
     useEffect(() => {
         Toggle(SelectOrder);
     }, [SelectOrder]);
@@ -42,6 +43,8 @@ const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
                     }))
                     ],
                 }));
+                setmenuItemTest(mappedMenus);
+                setIsLoading(false);
                 // console.log('this ->',mappedMenus[0]);
             } catch (err) {
                 console.log('Error fetching menu data', err);
@@ -51,11 +54,15 @@ const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
         fetchMenus();
     }, []);
 
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
     const itemsPerPage = 4;
-    const filteredItems = menuItems.filter(item =>
+    const filteredItems = menuItemTest.filter(item =>
         item.name.includes(searchTerm)
     );
-
+    // console.log(filteredItems);
     // useEffect(() => {
     //     axios.get("http://localhost:8080/api/user/getCurrentUserPackage",{
     //         withCredentials: true,

@@ -97,81 +97,81 @@ export const packageDetail: packageDetill[] = [
   },
 ]
 
-// export const menuItems: MenuItem[] = [
-//   {
-//     name: 'Tom yum kung',
-//     image: TomYumKung,
-//     PackageName: 'Deluxe',
-//     Description: 'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
-//     ingredients: [
-//       { ingredient: 'Shrimp', portion: 200, unit: 'g' },
-//       { ingredient: 'Lemongrass', portion: 3, unit: 'stalk' },
-//       { ingredient: 'Kaffir Lime Leaves', portion: 5, unit: 'leaves' },
-//       { ingredient: 'Chili', portion: 2, unit: 'pcs' },
-//       { ingredient: 'Fish Sauce', portion: 2, unit: 'tbsp' },
-//     ],
-//   },
-//   {
-//     name: 'Salmon steak',
-//     image: SalmonSteak,
-//     PackageName: 'Basic',
-//     Description: 'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
-//     ingredients: [
-//       { ingredient: 'King Salmon', portion: 500, unit: 'g' },
-//       { ingredient: 'Broccoli', portion: 5, unit: 'pcs' },
-//       { ingredient: 'Lemon', portion: 3, unit: 'slice' },
-//     ],
-//   },
-//   {
-//     name: 'Pad Thai',
-//     image: PadThai,
-//     PackageName: 'Basic',
-//     Description: 'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
-//     ingredients: [
-//       { ingredient: 'Rice Noodles', portion: 200, unit: 'g' },
-//       { ingredient: 'Shrimp', portion: 100, unit: 'g' },
-//       { ingredient: 'Egg', portion: 2, unit: 'pcs' },
-//       { ingredient: 'Peanuts', portion: 2, unit: 'tbsp' },
-//       { ingredient: 'Tamarind Paste', portion: 1, unit: 'tbsp' },
-//     ],
-//   },
-//   {
-//     name: 'Deep fried sea bass',
-//     image: FriedFish,
-//     PackageName: 'Premium',
-//     Description: 'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
-//     ingredients: [
-//       { ingredient: 'Sea Bass', portion: 1, unit: 'fish' },
-//       { ingredient: 'Garlic', portion: 5, unit: 'cloves' },
-//       { ingredient: 'Chili', portion: 3, unit: 'pcs' },
-//       { ingredient: 'Lime', portion: 2, unit: 'pcs' },
-//       { ingredient: 'Fish Sauce', portion: 3, unit: 'tbsp' },
-//     ],
-//   },
-// ];
+export const menuItems: MenuItem[] = [
+  {
+    name: 'Tom yum kung',
+    image: TomYumKung,
+    PackageName: 'Deluxe',
+    Description: 'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
+    ingredients: [
+      { ingredient: 'Shrimp', portion: 200, unit: 'g' },
+      { ingredient: 'Lemongrass', portion: 3, unit: 'stalk' },
+      { ingredient: 'Kaffir Lime Leaves', portion: 5, unit: 'leaves' },
+      { ingredient: 'Chili', portion: 2, unit: 'pcs' },
+      { ingredient: 'Fish Sauce', portion: 2, unit: 'tbsp' },
+    ],
+  },
+  {
+    name: 'Salmon steak',
+    image: SalmonSteak,
+    PackageName: 'Basic',
+    Description: 'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
+    ingredients: [
+      { ingredient: 'King Salmon', portion: 500, unit: 'g' },
+      { ingredient: 'Broccoli', portion: 5, unit: 'pcs' },
+      { ingredient: 'Lemon', portion: 3, unit: 'slice' },
+    ],
+  },
+  {
+    name: 'Pad Thai',
+    image: PadThai,
+    PackageName: 'Basic',
+    Description: 'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
+    ingredients: [
+      { ingredient: 'Rice Noodles', portion: 200, unit: 'g' },
+      { ingredient: 'Shrimp', portion: 100, unit: 'g' },
+      { ingredient: 'Egg', portion: 2, unit: 'pcs' },
+      { ingredient: 'Peanuts', portion: 2, unit: 'tbsp' },
+      { ingredient: 'Tamarind Paste', portion: 1, unit: 'tbsp' },
+    ],
+  },
+  {
+    name: 'Deep fried sea bass',
+    image: FriedFish,
+    PackageName: 'Premium',
+    Description: 'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
+    ingredients: [
+      { ingredient: 'Sea Bass', portion: 1, unit: 'fish' },
+      { ingredient: 'Garlic', portion: 5, unit: 'cloves' },
+      { ingredient: 'Chili', portion: 3, unit: 'pcs' },
+      { ingredient: 'Lime', portion: 2, unit: 'pcs' },
+      { ingredient: 'Fish Sauce', portion: 3, unit: 'tbsp' },
+    ],
+  },
+];
 
-export const fetchMenus = async (): Promise<MenuItem[]> => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/menu/getMenus')
-    // console.log(response.data);
+// export const fetchMenus = async (): Promise<MenuItem[]> => {
+//   try {
+//     const response = await axios.get('http://localhost:8080/api/menu/getMenus')
+//     // console.log(response.data);
 
-    const mappedMenus: MenuItem[] = response.data.map((item: any) => ({
-      name: item.menu_title,
-      image: item.menu_image,
-      PackageName: item.package,
-      Description: item.menu_description,
-      ingredients: item.ingredient_list.map((ingredient: any) => ({
-        ingredient: ingredient.name,
-        portion: ingredient.portion,
-        unit: 'unit',
-        priceperunit: 0,
-      })),
-    }))
-    return mappedMenus
-  } catch (err) {
-    console.log('Error fetching menu data', err)
-    return []
-  }
-}
+//     const mappedMenus: MenuItem[] = response.data.map((item: any) => ({
+//       name: item.menu_title,
+//       image: item.menu_image,
+//       PackageName: item.package,
+//       Description: item.menu_description,
+//       ingredients: item.ingredient_list.map((ingredient: any) => ({
+//         ingredient: ingredient.name,
+//         portion: ingredient.portion,
+//         unit: 'unit',
+//         priceperunit: 0,
+//       })),
+//     }))
+//     return mappedMenus
+//   } catch (err) {
+//     console.log('Error fetching menu data', err)
+//     return []
+//   }
+// }
 
-export const menuItems: Promise<MenuItem[]> = fetchMenus()
+// export const menuItems: Promise<MenuItem[]> = fetchMenus()
