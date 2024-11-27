@@ -122,7 +122,8 @@ const MenuSelectorCard: React.FC<MunuSelectorCardProps> = ({ DateCurrent, parent
                                         }
                                     }
                                 ),
-                                "status": 1
+                                "status": 1,
+                                "package_name": menuItems[index].PackageName
                             }
                             // const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                             // console.log("Current Timezone:", timezone);
