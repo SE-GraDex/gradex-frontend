@@ -39,14 +39,15 @@ const RecipeFood = () => {
   return (
     <div className="ml-60 mt-20">
       <div className="flex">
+        {/* Image and Ingredients Section */}
         <div className="mr-40">
-          <img
-            src={selectedFood.menu_image}
-            alt={selectedFood.menu_title}
-            width="360"
-            height="360"
-            className="shadow-md rounded-full w-[360px] h-[300px]"
-          />
+          <div className="relative w-[360px] h-[360px]">
+            <img
+              src={selectedFood.menu_image}
+              alt={selectedFood.menu_title}
+              className="shadow-md rounded-full w-full h-full object-cover"
+            />
+          </div>
           <div className="ml-8 mt-8">
             <div className="text-topic font-bold text-[40px] mb-4">Ingredients</div>
             {selectedFood.ingredient_list && selectedFood.ingredient_list.length > 0 ? (
@@ -60,6 +61,8 @@ const RecipeFood = () => {
             )}
           </div>
         </div>
+
+        {/* Details and Instructions Section */}
         <div>
           <div className="text-topic font-bold text-[64px]">{selectedFood.menu_title}</div>
           <div className="flex items-center mt-4">
