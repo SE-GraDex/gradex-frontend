@@ -26,14 +26,10 @@ const DeliveryCenter: React.FC = () => {
       }
       const shippingData = await response.json();
 
-      // Filter and update counts for ongoing and completed tasks
-      const ongoing = shippingData.filter((task: IShipping) => task.status === 'Ongoing');
-      const completed = shippingData.filter(
-        (task: IShipping) =>
-          task.status === 'Delivered' ||
-          task.status === 'Returned' ||
-          task.status === 'Failed to Deliver'
-      );
+
+        const ongoing = shippingData.filter((task:any) => task.status === 'Ongoing');
+        const completed = shippingData.filter((task:any) => task.status === 'Derivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
+
 
       setUserName(shippingData[0]?.customer_name || ''); // Optional check for safe access
       setOngoingTasks(ongoing.length);
