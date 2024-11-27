@@ -69,6 +69,34 @@ export const packageItems = {
   Premium: crownImages,
 }
 
+export interface packageDetill{
+  package_name:string;
+  price:number;
+  features:string;
+  package_start_date:Date;
+}
+
+export const packageDetail:packageDetill[] = [
+  {
+      package_name:'Basic',
+      price:180,
+      features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 80 บาท อิ่มอร่อยง่าย แถมมีประโยชน์ เหมาะกับลูกค้าทุกคน',
+      package_start_date: new Date(Date.now()),
+  },
+  {
+      package_name:'Deluxe',
+      price:250,
+      features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 150 บาท ปลดล็อคจานโปรดแบบใหม่ให้กับทุกคนได้ทานอย่างมีความสุข',
+      package_start_date:new Date()
+  },
+  {
+      package_name:'Premium',
+      price:350,
+      features:'ปลดล็อกทุกเมนูอาหารจานโปรดของคุณ เพื่อให้คุณได้เข้าถึงเมนูที่มีประโยชน์ทุกจาน ',
+      package_start_date:new Date()
+  }
+]
+
 export const menuItems: MenuItem[] = [
   {
     name: 'Tom yum kung',
