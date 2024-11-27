@@ -113,7 +113,7 @@ const Home: React.FC<HomeProps> = ({ isModalOpen, setIsModalOpen }) => {
               className="cursor-pointer overflow-hidden rounded-full object-cover w-[100px] h-[100px]"
             />
           </div>
-          <div className="top-food">{menu.food}</div>
+          <div className="top-food text-center">{menu.food}</div>
         </div>
       </div>
     ));

@@ -45,7 +45,7 @@ const RecipeFood = () => {
             alt={selectedFood.menu_title}
             width="360"
             height="360"
-            className="shadow-md rounded-full"
+            className="shadow-md rounded-full w-[360px] h-[300px]"
           />
           <div className="ml-8 mt-8">
             <div className="text-topic font-bold text-[40px] mb-4">Ingredients</div>
