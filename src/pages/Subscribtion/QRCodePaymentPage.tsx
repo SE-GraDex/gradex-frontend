@@ -3,9 +3,11 @@ import { useState } from 'react';
 import Paymentqrcode from '../../assets/images/Paymentqrcode.svg'
 import DropdownPackage from './DropdownPackage';
 import { useNavigate } from 'react-router-dom';
+import ModelPayment from './ModelPayment';
 const QRCodePaymentPage: React.FC = () => {
     const navigate = useNavigate();
     const [selectedPackage, setSelectedPackage] = useState<'Basic' | 'Deluxe' | 'Premium'>("Basic");
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
     const handlePackageChange = (selectedPackage: 'Basic' | 'Deluxe' | 'Premium') => {
         setSelectedPackage(selectedPackage);
     };
@@ -17,7 +19,7 @@ const QRCodePaymentPage: React.FC = () => {
             <div className='w-[729px] h-[402px] bg-[#47C171] rounded-xl'>
                 <div className='flex'>
                     <div className='m-5'>
-                        <img src={Paymentqrcode} alt="Paymentqrcode" />
+                        <img src={Paymentqrcode} alt="Paymentqrcode" onClick={() => setIsPopUpOpen(true)} className='hover:cursor-pointer' />
                         <div className="text-4xl font-bold text-white mt-3 w-[345px]">
 
                             <span className="font-normal">Amount: </span>{selectedPackage === "Basic" ? 180 : selectedPackage === "Deluxe" ? 250 : 350} Bath
@@ -39,6 +41,7 @@ const QRCodePaymentPage: React.FC = () => {
                     We'll remind you when the package is about to expire.
                 </div>
             </div>
+            {isPopUpOpen && <ModelPayment isOpen={isPopUpOpen} onClose={() => setIsPopUpOpen(false)} menuType={selectedPackage} />}
         </div>
     );
 };

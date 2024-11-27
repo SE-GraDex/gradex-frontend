@@ -8,6 +8,7 @@ import { menuItems, packageItems } from '../../interface/global.types';
 //     { name: 'Pad Thai', image: PadThai, PackageName: 'Basic' },
 //     { name: 'Deep fried sea bass', image: FriedFish, PackageName: 'Premium' },
 // ];
+
 interface switchCardProps {
     Toggle: (value: string) => void;
 }

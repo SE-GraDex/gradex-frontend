@@ -28,7 +28,7 @@ const Subscription = () => {
             <div className="flex items-center justify-center mt-48">
               <ButtonLink
                 label={'Buy Basic'}
-                link={''}
+                link={'/all-payment'}
                 className={`w-[112px] h-[34px] mb-5 text-[12px] bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center`}
               />
             </div>
@@ -42,7 +42,7 @@ const Subscription = () => {
             <div className="flex items-center justify-center mt-48">
               <ButtonLink
                 label={'Buy Deluxe'}
-                link={''}
+                link={'/all-payment'}
                 className={`w-[112px] h-[34px] mb-5 text-[12px] bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center`}
               />
             </div>
@@ -56,7 +56,7 @@ const Subscription = () => {
             <div className="flex items-center justify-center mt-48">
               <ButtonLink
                 label={'Buy Premium'}
-                link={''}
+                link={'/all-payment'}
                 className={`w-[112px] h-[34px] mb-5 text-[12px] bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center`}
               />
             </div>
