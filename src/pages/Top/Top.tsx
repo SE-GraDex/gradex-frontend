@@ -53,7 +53,7 @@ const Home: React.FC<HomeProps> = ({ isModalOpen, setIsModalOpen }) => {
     const fetchTopMenus = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/dailyorderlist/getTopThreeOrders');
-        const grouped = { Basic: [], Deluxe: [], Premium: [] };
+        const grouped: GroupedMenus = { Basic: [], Deluxe: [], Premium: [] };
 
         response.data.menus.forEach((menu: any) => {
           const packageType = menu.package; // Package type
@@ -71,19 +71,19 @@ const Home: React.FC<HomeProps> = ({ isModalOpen, setIsModalOpen }) => {
               ? deluxefood
               : premiumfood;
 
-        //   grouped[packageType as keyof GroupedMenus].push({
-        //     food: menu.menu_title,
-        //     logo,
-        //     image: menu.menu_image || image,
-        //     content: menu.menu_description,
-        //   });
-        // });
+          grouped[packageType as keyof GroupedMenus].push({
+            food: menu.menu_title,
+            logo,
+            image: menu.menu_image || image,
+            content: menu.menu_description,
+          });
+        });
 
-      //   setGroupedMenus(grouped);
-      // } catch (error) {
-      //   console.error('Failed to fetch top menus:', error);
-      // }
-    // };
+        setGroupedMenus(grouped);
+      } catch (error) {
+        console.error('Failed to fetch top menus:', error);
+      }
+    };
 
     fetchTopMenus();
   }, []);
