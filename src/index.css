@@ -96,7 +96,7 @@
   
 
 .top-food {
-    @apply flex items-center justify-center mx-20 mt-3 text-[24px] font-medium text-[#386C5F];
+    @apply flex items-center justify-center mx-20 mt-3 text-[20px] font-medium text-[#386C5F];
   }
 
 .ongoing-topic {

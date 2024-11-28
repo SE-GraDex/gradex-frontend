@@ -13,7 +13,6 @@ import edit from '../../../assets/images/Edit.svg';
 import Modallngred from './Modallngred';
 import ModallngredEdit from './ModallngredEdit';
 import axios from 'axios';
-import { useEffect } from 'react';
 
 interface FormData {
   ingredientName: string
@@ -43,39 +42,31 @@ const IngredientManagementPage: React.FC = () => {
     //     { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
     // ]);
     const [ingredientList, setIngredientList] = useState<FormData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
-    const [ingredientList, setIngredientList] = useState<FormData[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    
+
     useEffect(() => {
         axios.get("http://localhost:8080/api/ingredient/getIngredients")
-        .then((res) => {
-            console.log(res.data);
-            const mappedData: FormData[] = res.data.map((item: any) => ({
-                ingredientName: item.name,
-                pricePerUnit: item.priceperunit ? item.priceperunit.toString() : '', // Check if priceperunit exists
-            // res.data
-            const mappedData: FormData[] = res.data.map((item: any) => ({
-                ingredientName: item.name,
-                pricePerUnit: item.priceperunit.toString(),
-                unit: item.unit,
-            }));
-            setIngredientList(mappedData);
-            setIsLoading(false);
-        })
-        .catch((err: any) => {
-            console.log("Error occurs", err);
-        });
+            .then((res: any) => {
+                console.log(res.data);
+                const mappedData: FormData[] = res.data.map((item: any) => ({
+                    ingredientName: item.name,
+                    pricePerUnit: item.priceperunit.toString(),
+                    unit: item.unit,
+                }));
+                setIngredientList(mappedData);
+                setIsLoading(false);
+            })
+            .catch((err: any) => {
+                console.log("Error occurs", err);
+            });
     }, []);
-    
-    if(isLoading) {
+
+    if (isLoading) {
         return <div>Loading...</div>
     }
-  
+
     const openPopUpEdit = (ingredient: FormData) => {
         setSelectedIngredient(ingredient);
         setIsPopUpOpenEdit(true);
@@ -183,13 +174,13 @@ const IngredientManagementPage: React.FC = () => {
                                     : ingredient
                             )
                         );
-                        axios.put(`http://localhost:8080/api/ingredient/updateIngredient/${selectedIngredient.ingredientName}`, 
-                            { 
-                                name : updatedIngredient.ingredientName,
-                                priceperunit : Number(updatedIngredient.pricePerUnit),
-                                unit : updatedIngredient.unit
+                        axios.put(`http://localhost:8080/api/ingredient/updateIngredient/${selectedIngredient.ingredientName}`,
+                            {
+                                name: updatedIngredient.ingredientName,
+                                priceperunit: Number(updatedIngredient.pricePerUnit),
+                                unit: updatedIngredient.unit
                             })
-                            .then((res) => { 
+                            .then((res) => {
                                 console.log(res);
                             })
                             .catch((err: any) => {
