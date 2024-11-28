@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Edit from '../../../assets/images/Edit.svg';
 import Modal from '../../../components/ModalEditStatus';
@@ -22,7 +21,7 @@ const Home: React.FC = () => {
 
   // Update ongoingTasks type to IShipping[] to match the interface
   const [ongoingTasks, setOngoingTasks] = useState<IShipping[]>([]); // State for ongoing tasks
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,7 +31,7 @@ const Home: React.FC = () => {
         }
         const shippingData = await response.json();
         console.log('Fetched Data:', shippingData);  // Debug: Check the structure of fetched data
-        
+
         // Standardize the data to camelCase
         const standardizedData: IShipping[] = shippingData.map((task: IShipping) => ({
           tracking_number: task.tracking_number,
@@ -61,7 +60,7 @@ const Home: React.FC = () => {
     setModalStatus(status);
     setModalOpen(true);
   };
-  
+
   const handleChangeStatus = (updatedShipping: IShipping) => {
     const updateStatus = async () => {
       try {
@@ -70,7 +69,7 @@ const Home: React.FC = () => {
           { status: updatedShipping.status }
         );
         console.log('Updated successfully:', response);
-  
+
         // Update the local state with the new status
         setOngoingTasks((prevTasks) =>
           prevTasks
@@ -87,7 +86,7 @@ const Home: React.FC = () => {
     };
     updateStatus();
   };
-  
+
 
   const closeModal = () => setModalOpen(false);
 
