@@ -1,28 +1,70 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ButtonLink from '../../components/button/ButtonLink'
 import LogoYai from '../../assets/images/LogoYai.svg'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 const Home = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const navitgate = useNavigate()
-  const handleSubmit = () => {
-    const payload = { email, password }
-    console.log('Payload:', payload) // Log payload
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
+
+  // Check if the user is already logged in
+  useEffect(() => {
     axios
-      .post('http://localhost:8080/api/auth/login', payload, {
+      .get("http://localhost:8080/api/auth/currentuser", { withCredentials: true })
+      .then((response) => {
+        if (response.data.role) {
+          // Redirect based on role
+          switch (response.data.role) {
+            case "MEALDESIGN":
+              navigate("/menulab");
+              break;
+            case "MESSENGER":
+              navigate("/delivery-center");
+              break;
+            default:
+              navigate("/");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("User not logged in:", error.message); // Allow access to login page if not logged in
+      });
+  }, [navigate]);
+
+  const handleSubmit = () => {
+    const payload = { email, password };
+    console.log("Payload:", payload);
+  
+    axios
+      .post("http://localhost:8080/api/auth/login", payload, {
         withCredentials: true,
       })
       .then((response) => {
-        console.log('Login successful:', response.data)
-        navitgate('/')
+        console.log("Login successful:", response.data);
+        const role = response.data.role; // Extract role from the response
+        switch (role) {
+          case "MEAL DESIGNER":
+            navigate("/menulab");
+            break;
+          case "MESSENGER":
+            navigate("/delivery-center");
+            break;
+          case "CUSTOMER":
+          default:
+            navigate("/");
+            break;
+        }
       })
       .catch((error) => {
-        console.error('Login failed:', error.response?.data || error.message)
-      })
-  }
+        console.error(
+          "Login failed:",
+          error.response?.data || error.message
+        );
+      });
+  };
+  
 
   return (
     <div className="bg-[#386C5F] min-h-screen flex justify-center items-center">

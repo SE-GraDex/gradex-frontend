@@ -25,7 +25,7 @@ import AllPaymentPage from './pages/Subscribtion/AllPaymentPage';
 import LandingPage from './pages/LandingPage/LandingPage';
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage' , '/'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage' , '/' , '/ingredientmanagement' , '/menulab'].includes(location.pathname);
 
   return (
     <div>
@@ -43,7 +43,6 @@ export default function App() {
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
             <Route path="/" element={<LandingPage />} />
-            <Route path="/top" element={<Top />} />
             <Route path="/delivery-center" element={<Delivery />} />
             <Route path="/ongoing" element={<Ongoing />} />
             <Route path="/complete" element={<Complete />} />

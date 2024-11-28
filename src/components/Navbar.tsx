@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import LogoYai from '../assets/images/LogoYai.svg';
 import ButtonLink from './button/ButtonLink';
 
@@ -8,12 +9,39 @@ interface NavItem {
 }
 
 const Navbar: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Fetch current user details
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/auth/currentuser", { withCredentials: true })
+      .then((response) => {
+        setIsLoggedIn(true);
+      })
+      .catch((error) => {
+        console.error("Error fetching current user:", error.message);
+        setIsLoggedIn(false);
+      });
+  }, []);
+
+  // Logout handler
+  const handleLogout = () => {
+    axios
+      .post("http://localhost:8080/api/auth/logout", {}, { withCredentials: true })
+      .then(() => {
+        setIsLoggedIn(false);
+        window.location.reload(); // Optionally refresh the page
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error.message);
+      });
+  };
 
   const navItems: NavItem[] = [
     { label: "Meal preparation", link: "/meal-preparation" },
     { label: "Shipping", link: "/shipping" },
     { label: "Subscription", link: "/subscription" },
-    { label: "Recipe book", link: "/recipe-book" }
+    { label: "Recipe book", link: "/recipe-book" },
   ];
 
   return (
@@ -27,9 +55,21 @@ const Navbar: React.FC = () => {
         {navItems.map((item, index) => (
           <ButtonLink key={index} label={item.label} link={item.link} />
         ))}
-        <a href="/login" className="border border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200">
-          Login
-        </a>
+        {!isLoggedIn ? (
+          <a
+            href="/login"
+            className="border border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200"
+          >
+            Login
+          </a>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="border border-[#30E06C] bg-[#30E06C] rounded-full px-4 py-3 text-black hover:bg-white transition-all duration-200"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );
