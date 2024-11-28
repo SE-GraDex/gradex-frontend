@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LogoYai from '../assets/images/LogoYai.svg';
 import ButtonLink from './button/ButtonLink';
+import Cookies from 'js-cookie';
 
 interface NavItem {
   label: string;
@@ -42,10 +43,9 @@ const Navbar: React.FC = () => {
     { label: "Shipping", link: "/shipping" },
     { label: "Subscription", link: "/subscription" },
     { label: "Recipe book", link: "/recipe-book" },
-  ];
 
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto shadow-md">
+    <div className="sticky top-0 z-100 flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto shadow-md">
       <div className="mb-8">
         <a aria-label="Home" href="/">
           <img src={LogoYai} alt="Logo" width="400" height="400" />

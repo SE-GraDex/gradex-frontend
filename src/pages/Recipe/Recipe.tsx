@@ -85,10 +85,10 @@ const Home = () => {
                     width="145"
                     height="145"
                     onClick={() => handleClick(item)}
-                    className='rounded-full'
+                    className='rounded-full w-[145px] h-[145px]'
                   />
                 </div>
-                <div className="flex items-center justify-center text-[25px] font-bold text-topic mt-3">
+                <div className="flex items-center justify-center text-[20px] font-bold text-topic mt-3 text-center">
                   {item.menu_title}
                 </div>
               </div>
