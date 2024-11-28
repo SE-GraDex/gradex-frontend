@@ -41,47 +41,56 @@ const History = () => {
           axios.get('http://localhost:8080/api/dailyorderlist/getAllOrders'),
           axios.get('http://localhost:8080/api/shipping/getAllShippings'),
         ]);
-  
+
+
+
         const dailyOrderData: DailyOrderList[] = dailyOrderRes.data.data.map((item: any) => ({
           menu_image: item.menu_image,
           menu_title: item.menu_title,
           date: item.date,
           tracking_number: item.tracking_number,
         }));
-  
+
         const shippingData: Shipping[] = shippingRes.data.map((item: any) => ({
           tracking_number: item.tracking_number,
           status: item.status,
         }));
-  
+
+        // console.log(dailyOrderData);
+        console.log(shippingData);
+
         // Map data to monthly order status
         const orderMap: { [month: string]: string } = {};
         const monthStatuses: { [month: string]: Set<string> } = {};
-  
-        dailyOrders.forEach((order: DailyOrderList) => {
+
+
+
+        dailyOrderData.forEach((order: DailyOrderList) => {
+          // console.log("here", order);
           const orderDate = new Date(order.date);
           const month = monthNames[orderDate.getMonth()];
-          const shippingStatus = shippings.find(
+          const shippingStatus = shippingData.find(
             (shipping: Shipping) => shipping.tracking_number === order.tracking_number
           )?.status || '';
-  
+
           if (!monthStatuses[month]) {
             monthStatuses[month] = new Set();
           }
           monthStatuses[month].add(shippingStatus);
         });
-  
+
         Object.entries(monthStatuses).forEach(([month, statuses]) => {
-          if (statuses.size > 1 && statuses.has('Ongoing')) {
+          console.log("Hererererer", statuses);
+          if (statuses.has('Ongoing')) {
             orderMap[month] = 'In coming';
           } else {
             orderMap[month] = 'Completed';
           }
         });
-        console.log('monthStatuses:', monthStatuses);
-        console.log('orderMap:', orderMap);
-  
-  
+        // console.log('monthStatuses:', monthStatuses);
+        // console.log('orderMap:', orderMap);
+
+
         const monthlyOrdersArray = Object.entries(orderMap).map(([month, status]) => ({ month, status }));
         // Set all processed data to state
         setDailyOrders(dailyOrderData);
@@ -93,7 +102,7 @@ const History = () => {
     };
     fetchData();
   }, []);
-  
+
   // if(isLoading) {
   //   return <div>Loading...</div>
   // }
