@@ -23,9 +23,10 @@ import CreditCardPaymentPage from './pages/Subscribtion/CreditCardPaymentPage';
 import QRCodePaymentPage from './pages/Subscribtion/QRCodePaymentPage';
 import AllPaymentPage from './pages/Subscribtion/AllPaymentPage';
 import LandingPage from './pages/LandingPage/LandingPage';
+
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage' , '/'].includes(location.pathname);
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage'].includes(location.pathname);
 
   return (
     <div>
@@ -56,7 +57,7 @@ export default function App() {
             <Route path="/sub" element={<Sub />} />
             <Route path="/shipping" element={<History />} />
             <Route path="/recipe-food" element={<Food />} />
-            <Route path="/ingredientmanagement" element={<IngredientManagement />} />
+            {/* <Route path="/ingredientmanagement" element={<IngredientManagement />} /> */}
             <Route path="/mealmanagementpage" element={<MealManagementPage />} />
             <Route path="/shippingselectmonth" element={<ShippingSelectMonth />} />
             <Route path="/subscription" element={<Subscription />} />
