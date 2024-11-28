@@ -57,7 +57,7 @@ export default function App() {
             <Route path="/sub" element={<Sub />} />
             <Route path="/shipping" element={<History />} />
             <Route path="/recipe-food" element={<Food />} />
-            {/* <Route path="/ingredientmanagement" element={<IngredientManagement />} /> */}
+            <Route path="/ingredientmanagement" element={<IngredientManagement />} />
             <Route path="/mealmanagementpage" element={<MealManagementPage />} />
             <Route path="/shippingselectmonth" element={<ShippingSelectMonth />} />
             <Route path="/subscription" element={<Subscription />} />

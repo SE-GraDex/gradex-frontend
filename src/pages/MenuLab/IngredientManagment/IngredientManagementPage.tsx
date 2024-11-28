@@ -5,7 +5,6 @@ import edit from '../../../assets/images/Edit.svg';
 import Modallngred from './Modallngred';
 import ModallngredEdit from './ModallngredEdit';
 import axios from 'axios';
-import { useEffect } from 'react';
 
 interface FormData {
     ingredientName: string;
@@ -32,36 +31,35 @@ const IngredientManagementPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
-    const [ingredientList, setIngredientList] = useState<FormData[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    
+    // const [ingredientList, setIngredientList] = useState<FormData[]>([]);
+    // const [searchQuery, setSearchQuery] = useState('');
+    // const [selectedIngredient, setSelectedIngredient] = useState<FormData | null>(null);
+
     useEffect(() => {
         axios.get("http://localhost:8080/api/ingredient/getIngredients")
-        .then((res) => {
-            console.log(res.data);
-            const mappedData: FormData[] = res.data.map((item: any) => ({
-                ingredientName: item.name,
-                pricePerUnit: item.priceperunit ? item.priceperunit.toString() : '', // Check if priceperunit exists
-            // res.data
-            const mappedData: FormData[] = res.data.map((item: any) => ({
-                ingredientName: item.name,
-                pricePerUnit: item.priceperunit.toString(),
-                unit: item.unit,
-            }));
-            setIngredientList(mappedData);
-            setIsLoading(false);
-        })
-        .catch((err: any) => {
-            console.log("Error occurs", err);
-        });
+            .then((res) => {
+                console.log(res.data);
+                // const mappedData: FormData[] = res.data.map((item: any) => ({
+                //     ingredientName: item.name,
+                //     pricePerUnit: item.priceperunit ? item.priceperunit.toString() : '', // Check if priceperunit exists
+                // }))
+                const mappedData: FormData[] = res.data.map((item: any) => ({
+                    ingredientName: item.name,
+                    pricePerUnit: item.priceperunit.toString(),
+                    unit: item.unit,
+                }))
+                setIngredientList(mappedData);
+                setIsLoading(false)
+            })
+        // .catch((err: any) => {
+        //     console.log("Error occurs", err)
+        // })
     }, []);
-    
-    if(isLoading) {
+
+    if (isLoading) {
         return <div>Loading...</div>
     }
-  
+
     const openPopUpEdit = (ingredient: FormData) => {
         setSelectedIngredient(ingredient);
         setIsPopUpOpenEdit(true);
@@ -74,33 +72,33 @@ const IngredientManagementPage: React.FC = () => {
 
     const handleNewIngredient = (newIngredient: FormData) => {
         axios
-        .post("http://localhost:8080/api/ingredient/createIngredient", 
-            {
-                name: newIngredient.ingredientName,
-                priceperunit: Number(newIngredient.pricePerUnit),
-                unit: newIngredient.unit
-            }
-        )
-        .then((res) => {
-            console.log("Ingredient created successfully:", res.data);
-            // Add the new ingredient to the state
-            setIngredientList((prevList) => [...prevList, newIngredient]);
-        })
-        .catch((err: any) => {
-            console.error("Error creating ingredient:", err);
-        });
+            .post("http://localhost:8080/api/ingredient/createIngredient",
+                {
+                    name: newIngredient.ingredientName,
+                    priceperunit: Number(newIngredient.pricePerUnit),
+                    unit: newIngredient.unit
+                }
+            )
+            .then((res) => {
+                console.log("Ingredient created successfully:", res.data);
+                // Add the new ingredient to the state
+                setIngredientList((prevList) => [...prevList, newIngredient]);
+            })
+            .catch((err: any) => {
+                console.error("Error creating ingredient:", err);
+            });
     };
 
     const handleDeleteIngredient = (ingredientName: string) => {
         axios
-        .delete(`http://localhost:8080/api/ingredient/deleteIngredient/${ingredientName}`)
-        .then((res) => { 
-            console.log(res);
-            setIngredientList((prevList) => prevList.filter((ingredient) => ingredient.ingredientName !== ingredientName));
-        })
-        .catch((err: any) => {
-            console.log(err);
-        })
+            .delete(`http://localhost:8080/api/ingredient/deleteIngredient/${ingredientName}`)
+            .then((res) => {
+                console.log(res);
+                setIngredientList((prevList) => prevList.filter((ingredient) => ingredient.ingredientName !== ingredientName));
+            })
+            .catch((err: any) => {
+                console.log(err);
+            })
     };
 
     const filteredIngredients = ingredientList.filter((ingredient) =>
@@ -166,13 +164,13 @@ const IngredientManagementPage: React.FC = () => {
                                     : ingredient
                             )
                         );
-                        axios.put(`http://localhost:8080/api/ingredient/updateIngredient/${selectedIngredient.ingredientName}`, 
-                            { 
-                                name : updatedIngredient.ingredientName,
-                                priceperunit : Number(updatedIngredient.pricePerUnit),
-                                unit : updatedIngredient.unit
+                        axios.put(`http://localhost:8080/api/ingredient/updateIngredient/${selectedIngredient.ingredientName}`,
+                            {
+                                name: updatedIngredient.ingredientName,
+                                priceperunit: Number(updatedIngredient.pricePerUnit),
+                                unit: updatedIngredient.unit
                             })
-                            .then((res) => { 
+                            .then((res) => {
                                 console.log(res);
                             })
                             .catch((err: any) => {

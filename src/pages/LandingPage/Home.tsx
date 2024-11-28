@@ -16,14 +16,9 @@ const Home = () => {
 
       <div className="flex items-center justify-center mt-10">
         <div className="self-center font-sans font-bold">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
+          เพราะการทำอาหาร คือการปรุงรสชาติด้วยความรัก มอบกับคนที่แสนพิเศษ   ช่วงเวลาดีๆเหล่านี้จะเกิดขึ้นไม่ได้ หากขาดวัตถุดิบที่แสนพิเศษไป  ที่ GraDex เรามุ่งมั่นที่จะส่งต่อวัตถุดิบที่สดใหม่จากเกษตกรท้องถิ่น ส่งตรงถึงมือคุณ
           <br />
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          <br />
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          <br />
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          เพื่อให้คุณใช้เวลาที่มีค่าในการทำอาหาร และแบ่งปันช่วงเวลาพิเศษร่วมกับคนที่คุณรัก "ปรุงอาหาร เติมรัก ส่งต่อความสุข ไปด้วยกันกับ GraDex"
         </div>
       </div>
 

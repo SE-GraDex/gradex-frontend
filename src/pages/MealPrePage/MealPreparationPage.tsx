@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import CalendarTest from './CalendarProps';
 import CardTemp from './CardTemp';
 import MunuSelectorCard from './MenuSelectorCard';
-import UserStatus from './UserStatus.json'
 import { months, MonthlyDays, menuItems } from '../../interface/global.types';
 import axios from 'axios';
 
@@ -102,7 +101,7 @@ function fillCompleteMeals(monthData: MonthlyDays, selectedMonth: string) {
             }
         });
     }
-    console.log(updatedMonths[selectedMonthIndex]);
+    // console.log(updatedMonths[selectedMonthIndex]);
     return updatedMonths;
 }
 
@@ -134,7 +133,7 @@ const MealPreparation: React.FC = () => {
             })
     }, []);
 
-    if(isLoading) {
+    if (isLoading) {
         return <div>ไปล็อคอินก่อนไอโง่</div>
     }
     // axios.post('http://localhost:3000/api/meal-preparation', { 
@@ -156,6 +155,18 @@ const MealPreparation: React.FC = () => {
         const filledMonths = fillCompleteMeals(selectedMonths, selectedMonthIndex);
         // console.log(filledMonths);
         // Set the updated months state to trigger a UI re-render
+        axios.post(
+            'http://localhost:8080/api/user/autoFill',
+            {}, // Data to send in the POST request (empty in this case)
+            {
+                withCredentials: true, // Should be in the config object
+            }
+        ).then((response) => {
+            console.log(response.data);
+        }).catch((error) => {
+            console.error('There was an error!', error);
+        });
+
         setSelectedMonths(filledMonths); // React state update
     };
 
