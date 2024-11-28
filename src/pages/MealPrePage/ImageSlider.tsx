@@ -43,7 +43,7 @@ const ImageSlider: React.FC<switchCardProps> = ({ Toggle }) => {
                         unit: ingredient.unit,
                         priceperunit: ingredient.priceperunit
                     }))]
-                })).filter((item: MenuItem) => item.PackageName === currentPackage);
+                })).filter((item: MenuItem) => item.PackageName <= currentPackage);
                 // console.log("menu", mappedMenus);
                 setmenuItemTest(mappedMenus);
                 setIsLoading(false);
