@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LogoYai from '../../assets/images/LogoYai.svg'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [form, setForm] = useState({
@@ -22,6 +23,7 @@ const Home = () => {
     setForm({ ...form, [name]: value })
   }
 
+  const navitgate = useNavigate()
   const handleSubmit = async () => {
     try {
         const response = await fetch('http://localhost:8080/api/auth/register', {
@@ -37,6 +39,8 @@ const Home = () => {
         } else {
             alert(data.message); // Display backend error message
         }
+        navitgate('/login');
+        
     } catch (error) {
         console.error('Error during registration:', error);
         alert('Something went wrong. Please try again.');

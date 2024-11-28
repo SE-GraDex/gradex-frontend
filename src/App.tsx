@@ -26,7 +26,8 @@ import LandingPage from './pages/LandingPage/LandingPage';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage'].includes(location.pathname);
+
+  const isNotNav = ['/delivery-center', '/ongoing', '/complete', '/login', '/register', '/hungry', '/mealmanagementpage' , '/' , '/ingredientmanagement' , '/menulab'].includes(location.pathname);
 
   return (
     <div>
