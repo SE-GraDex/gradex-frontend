@@ -1,60 +1,57 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
-import search from '../../assets/images/Search.svg';
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import search from '../../assets/images/Search.svg'
+import Loading from '@/components/Loading'
 
 interface IMenu {
-  menu_title: string;
-  menu_description: string;
+  menu_title: string
+  menu_description: string
   ingredient_list: {
-    ingredientId: IIngredient;
-    portion: number;
-  }[];
-  package: "Basic" | "Deluxe" | "Premium";
-  menu_image: string;
+    ingredientId: IIngredient
+    portion: number
+  }[]
+  package: 'Basic' | 'Deluxe' | 'Premium'
+  menu_image: string
 }
 
 interface IIngredient {
-  name: string;
-  pricePerUnit: number;
-  unit: string;
+  name: string
+  pricePerUnit: number
+  unit: string
 }
 
-const Home = () => {
-  const [food, setFood] = useState<IMenu[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const Recipe = () => {
+  const [food, setFood] = useState<IMenu[]>([])
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(true)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  // Fetch menu data using axios
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/menu/getMenus');
-        setFood(response.data); // Set fetched data into state
+        const response = await axios.get('http://localhost:8080/api/menu/getMenus')
+        setFood(response.data)
+        setLoading(false)
       } catch (err) {
-        setError('Error fetching menu data'); // Handle errors
+        console.log(err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchMenus();
-  }, []);
+    fetchMenus()
+  }, [])
 
-  // Filter food based on the search query
-  const filteredFood = food.filter((item) =>
-    item.menu_title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredFood = food.filter((item) => item.menu_title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const handleClick = (item: IMenu) => {
-    navigate('/recipe-food', { state: item });
-  };
+    console.log(item)
+    navigate('/recipe-food', { state: item })
+  }
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Loading />
 
   return (
     <div>
@@ -62,12 +59,12 @@ const Home = () => {
       <div className="flex mt-6 ml-80">
         <input
           type="text"
-          className="bg-white w-[280px] border border-[#30E06C] text-gray-900 text-[20px] rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+          className="bg-white w-[280px] border border-primary text-gray-900 text-[20px] rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
           placeholder="Search menu"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <div className="bg-[#30E06C] w-[95px] rounded-r-full flex justify-center items-center">
+        <div className="bg-primary w-[95px] rounded-r-full flex justify-center items-center">
           <button>
             <img src={search} alt="search" width="25" height="25" />
           </button>
@@ -78,17 +75,17 @@ const Home = () => {
           {filteredFood.length > 0 ? (
             filteredFood.map((item, index) => (
               <div key={index}>
-                <div className="flex items-center justify-center mt-3">
+                <div className="flex items-center justify-center mt-3 cursor-pointer">
                   <img
                     src={item.menu_image}
                     alt={item.menu_title}
                     width="145"
                     height="145"
                     onClick={() => handleClick(item)}
-                    className='rounded-full w-[145px] h-[145px]'
+                    className="rounded-full w-[145px] h-[145px] flex-shrink-0 hover:scale-110 duration-100"
                   />
                 </div>
-                <div className="flex items-center justify-center text-[25px] font-bold text-topic mt-3">
+                <div className="flex items-center justify-center text-2xl text-center font-bold text-topic mt-3">
                   {item.menu_title}
                 </div>
               </div>
@@ -99,7 +96,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Recipe
