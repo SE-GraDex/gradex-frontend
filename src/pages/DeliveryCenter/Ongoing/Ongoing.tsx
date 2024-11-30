@@ -116,7 +116,7 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <div className="mx-24 pt-3 px-10 my-5 overflow-auto h-[600px]">
+          <div className="mx-24 pt-3 px-10 my-5 overflow-auto h-[600px] custom-scrollbarIngredient">
             {ongoingTasks.map((task) => (
               <div key={task.tracking_number} className="overflow-y-auto max-h-[300px] rounded-lg7 custom-scrollbarIngredient flex">
                 <div className="flex my-5 rounded-2xl bg-[#F1FCF1] ml-28 mr-7 items-center relative">

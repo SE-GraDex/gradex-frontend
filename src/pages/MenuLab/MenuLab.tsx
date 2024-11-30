@@ -45,7 +45,7 @@ const Home = () => {
           <div className="flex items-center justify-center mt-5">
             <ButtonLink
               label={'จัดการวัตถุดิบ'}
-              link={''}
+              link={'/ingredientManagement'}
               className="w-[180px] h-[50px] mb-5 text-[16px] font-medium bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center"
             />
           </div>
@@ -66,7 +66,7 @@ const Home = () => {
           <div className="flex items-center justify-center mt-10">
             <ButtonLink
               label={'จัดการเมนูอาหาร'}
-              link={'/complete'}
+              link={'/mealmanagementpage'}
               className="w-[180px] h-[50px] mb-5 text-[16px] font-medium bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center"
             />
           </div>
