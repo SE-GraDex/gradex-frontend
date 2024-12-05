@@ -50,7 +50,7 @@ const MonthSelector: React.FC<{ onMonthChange: (month: string) => void }> = ({ o
       {isOpen && (
         <div
           id="dropdown"
-          className="z-10 divide-y divide-gray-100 rounded-lg shadow w-[368px] bg-[#C6FFEA] absolute mt-56 max-h-40 overflow-y-auto custom-scrollbar"
+          className="z-10 divide-y divide-gray-100 rounded-lg shadow w-[368px] bg-[#C6FFEA] absolute mt-56 max-h-40 overflow-y-auto custom-scrollbar border border-topic"
         >
           <ul className="py-2 text-sm text-black" aria-labelledby="dropdownDefaultButton">
             {months.map((month, index) => (
@@ -183,7 +183,7 @@ const MealPreparation: React.FC = () => {
         <div className="flex flex-row justify-self-center items-center justify-center mt-4 space-x-3">
           <a
             onClick={handleAutoFill}
-            className="w-[160px] h-[48px] border border-[#30E06C] rounded-full text-black bg-[#30E06C] hover:text-[#30E06C] hover:bg-white transition-all duration-200 flex justify-center items-center hover:cursor-pointer justify-self-center"
+            className="w-[160px] h-[48px] border border-[#30E06C] rounded-full text-black bg-[#30E06C] hover:bg-white transition-all duration-200 flex justify-center items-center hover:cursor-pointer justify-self-center"
           >
             Auto filled
           </a>

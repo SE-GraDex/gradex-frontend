@@ -31,6 +31,9 @@ function Layout({ children }: { children: React.ReactNode }) {
     '/hungry',
     '/mealmanagementpage',
     '/ingredientManagement',
+    '/menulab',
+    '/ingredientmanagement'
+    ,'/mealmanagementpage'
   ].includes(location.pathname)
 
   return (
@@ -44,7 +47,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 function AppContent() {
   const location = useLocation()
   const backgroundColors = [
-    { color: 'bg-[#C6FFEA]', path: ['/', '/register', '/login', '/hungry', '/recipe-book', '/shipping', '/recipe-food', '/shippingselectmonth', '/subscription', '/credit-card-payment', '/qr-code-payment', '/all-payment'] },
+    { color: 'bg-[#C6FFEA]', path: ['/', '/register', '/login', '/hungry', '/recipe-book', '/shipping', '/recipe-food', '/shippingselectmonth', '/subscription', '/credit-card-payment', '/qr-code-payment', '/all-payment','/meal-preparation'] },
     { color: 'bg-[#7BB3B5]', path: ['/delivery-center', '/ongoing', '/complete', '/menulab', '/ingredientmanagement' ,'/mealmanagementpage'] },
   ]
 

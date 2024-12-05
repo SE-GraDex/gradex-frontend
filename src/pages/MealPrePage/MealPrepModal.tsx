@@ -31,7 +31,7 @@ const MealPrepModal: React.FC<MealPrepModalProps> = ({ isOpen, onClose, menu }) 
                 </button>
                 <div className='flex flex-col items-center justify-center text-center text-[#386C5F] space-y-7'>
                     <div>
-                        <img src={menu.image} alt="" className='h-[250px] w-[250px] mt-3' />
+                        <img src={menu.image} alt="" className='h-[250px] w-[250px] mt-3 rounded-full' />
                     </div>
                     <div className="flex flex-row items-center space-x-1">
                         <img

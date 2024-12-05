@@ -3,20 +3,32 @@ import ButtonLink from '../../components/button/ButtonLink'
 import personlogo from '../../assets/images/person.svg'
 import check from '../../assets/images/Check-square.svg'
 import shippingTasksData from '../DeliveryCenter/CompleteShip/ship_complete.json'
+import axios from 'axios'
 
 const Home = () => {
   const [userName, setUserName] = useState('Mr. xxx xxx')
   const [userRole, setUserRole] = useState('Senior Meal Designer')
-  const [ongoingTasks, setOngoingTasks] = useState(0)
-  const [completedShipments, setCompletedShipments] = useState(0)
 
+  const UserNameData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/user/getAllUsers');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const MealDesignerData = await response.json();
+      const mealDesigner = MealDesignerData.filter((task:any) => task.role === 'MEAL DESIGNER');
+
+      setUserName(`${mealDesigner[0].firstname} ${mealDesigner[0].lastname}`);
+      setUserRole(`${mealDesigner[0].role}`)
+    } catch (error) {
+      console.error('Error fetching shipping data:', error);
+    }
+  };
+
+  // Initial fetch on component mount
   useEffect(() => {
-    const ongoing = shippingTasksData.filter((task) => task.status === '')
-    const completed = shippingTasksData.filter((task) => task.status !== '')
-
-    setOngoingTasks(ongoing.length)
-    setCompletedShipments(completed.length)
-  }, [])
+    UserNameData();
+  }, []);
 
   return (
     <div className="bg-[#7BB3B5] min-h-screen">
@@ -45,7 +57,7 @@ const Home = () => {
           <div className="flex items-center justify-center mt-5">
             <ButtonLink
               label={'จัดการวัตถุดิบ'}
-              link={'/ingredientManagement'}
+              link={'/ingredientmanagement'}
               className="w-[180px] h-[50px] mb-5 text-[16px] font-medium bg-black border border-black rounded-full text-white hover:bg-white hover:text-black transition-all duration-200 flex justify-center items-center"
             />
           </div>
