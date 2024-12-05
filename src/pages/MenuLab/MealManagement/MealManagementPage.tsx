@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import search from '../../../assets/images/search-sky.svg'
 import { useState } from 'react'
 import pulscircle from '../../../assets/images/plus-circle.svg'
@@ -9,10 +9,13 @@ import { menuItems, MenuItem } from '../../../interface/global.types'
 import ModalNewMenu from './ModalNewMenu'
 import ModalViewMenu from './ModalViewMenu'
 import ModalEditMenu from './ModalEditMenu'
+import Loading from '@/components/Loading'
+import axios from 'axios'
 
 const MealManagementPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [isPopUpOpen, setIsPopUpOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [menuList, setMenuList] = useState<MenuItem[]>(menuItems)
   const [isPopUpOpenView, setIsPopUpOpenView] = useState(false)
   const [isPopUpOpenEdit, setIsPopUpOpenEdit] = useState(false)
@@ -27,28 +30,45 @@ const MealManagementPage: React.FC = () => {
   //         return [...updatedMenuList, newMenu]; // เพิ่มเมนูใหม่เข้าไป
   //     });
   // };
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/menu/getMenus')
+      .then((res) => {
+        const mappedData: MenuItem[] = res.data.map((item: any) => ({
+          name: item.menu_title,
+          image: item.menu_image,
+          PackageName: item.menu_package,
+          ingredients: item.ingredient_list,
+        }))
+        setMenuList(mappedData)
+        setIsLoading(false)
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }, [])
 
   const handleAddNewMenu = (newMenu: MenuItem) => {
     setMenuList((prevMenuList) => {
-      const index = prevMenuList.findIndex((menu) => menu.name === newMenu.name) // หาตำแหน่งที่มี id เหมือนกับ newMenu
+      const index = prevMenuList.findIndex((menu) => menu.name === newMenu.name)
       if (index !== -1) {
-        // ถ้ามีค่าเก่าที่ตรงกัน ให้แทนที่ค่าเก่าด้วย newMenu
         const updatedMenuList = [...prevMenuList]
         updatedMenuList[index] = newMenu
         return updatedMenuList
       }
-      // ถ้าไม่เจอค่าซ้ำ ให้เพิ่ม newMenu ไปที่ท้ายอาเรย์
+
       return [...prevMenuList, newMenu]
     })
   }
 
   const filteredIngredients = menuList.filter((menu) => menu.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
+  if (isLoading) return <Loading />
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-5xl font-semibold mb-4 text-white jsu">Meal Management</h1>
+      <h1 className="text-5xl font-semibold mb-4 text-[#386C5F] jsu">Meal Management</h1>
       <div className="mb-6 text-center">
-        <label className="block font-medium text-white justify-self-start text-sm">Search Menu</label>
+        <label className="block font-medium text-[#386C5F] justify-self-start text-sm">Search Menu</label>
         <div className="flex items-center justify-center">
           <input
             type="text"
@@ -61,10 +81,10 @@ const MealManagementPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="w-[573px] flex  items-start text-white mb-4">
+      <div className="w-[573px] flex  items-start text-[#386C5F] mb-4">
         <div>Total Menu : {filteredIngredients.length}</div>
       </div>
-      <div className="w-[573px] flex justify-between text-white mb-4">
+      <div className="w-[573px] flex justify-between text-[#386C5F] mb-4">
         <div>Basic Menu : {filteredIngredients.filter((item) => item.PackageName === 'Basic').length}</div>
         <div>Deluxe Menu : {filteredIngredients.filter((item) => item.PackageName === 'Deluxe').length}</div>
         <div>Premium Menu : {filteredIngredients.filter((item) => item.PackageName === 'Premium').length}</div>
@@ -90,7 +110,7 @@ const MealManagementPage: React.FC = () => {
       </div>
       <div className="overflow-y-auto max-h-[300px] custom-scrollbarIngredient text-lg">
         {filteredIngredients.map((menu, index) => (
-          <div className="w-[573px] grid grid-cols-2 gap-2 mb-5  text-white" key={index}>
+          <div className="w-[573px] grid grid-cols-2 gap-2 mb-5  text-[#386C5F]" key={index}>
             <div className="">{menu.name}</div>
             <div className="flex justify-self-end gap-2">
               <div className="">{menu.PackageName}</div>
@@ -107,8 +127,8 @@ const MealManagementPage: React.FC = () => {
               <div
                 className="flex justify-center items-center hover:cursor-pointer"
                 onClick={() => {
-                  setSelectedIndex(index) // เก็บ index ของเมนูที่เลือก
-                  setIsPopUpOpenView(true) // เปิด Modal
+                  setSelectedIndex(index)
+                  setIsPopUpOpenView(true)
                 }}
               >
                 <img src={info} className="w-[25px] h-[25px]" alt="Info" />
