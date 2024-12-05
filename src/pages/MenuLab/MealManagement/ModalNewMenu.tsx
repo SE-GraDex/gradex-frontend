@@ -1,8 +1,10 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 
 import addcircle from '../../../assets/images/add_circle.svg';
 import trash from '../../../assets/images/Trash2.svg';
 import { MenuItem } from '../../../interface/global.types';
+import axios from 'axios'
+
 interface GridRow {
     ingredient: string;
     portion: string;
@@ -27,18 +29,7 @@ interface FormData {
 const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit }) => {
     if (!isOpen) return null;
 
-    const [ingredientList, setIngredientList] = useState<FormData[]>([
-        { ingredientName: 'Pork', pricePerUnit: '0.2', unit: 'gram' },
-        { ingredientName: 'Chicken', pricePerUnit: '0.15', unit: 'gram' },
-        { ingredientName: 'Rice', pricePerUnit: '0.5', unit: 'kg' },
-        { ingredientName: 'Tomato', pricePerUnit: '1.0', unit: 'kg' },
-        { ingredientName: 'Lettuce', pricePerUnit: '0.3', unit: 'kg' },
-        { ingredientName: 'Egg', pricePerUnit: '0.7', unit: 'unit' },
-        { ingredientName: 'Garlic', pricePerUnit: '0.1', unit: 'gram' },
-        { ingredientName: 'Carrot', pricePerUnit: '0.6', unit: 'kg' },
-        { ingredientName: 'Onion', pricePerUnit: '0.2', unit: 'kg' },
-        { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
-    ]);
+    const [ingredientList, setIngredientList] = useState<FormData[]>([]);
 
     const [fileName, setFileName] = useState<string>('');
     const [nameMenu, setNameMenu] = useState<string>('');
@@ -93,6 +84,23 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
         textarea.style.height = `${textarea.scrollHeight}px`; // ปรับตาม scrollHeight
         setDescription(textarea.value);
     };
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/api/ingredient/getIngredients')
+            .then((res) => {
+                const mappedData: FormData[] = res.data.map((item: any) => ({
+                    ingredientName: item.name,
+                    pricePerUnit: item.priceperunit,
+                    unit: item.unit,
+                }))
+                setIngredientList(mappedData)
+
+            })
+            .catch((err: any) => {
+                console.log(err)
+            })
+    }, [])
 
     return (
         <div className="fixed inset-0 bg-[#1E1E1E] bg-opacity-30 flex justify-center items-center z-50">
@@ -210,16 +218,16 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                     <div className=''>Unit</div>
                 </div>
                 <div className='overflow-y-auto max-h-[200px] custom-scrollbarIngredient'>
-                {gridData.map((row, index) => (
-                    <div key={index} className='w-[500px] grid grid-cols-4 mb-2 justify-self-center text-[#386C5F] '>
-                        <div className='col-span-2'>{row.ingredient}</div>
-                        <div className=''>{row.portion}</div>
-                        <div className='flex justify-between'>
-                            <div className=''>{row.unit}</div>
-                            <img src={trash} alt="" className='w-[25px] h-[25px] cursor-pointer' onClick={() => handleDeleteRow(index)} />
+                    {gridData.map((row, index) => (
+                        <div key={index} className='w-[500px] grid grid-cols-4 mb-2 justify-self-center text-[#386C5F] '>
+                            <div className='col-span-2'>{row.ingredient}</div>
+                            <div className=''>{row.portion}</div>
+                            <div className='flex justify-between'>
+                                <div className=''>{row.unit}</div>
+                                <img src={trash} alt="" className='w-[25px] h-[25px] cursor-pointer' onClick={() => handleDeleteRow(index)} />
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
                 </div>
                 <div className="justify-self-center">
                     <button className="mt-6 w-[134px] h-[48px] bg-[#30E06C] text-[#1E1E1E] py-2 rounded-full hover:bg-white hover:text-[#066426] hover:border hover:border-[#30E06C]"

@@ -48,18 +48,43 @@ const MealManagementPage: React.FC = () => {
       })
   }, [])
 
-  const handleAddNewMenu = (newMenu: MenuItem) => {
-    setMenuList((prevMenuList) => {
-      const index = prevMenuList.findIndex((menu) => menu.name === newMenu.name)
-      if (index !== -1) {
-        const updatedMenuList = [...prevMenuList]
-        updatedMenuList[index] = newMenu
-        return updatedMenuList
-      }
+  const handleAddNewMenu = async (newMenu: MenuItem) => {
+    const menuExists = menuList.some((menu) => menu.name === newMenu.name);
 
-      return [...prevMenuList, newMenu]
-    })
-  }
+    if (menuExists) {
+      setMenuList((prevMenuList) =>
+        prevMenuList.map((menu) =>
+          menu.name === newMenu.name ? newMenu : menu
+        )
+      );
+    } else {
+
+      const transformedData = {
+        menu_title: newMenu.name,
+        menu_description: newMenu.Description,
+        package: newMenu.PackageName,
+        menu_image: newMenu.image,
+        ingredient_list: newMenu.ingredients.map((ingredient) => ({
+          name: ingredient.ingredient,
+          unit: ingredient.unit,
+          priceperunit: ingredient.priceperunit,
+          portion: ingredient.portion,
+        })),
+      };
+
+      try {
+        console.log("New menu added:", transformedData);
+
+
+        await axios.post("http://localhost:8080/api/menu/createMenu", transformedData);
+
+
+        setMenuList((prevMenuList) => [...prevMenuList, newMenu]);
+      } catch (error) {
+        console.error("Error adding new menu:", error);
+      }
+    }
+  };
 
   const filteredIngredients = menuList.filter((menu) => menu.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
