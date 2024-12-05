@@ -14,7 +14,7 @@ interface GridRow {
 interface MealPrepModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (updatedMenu: MenuItem , oldname:string) => void;
+    onSubmit: (updatedMenu: MenuItem, oldname: string) => void;
     existingMenu: MenuItem;
 }
 
@@ -40,7 +40,9 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
         { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
     ]);
 
-    const [fileName, setFileName] = useState<string | File>(existingMenu?.image || '');
+    // const [fileName, setFileName] = useState<File>(existingMenu?.image || '');
+    const [fileName, setFileName] = useState<File>();
+    const [fileNameString, setFileNameString] = useState<string>('');
     const [nameMenu, setNameMenu] = useState<string>(existingMenu?.name || '');
     const [selectedPackage, setSelectedPackage] = useState<string>(existingMenu?.PackageName || '');
     const [description, setDescription] = useState<string>(existingMenu?.Description || '');
@@ -54,10 +56,10 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
         unit: ingredient.unit,
         pricePerUnit: (ingredient.priceperunit || 0).toString(),
     })) || []);
-    const oldname = existingMenu?.name; 
+    const oldname = existingMenu?.name;
     useEffect(() => {
         if (existingMenu) {
-            setFileName(existingMenu.image);
+            setFileNameString(existingMenu.image);
             setNameMenu(existingMenu.name);
             setSelectedPackage(existingMenu.PackageName);
             setDescription(existingMenu.Description || '');
@@ -72,7 +74,8 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        setFileName(file ? file.name : '');
+        setFileName(file);
+        setFileNameString(file ? '' : fileNameString);
     };
 
     const handleAddToGrid = () => {
@@ -99,7 +102,7 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
     const handleSubmit = () => {
         const updatedMenu: MenuItem = {
             name: nameMenu,
-            image: fileName instanceof File ? URL.createObjectURL(fileName) : '',
+            image: fileName ? URL.createObjectURL(fileName) : fileNameString,
             PackageName: selectedPackage as 'Basic' | 'Deluxe' | 'Premium',
             Description: description,
             ingredients: gridData.map((row) => ({
@@ -110,7 +113,6 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
             })),
         };
         const formData = new FormData();
-    
         formData.append('menu_title', nameMenu);
         formData.append('menu_description', description);
         formData.append('package', selectedPackage as 'Basic' | 'Deluxe' | 'Premium');
@@ -122,22 +124,24 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
                 // priceperunit: parseFloat(row.pricePerUnit),
             }))
         ));
-        console.log(formData);
-        if (fileName) {
-            formData.append('menu_image', fileName); // แนบไฟล์ภาพ
+        if (fileName instanceof File) {
+            formData.append('menu_image', fileName); // Attach the file if it's new
+        } else {
+            formData.append('menu_image', fileNameString); // Keep the existing image URL
         }
+        console.log(formData);
         axios.put(`http://localhost:8080/api/menu/updateMenu/${oldname}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', // ระบุ Content-Type เป็น multipart/form-data
             }
         })
-        .then(response => {
-            console.log("Menu created successfully", response.data);
-        })
-        .catch(error => {
-            console.error("Error", error);
-        });
-        onSubmit(updatedMenu , oldname);
+            .then(response => {
+                console.log("Menu created successfully", response.data);
+            })
+            .catch(error => {
+                console.error("Error", error);
+            });
+        onSubmit(updatedMenu, oldname);
         onClose();
     };
 
@@ -183,20 +187,17 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
                             Menu image
                         </div>
                         <label className="file-input-container ">
-                            <span className="file-name">{typeof fileName === 'string' ? fileName : fileName.name}</span>
-                            <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M11.5 22C9.96667 22 8.66667 21.4667 7.6 20.4C6.53333 19.3333 6 18.0333 6 16.5V6C6 4.9 6.39167 3.95833 7.175 3.175C7.95833 2.39167 8.9 2 10 2C11.1 2 12.0417 2.39167 12.825 3.175C13.6083 3.95833 14 4.9 14 6V15.5C14 16.2 13.7583 16.7917 13.275 17.275C12.7917 17.7583 12.2 18 11.5 18C10.8 18 10.2083 17.7583 9.725 17.275C9.24167 16.7917 9 16.2 9 15.5V6H10.5V15.5C10.5 15.7833 10.5958 16.0208 10.7875 16.2125C10.9792 16.4042 11.2167 16.5 11.5 16.5C11.7833 16.5 12.0208 16.4042 12.2125 16.2125C12.4042 16.0208 12.5 15.7833 12.5 15.5V6C12.5 5.3 12.2583 4.70833 11.775 4.225C11.2917 3.74167 10.7 3.5 10 3.5C9.3 3.5 8.70833 3.74167 8.225 4.225C7.74167 4.70833 7.5 5.3 7.5 6V16.5C7.5 17.6 7.89167 18.5417 8.675 19.325C9.45833 20.1083 10.4 20.5 11.5 20.5C12.6 20.5 13.5417 20.1083 14.325 19.325C15.1083 18.5417 15.5 17.6 15.5 16.5V6H17V16.5C17 18.0333 16.4667 19.3333 15.4 20.4C14.3333 21.4667 13.0333 22 11.5 22Z"
-                                    fill="#066426"
-                                />
+                            <span className="file-name">{fileName instanceof File ? fileName.name : ''}</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                {!fileName ? (
+                                    <path
+                                        d="M11.5 22C9.96667 22 8.66667 21.4667 7.6 20.4C6.53333 19.3333 6 18.0333 6 16.5V6C6 4.9 6.39167 3.95833 7.175 3.175C7.95833 2.39167 8.9 2 10 2C11.1 2 12.0417 2.39167 12.825 3.175C13.6083 3.95833 14 4.9 14 6V15.5C14 16.2 13.7583 16.7917 13.275 17.275C12.7917 17.7583 12.2 18 11.5 18C10.8 18 10.2083 17.7583 9.725 17.275C9.24167 16.7917 9 16.2 9 15.5V6H10.5V15.5C10.5 15.7833 10.5958 16.0208 10.7875 16.2125C10.9792 16.4042 11.2167 16.5 11.5 16.5C11.7833 16.5 12.0208 16.4042 12.2125 16.2125C12.4042 16.0208 12.5 15.7833 12.5 15.5V6C12.5 5.3 12.2583 4.70833 11.775 4.225C11.2917 3.74167 10.7 3.5 10 3.5C9.3 3.5 8.70833 3.74167 8.225 4.225C7.74167 4.70833 7.5 5.3 7.5 6V16.5C7.5 17.6 7.89167 18.5417 8.675 19.325C9.45833 20.1083 10.4 20.5 11.5 20.5C12.6 20.5 13.5417 20.1083 14.325 19.325C15.1083 18.5417 15.5 17.6 15.5 16.5V6H17V16.5C17 18.0333 16.4667 19.3333 15.4 20.4C14.3333 21.4667 13.0333 22 11.5 22Z"
+                                        fill="#066426"
+                                    />
+                                ) : (null)}
                             </svg>
-                            <input type="file" onChange={handleFileChange} />
+
+                            <input type="file" accept="image/*" onChange={handleFileChange} />
                         </label>
                     </div>
 
