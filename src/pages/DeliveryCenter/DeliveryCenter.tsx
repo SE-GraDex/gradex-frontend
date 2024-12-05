@@ -28,7 +28,7 @@ const DeliveryCenter: React.FC = () => {
 
 
         const ongoing = shippingData.filter((task:any) => task.status === 'Ongoing');
-        const completed = shippingData.filter((task:any) => task.status === 'Derivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
+        const completed = shippingData.filter((task:any) => task.status === 'Delivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
 
 
       setUserName(shippingData[0]?.customer_name || ''); // Optional check for safe access
