@@ -107,7 +107,7 @@ const IngredientManagementPage: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center bg-[#85bdbf] min-h-screen py-8">
-            <h1 className="text-5xl font-semibold mb-4 text-white jsu">Ingredient Management</h1>
+            <h1 className="text-5xl font-semibold mb-4 text-white">Ingredient Management</h1>
             <div className="mb-6 text-center">
                 <label className="block font-medium text-white justify-self-start text-sm">Search Ingredient</label>
                 <div className="flex items-center justify-center">

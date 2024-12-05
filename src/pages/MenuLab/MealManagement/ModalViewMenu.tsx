@@ -23,10 +23,14 @@ const ModalViewMenu: React.FC<ModalViewMenuProps> = ({ isOpen, onClose, menu }) 
                 <div className=' justify-self-center text-3xl text-[#066426] mt-4'>
                     {menu?.name}
                 </div >
-                <img src={menu?.image} alt={menu?.name} className="w-[150px] h-[150px] mx-auto mt-8" />
-                <div className='w-[539px] h-[113px] mt-5 border border-[#47C171] justify-self-center bg-white items-center justify-center rounded-xl text-center text-[#066426] flex mb-5'>
-                    {menu?.Description}
+                <img src={menu?.image} alt={menu?.name} className="w-[150px] h-[150px] mx-auto mt-8 rounded-full" />
+                <div className='w-[539px] max-h-[113px] mt-5 border p-2 border-[#47C171] justify-self-center bg-white items-start justify-center rounded-xl text-center text-[#066426] mb-5 overflow-y-auto custom-scrollbarIngredient'>
+                    <div className="flex-grow">
+                        {menu?.Description}
+                    </div>
                 </div>
+
+
                 <div className='w-[500px] grid grid-cols-4 mb-2 font-medium justify-self-center text-[#386C5F]'>
                     <div className='col-span-2'>Ingredient</div>
                     <div className=''>Portion</div>

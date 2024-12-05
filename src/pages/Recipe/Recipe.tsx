@@ -91,7 +91,7 @@ const Recipe = () => {
               </div>
             ))
           ) : (
-            <div className="text-center text-[20px] font-bold">No items found</div>
+            <div className="text-center text-2xl font-bold">No items found</div>
           )}
         </div>
       </div>

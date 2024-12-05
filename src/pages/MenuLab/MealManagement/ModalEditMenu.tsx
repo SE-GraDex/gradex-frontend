@@ -3,7 +3,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import addcircle from '../../../assets/images/add_circle.svg';
 import trash from '../../../assets/images/Trash2.svg';
 import { MenuItem } from '../../../interface/global.types';
-
+import axios from 'axios';
 interface GridRow {
     ingredient: string;
     portion: string;
@@ -14,7 +14,7 @@ interface GridRow {
 interface MealPrepModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (updatedMenu: MenuItem) => void;
+    onSubmit: (updatedMenu: MenuItem , oldname:string) => void;
     existingMenu: MenuItem;
 }
 
@@ -40,7 +40,7 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
         { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
     ]);
 
-    const [fileName, setFileName] = useState<string>(existingMenu?.image || '');
+    const [fileName, setFileName] = useState<string | File>(existingMenu?.image || '');
     const [nameMenu, setNameMenu] = useState<string>(existingMenu?.name || '');
     const [selectedPackage, setSelectedPackage] = useState<string>(existingMenu?.PackageName || '');
     const [description, setDescription] = useState<string>(existingMenu?.Description || '');
@@ -54,7 +54,7 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
         unit: ingredient.unit,
         pricePerUnit: (ingredient.priceperunit || 0).toString(),
     })) || []);
-
+    const oldname = existingMenu?.name; 
     useEffect(() => {
         if (existingMenu) {
             setFileName(existingMenu.image);
@@ -99,7 +99,7 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
     const handleSubmit = () => {
         const updatedMenu: MenuItem = {
             name: nameMenu,
-            image: fileName,
+            image: fileName instanceof File ? URL.createObjectURL(fileName) : '',
             PackageName: selectedPackage as 'Basic' | 'Deluxe' | 'Premium',
             Description: description,
             ingredients: gridData.map((row) => ({
@@ -109,8 +109,35 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
                 priceperunit: parseFloat(row.pricePerUnit),
             })),
         };
-
-        onSubmit(updatedMenu);
+        const formData = new FormData();
+    
+        formData.append('menu_title', nameMenu);
+        formData.append('menu_description', description);
+        formData.append('package', selectedPackage as 'Basic' | 'Deluxe' | 'Premium');
+        formData.append('ingredient_list', JSON.stringify(
+            gridData.map((row) => ({
+                name: row.ingredient,
+                portion: parseInt(row.portion),
+                // unit: row.unit,
+                // priceperunit: parseFloat(row.pricePerUnit),
+            }))
+        ));
+        console.log(formData);
+        if (fileName) {
+            formData.append('menu_image', fileName); // แนบไฟล์ภาพ
+        }
+        axios.put(`http://localhost:8080/api/menu/updateMenu/${oldname}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // ระบุ Content-Type เป็น multipart/form-data
+            }
+        })
+        .then(response => {
+            console.log("Menu created successfully", response.data);
+        })
+        .catch(error => {
+            console.error("Error", error);
+        });
+        onSubmit(updatedMenu , oldname);
         onClose();
     };
 
@@ -156,7 +183,7 @@ const ModalEditMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit
                             Menu image
                         </div>
                         <label className="file-input-container ">
-                            <span className="file-name">{fileName}</span>
+                            <span className="file-name">{typeof fileName === 'string' ? fileName : fileName.name}</span>
                             <svg
                                 width="24"
                                 height="24"

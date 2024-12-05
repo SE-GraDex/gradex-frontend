@@ -1,8 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 
 import addcircle from '../../../assets/images/add_circle.svg';
 import trash from '../../../assets/images/Trash2.svg';
 import { MenuItem } from '../../../interface/global.types';
+import axios from 'axios';
 interface GridRow {
     ingredient: string;
     portion: string;
@@ -40,12 +41,13 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
         { ingredientName: 'Cucumber', pricePerUnit: '0.4', unit: 'kg' },
     ]);
 
-    const [fileName, setFileName] = useState<string>('');
+    const [fileName, setFileName] = useState<File>();
     const [nameMenu, setNameMenu] = useState<string>('');
     const [selectedPackage, setSelectedPackage] = useState<string>('');
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        setFileName(file ? file.name : '');
+        console.log(file);
+        setFileName(file);
     };
 
     const [description, setDescription] = useState<string>('');
@@ -58,7 +60,7 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
     const ShowAllvalue = () => {
         const newMenu: MenuItem = {
             name: nameMenu,
-            image: fileName,
+            image: fileName ? URL.createObjectURL(fileName) : '',
             PackageName: selectedPackage as 'Basic' | 'Deluxe' | 'Premium',
             Description: description,
             ingredients: gridData.map((row) => ({
@@ -68,11 +70,53 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                 priceperunit: parseFloat(row.pricePerUnit),
             })),
         };
-
+        const formData = new FormData();
+    
+        formData.append('menu_title', nameMenu);
+        formData.append('menu_description', description);
+        formData.append('package', selectedPackage as 'Basic' | 'Deluxe' | 'Premium');
+        formData.append('ingredient_list', JSON.stringify(
+            gridData.map((row) => ({
+                name: row.ingredient,
+                portion: parseInt(row.portion),
+                // unit: row.unit,
+                // priceperunit: parseFloat(row.pricePerUnit),
+            }))
+        ));
+        console.log(formData);
+        if (fileName) {
+            formData.append('menu_image', fileName); // แนบไฟล์ภาพ
+        }
+        axios.post("http://localhost:8080/api/menu/createMenu", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // ระบุ Content-Type เป็น multipart/form-data
+            }
+        })
+        .then(response => {
+            console.log("Menu created successfully", response.data);
+        })
+        .catch(error => {
+            console.error("Error", error);
+        });
         onSubmit(newMenu); // ส่งข้อมูลกลับไปที่ Parent
         onClose(); // ปิด Modal
     };
 
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/ingredient/getIngredients")
+            .then((res) => {
+                console.log(res.data);
+                const mappedData: FormData[] = res.data.map((item: any) => ({
+                    ingredientName: item.name,
+                    pricePerUnit: item.priceperunit.toString(),
+                    unit: item.unit,
+                }))
+                setIngredientList(mappedData);
+            })
+            .catch((err: any) => {
+                console.log("Error occurs", err)
+            })
+    }, []);
 
     const handleAddToGrid = () => {
         if (ingredient && portion && unit) {
@@ -136,20 +180,17 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                             Menu image
                         </div>
                         <label className="file-input-container ">
-                            <span className="file-name">{fileName}</span>
-                            <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M11.5 22C9.96667 22 8.66667 21.4667 7.6 20.4C6.53333 19.3333 6 18.0333 6 16.5V6C6 4.9 6.39167 3.95833 7.175 3.175C7.95833 2.39167 8.9 2 10 2C11.1 2 12.0417 2.39167 12.825 3.175C13.6083 3.95833 14 4.9 14 6V15.5C14 16.2 13.7583 16.7917 13.275 17.275C12.7917 17.7583 12.2 18 11.5 18C10.8 18 10.2083 17.7583 9.725 17.275C9.24167 16.7917 9 16.2 9 15.5V6H10.5V15.5C10.5 15.7833 10.5958 16.0208 10.7875 16.2125C10.9792 16.4042 11.2167 16.5 11.5 16.5C11.7833 16.5 12.0208 16.4042 12.2125 16.2125C12.4042 16.0208 12.5 15.7833 12.5 15.5V6C12.5 5.3 12.2583 4.70833 11.775 4.225C11.2917 3.74167 10.7 3.5 10 3.5C9.3 3.5 8.70833 3.74167 8.225 4.225C7.74167 4.70833 7.5 5.3 7.5 6V16.5C7.5 17.6 7.89167 18.5417 8.675 19.325C9.45833 20.1083 10.4 20.5 11.5 20.5C12.6 20.5 13.5417 20.1083 14.325 19.325C15.1083 18.5417 15.5 17.6 15.5 16.5V6H17V16.5C17 18.0333 16.4667 19.3333 15.4 20.4C14.3333 21.4667 13.0333 22 11.5 22Z"
-                                    fill="#066426"
-                                />
+                            <span className="file-name">{fileName ? fileName.name : ''}</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                {!fileName ? (
+                                    <path
+                                        d="M11.5 22C9.96667 22 8.66667 21.4667 7.6 20.4C6.53333 19.3333 6 18.0333 6 16.5V6C6 4.9 6.39167 3.95833 7.175 3.175C7.95833 2.39167 8.9 2 10 2C11.1 2 12.0417 2.39167 12.825 3.175C13.6083 3.95833 14 4.9 14 6V15.5C14 16.2 13.7583 16.7917 13.275 17.275C12.7917 17.7583 12.2 18 11.5 18C10.8 18 10.2083 17.7583 9.725 17.275C9.24167 16.7917 9 16.2 9 15.5V6H10.5V15.5C10.5 15.7833 10.5958 16.0208 10.7875 16.2125C10.9792 16.4042 11.2167 16.5 11.5 16.5C11.7833 16.5 12.0208 16.4042 12.2125 16.2125C12.4042 16.0208 12.5 15.7833 12.5 15.5V6C12.5 5.3 12.2583 4.70833 11.775 4.225C11.2917 3.74167 10.7 3.5 10 3.5C9.3 3.5 8.70833 3.74167 8.225 4.225C7.74167 4.70833 7.5 5.3 7.5 6V16.5C7.5 17.6 7.89167 18.5417 8.675 19.325C9.45833 20.1083 10.4 20.5 11.5 20.5C12.6 20.5 13.5417 20.1083 14.325 19.325C15.1083 18.5417 15.5 17.6 15.5 16.5V6H17V16.5C17 18.0333 16.4667 19.3333 15.4 20.4C14.3333 21.4667 13.0333 22 11.5 22Z"
+                                        fill="#066426"
+                                    />
+                                ):(null)}
                             </svg>
-                            <input type="file" onChange={handleFileChange} />
+
+                            <input type="file" accept="image/*" onChange={handleFileChange} />
                         </label>
                     </div>
 
@@ -210,16 +251,16 @@ const ModalNewMenu: React.FC<MealPrepModalProps> = ({ isOpen, onClose, onSubmit 
                     <div className=''>Unit</div>
                 </div>
                 <div className='overflow-y-auto max-h-[200px] custom-scrollbarIngredient'>
-                {gridData.map((row, index) => (
-                    <div key={index} className='w-[500px] grid grid-cols-4 mb-2 justify-self-center text-[#386C5F] '>
-                        <div className='col-span-2'>{row.ingredient}</div>
-                        <div className=''>{row.portion}</div>
-                        <div className='flex justify-between'>
-                            <div className=''>{row.unit}</div>
-                            <img src={trash} alt="" className='w-[25px] h-[25px] cursor-pointer' onClick={() => handleDeleteRow(index)} />
+                    {gridData.map((row, index) => (
+                        <div key={index} className='w-[500px] grid grid-cols-4 mb-2 justify-self-center text-[#386C5F] '>
+                            <div className='col-span-2'>{row.ingredient}</div>
+                            <div className=''>{row.portion}</div>
+                            <div className='flex justify-between'>
+                                <div className=''>{row.unit}</div>
+                                <img src={trash} alt="" className='w-[25px] h-[25px] cursor-pointer' onClick={() => handleDeleteRow(index)} />
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
                 </div>
                 <div className="justify-self-center">
                     <button className="mt-6 w-[134px] h-[48px] bg-[#30E06C] text-[#1E1E1E] py-2 rounded-full hover:bg-white hover:text-[#066426] hover:border hover:border-[#30E06C]"

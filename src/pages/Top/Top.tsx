@@ -61,15 +61,15 @@ const Home: React.FC<HomeProps> = ({ isModalOpen, setIsModalOpen }) => {
             packageType === 'Basic'
               ? ricelogo
               : packageType === 'Deluxe'
-              ? diamondlogo
-              : crownlogo;
+                ? diamondlogo
+                : crownlogo;
 
           const image =
             packageType === 'Basic'
               ? basicfood
               : packageType === 'Deluxe'
-              ? deluxefood
-              : premiumfood;
+                ? deluxefood
+                : premiumfood;
 
           grouped[packageType as keyof GroupedMenus].push({
             food: menu.menu_title,
@@ -110,10 +110,12 @@ const Home: React.FC<HomeProps> = ({ isModalOpen, setIsModalOpen }) => {
                   menu.image
                 )
               }
-              className="cursor-pointer overflow-hidden rounded-full object-cover w-[100px] h-[100px]"
+              className="rounded-full w-[145px] h-[145px] flex-shrink-0 hover:scale-110 duration-100"
+
             />
           </div>
-          <div className="top-food">{menu.food}</div>
+          <div className="flex items-center justify-center text-2xl text-center font-bold text-topic mt-3">
+            {menu.food}</div>
         </div>
       </div>
     ));
