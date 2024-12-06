@@ -1,48 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import LogoYai from '../assets/images/LogoYai.svg';
-import ButtonLink from './button/ButtonLink';
-// import Cookies from 'js-cookie';
+import React, { useState, useEffect } from 'react'
+import LogoYai from '../assets/images/LogoYai.svg'
+import ButtonLink from './button/ButtonLink'
+import { axiosInstance } from '@/utils/Axios'
 
 interface NavItem {
-  label: string;
-  link: string;
+  label: string
+  link: string
 }
 
 const Navbar: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  // Fetch current user details
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/auth/currentuser", { withCredentials: true })
-      .then((response) => {
-        setIsLoggedIn(true);
+    axiosInstance
+      .get('/api/auth/currentuser', { withCredentials: true })
+      .then(() => {
+        setIsLoggedIn(true)
       })
       .catch((error) => {
-        console.error("Error fetching current user:", error.message);
-        setIsLoggedIn(false);
-      });
-  }, []);
+        console.error('Error fetching current user:', error.message)
+        setIsLoggedIn(false)
+      })
+  }, [])
 
   // Logout handler
   const handleLogout = () => {
-    axios
-      .post("http://localhost:8080/api/auth/logout", {}, { withCredentials: true })
+    axiosInstance
+      .post('/api/auth/logout', {}, { withCredentials: true })
       .then(() => {
-        setIsLoggedIn(false);
-        window.location.reload(); // Optionally refresh the page
+        setIsLoggedIn(false)
+        window.location.reload() // Optionally refresh the page
       })
       .catch((error) => {
-        console.error("Error logging out:", error.message);
-      });
-  };
+        console.error('Error logging out:', error.message)
+      })
+  }
 
   const navItems: NavItem[] = [
-    { label: "Meal preparation", link: "/meal-preparation" },
-    { label: "Shipping", link: "/shipping" },
-    { label: "Subscription", link: "/subscription" },
-    { label: "Recipe book", link: "/recipe-book" },
+    { label: 'Meal preparation', link: '/meal-preparation' },
+    { label: 'Shipping', link: '/shipping' },
+    { label: 'Subscription', link: '/subscription' },
+    { label: 'Recipe book', link: '/recipe-book' },
   ]
   return (
     <div className="sticky top-0 z-100 flex items-center justify-center w-full bg-white h-[111px] px-8 mx-auto shadow-md">
@@ -51,7 +49,7 @@ const Navbar: React.FC = () => {
           <img src={LogoYai} alt="Logo" width="400" height="400" />
         </a>
       </div>
-      <div className="ml-20 flex w-[800px] h-[111px] items-center justify-center space-x-2">
+      <div className="hidden md:flex ml-20 w-[800px] h-[111px] items-center justify-center space-x-2">
         {navItems.map((item, index) => (
           <ButtonLink key={index} label={item.label} link={item.link} />
         ))}
@@ -72,7 +70,7 @@ const Navbar: React.FC = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

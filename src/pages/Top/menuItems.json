@@ -1,24 +1,23 @@
 [
-    {
-      "category": "Basic",
-      "logo": "/assets/images/rice-logo.svg",
-      "food": "Salmon steak",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      "image": "/assets/images/premium-food.svg"
-    },
-    {
-      "category": "Deluxe",
-      "logo": "/assets/images/diamond-logo.svg",
-      "food": "Salmon steak",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      "image": "/assets/images/premium-food.svg"
-    },
-    {
-      "category": "Premium",
-      "logo": "/assets/images/crown-logo.svg",
-      "food": "Salmon steak",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      "image": "/assets/images/premium-food.svg"
-    }
-  ]
-  
+  {
+    "category": "Basic",
+    "logo": "/assets/images/rice-logo.svg",
+    "food": "Salmon steak",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    "image": "/assets/images/premium-food.svg"
+  },
+  {
+    "category": "Deluxe",
+    "logo": "/assets/images/diamond-logo.svg",
+    "food": "Salmon steak",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    "image": "/assets/images/premium-food.svg"
+  },
+  {
+    "category": "Premium",
+    "logo": "/assets/images/crown-logo.svg",
+    "food": "Salmon steak",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    "image": "/assets/images/premium-food.svg"
+  }
+]

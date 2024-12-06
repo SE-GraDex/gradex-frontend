@@ -38,15 +38,15 @@ export interface MenuItem {
   name: string
   image: string
   PackageName: 'Basic' | 'Deluxe' | 'Premium'
-  Description?: string;
+  Description?: string
   ingredients: Ingredient[]
 }
 
 // export type IngredientsData = Record<string, Ingredient[]>
 
 export type IngredientsData = {
-    [key: string]: Ingredient[]; // key เป็น string, value คืออาเรย์ของ Ingredient
-  };
+  [key: string]: Ingredient[] // key เป็น string, value คืออาเรย์ของ Ingredient
+}
 
 export const months: string[] = [
   'January',
@@ -69,32 +69,32 @@ export const packageItems = {
   Premium: crownImages,
 }
 
-export interface packageDetill{
-  package_name:string;
-  price:number;
-  features:string;
-  package_start_date:Date;
+export interface packageDetill {
+  package_name: string
+  price: number
+  features: string
+  package_start_date: Date
 }
 
-export const packageDetail:packageDetill[] = [
+export const packageDetail: packageDetill[] = [
   {
-      package_name:'Basic',
-      price:180,
-      features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 80 บาท อิ่มอร่อยง่าย แถมมีประโยชน์ เหมาะกับลูกค้าทุกคน',
-      package_start_date: new Date(Date.now()),
+    package_name: 'Basic',
+    price: 180,
+    features: 'ทุกเมนูอาหารที่มีราคาไม่เกิน 80 บาท อิ่มอร่อยง่าย แถมมีประโยชน์ เหมาะกับลูกค้าทุกคน',
+    package_start_date: new Date(Date.now()),
   },
   {
-      package_name:'Deluxe',
-      price:250,
-      features:'ทุกเมนูอาหารที่มีราคาไม่เกิน 150 บาท ปลดล็อคจานโปรดแบบใหม่ให้กับทุกคนได้ทานอย่างมีความสุข',
-      package_start_date:new Date()
+    package_name: 'Deluxe',
+    price: 250,
+    features: 'ทุกเมนูอาหารที่มีราคาไม่เกิน 150 บาท ปลดล็อคจานโปรดแบบใหม่ให้กับทุกคนได้ทานอย่างมีความสุข',
+    package_start_date: new Date(),
   },
   {
-      package_name:'Premium',
-      price:350,
-      features:'ปลดล็อกทุกเมนูอาหารจานโปรดของคุณ เพื่อให้คุณได้เข้าถึงเมนูที่มีประโยชน์ทุกจาน ',
-      package_start_date:new Date()
-  }
+    package_name: 'Premium',
+    price: 350,
+    features: 'ปลดล็อกทุกเมนูอาหารจานโปรดของคุณ เพื่อให้คุณได้เข้าถึงเมนูที่มีประโยชน์ทุกจาน ',
+    package_start_date: new Date(),
+  },
 ]
 
 export const menuItems: MenuItem[] = [
@@ -102,7 +102,8 @@ export const menuItems: MenuItem[] = [
     name: 'Tom yum kung',
     image: TomYumKung,
     PackageName: 'Deluxe',
-    Description: 'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
+    Description:
+      'A classic Thai soup known for its hot and sour flavors, featuring shrimp and aromatic herbs like lemongrass and kaffir lime leaves.',
     ingredients: [
       { ingredient: 'Shrimp', portion: 200, unit: 'g' },
       { ingredient: 'Lemongrass', portion: 3, unit: 'stalk' },
@@ -115,7 +116,8 @@ export const menuItems: MenuItem[] = [
     name: 'Salmon steak',
     image: SalmonSteak,
     PackageName: 'Basic',
-    Description: 'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
+    Description:
+      'A delicious and healthy dish made with pan-seared king salmon, served with steamed broccoli and a hint of lemon.',
     ingredients: [
       { ingredient: 'King Salmon', portion: 500, unit: 'g' },
       { ingredient: 'Broccoli', portion: 5, unit: 'pcs' },
@@ -126,7 +128,8 @@ export const menuItems: MenuItem[] = [
     name: 'Pad Thai',
     image: PadThai,
     PackageName: 'Basic',
-    Description: 'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
+    Description:
+      'A world-famous Thai stir-fried noodle dish, featuring rice noodles, shrimp, egg, peanuts, and a tangy tamarind sauce.',
     ingredients: [
       { ingredient: 'Rice Noodles', portion: 200, unit: 'g' },
       { ingredient: 'Shrimp', portion: 100, unit: 'g' },
@@ -139,7 +142,8 @@ export const menuItems: MenuItem[] = [
     name: 'Deep fried sea bass',
     image: FriedFish,
     PackageName: 'Premium',
-    Description: 'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
+    Description:
+      'A crispy and flavorful whole sea bass fried to perfection, paired with garlic, chili, and a zesty lime dressing.',
     ingredients: [
       { ingredient: 'Sea Bass', portion: 1, unit: 'fish' },
       { ingredient: 'Garlic', portion: 5, unit: 'cloves' },
@@ -148,5 +152,4 @@ export const menuItems: MenuItem[] = [
       { ingredient: 'Fish Sauce', portion: 3, unit: 'tbsp' },
     ],
   },
-];
-
+]

@@ -10,5 +10,5 @@ createRoot(document.getElementById('root')!).render(
     <ConfigProvider theme={themes}>
       <App />
     </ConfigProvider>
-  </StrictMode>
+  </StrictMode>,
 )

@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom'
-import line from '../../assets/images/Line 2.svg'
-import ricelogo from '../../assets/images/rice-logo.svg'
-import diamondlogo from '../../assets/images/diamond-logo.svg'
-import crownlogo from '../../assets/images/crown-logo.svg'
-import video from '../../assets/images/video.svg'
+import line from '@/assets/images/Line 2.svg'
+import ricelogo from '@/assets/images/rice-logo.svg'
+import diamondlogo from '@/assets/images/diamond-logo.svg'
+import crownlogo from '@/assets/images/crown-logo.svg'
+import video from '@/assets/images/video.svg'
 
 interface IMenu {
   menu_title: string

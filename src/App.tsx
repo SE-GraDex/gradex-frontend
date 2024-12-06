@@ -32,8 +32,8 @@ function Layout({ children }: { children: React.ReactNode }) {
     '/mealmanagementpage',
     '/ingredientManagement',
     '/menulab',
-    '/ingredientmanagement'
-    ,'/mealmanagementpage'
+    '/ingredientmanagement',
+    '/mealmanagementpage',
   ].includes(location.pathname)
 
   return (
@@ -47,11 +47,32 @@ function Layout({ children }: { children: React.ReactNode }) {
 function AppContent() {
   const location = useLocation()
   const backgroundColors = [
-    { color: 'bg-[#C6FFEA]', path: ['/', '/register', '/login', '/hungry', '/recipe-book', '/shipping', '/recipe-food', '/shippingselectmonth', '/subscription', '/credit-card-payment', '/qr-code-payment', '/all-payment','/meal-preparation'] },
-    { color: 'bg-[#7BB3B5]', path: ['/delivery-center', '/ongoing', '/complete', '/menulab', '/ingredientmanagement' ,'/mealmanagementpage'] },
+    {
+      color: 'bg-[#C6FFEA]',
+      path: [
+        '/',
+        '/register',
+        '/login',
+        '/hungry',
+        '/recipe-book',
+        '/shipping',
+        '/recipe-food',
+        '/shippingselectmonth',
+        '/subscription',
+        '/credit-card-payment',
+        '/qr-code-payment',
+        '/all-payment',
+        '/meal-preparation',
+      ],
+    },
+    {
+      color: 'bg-[#7BB3B5]',
+      path: ['/delivery-center', '/ongoing', '/complete', '/menulab', '/ingredientmanagement', '/mealmanagementpage'],
+    },
   ]
 
-  const currentBgColor = backgroundColors.find(bg => bg.path.some(p => p === location.pathname))?.color || 'bg-white'
+  const currentBgColor =
+    backgroundColors.find((bg) => bg.path.some((p) => p === location.pathname))?.color || 'bg-white'
 
   return (
     <div className={`${currentBgColor} min-h-screen`}>

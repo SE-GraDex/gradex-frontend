@@ -1,6 +1,6 @@
-import basicfood from '../../assets/images/basic-food.svg'
-import premiumfood from '../../assets/images/premium-food.svg'
-import deluxefood from '../../assets/images/deluxe-food.svg'
+import basicfood from '@/assets/images/basic-food.svg'
+import premiumfood from '@/assets/images/premium-food.svg'
+import deluxefood from '@/assets/images/deluxe-food.svg'
 
 const Food = [
   {
@@ -51,6 +51,6 @@ const Food = [
     name: 'Deluxe Food',
     image: deluxefood,
   },
-];
+]
 
-export default Food;
+export default Food

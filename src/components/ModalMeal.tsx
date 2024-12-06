@@ -1,8 +1,8 @@
-import cross from '../assets/images/cross.svg'
-import axios from 'axios'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import cross from '../assets/images/cross.svg'
+import { axiosInstance } from '@/utils/Axios'
 
 interface ModalProps {
   isOpen: boolean
@@ -29,20 +29,17 @@ interface IIngredient {
   unit: string
 }
 
-
-
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, food, logofood }) => {
-  if (!isOpen) return null;
-  const [selectMenu, setSelectMenu] = useState<IMenu | null>(null);
-  
+  const [selectMenu, setSelectMenu] = useState<IMenu | null>(null)
+
   const navigate = useNavigate()
-  
+
   useEffect(() => {
     const fetchTopMenus = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/dailyorderlist/getTopThreeOrders');
-        console.log(response.data);
-        const selectedMenu = response.data.menus.find((menu: any) => menu.menu_title === food);
+        const response = await axiosInstance.get('/api/dailyorderlist/getTopThreeOrders')
+        console.log(response.data)
+        const selectedMenu = response.data.menus.find((menu: IMenu) => menu.menu_title === food)
         if (selectedMenu) {
           const temp: IMenu = {
             menu_title: selectedMenu.menu_title,
@@ -50,21 +47,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, foo
             ingredient_list: selectedMenu.ingredient_list,
             package: selectedMenu.package,
             menu_image: selectedMenu.menu_image,
-          };
-          setSelectMenu(temp);
+          }
+          setSelectMenu(temp)
           // console.log(temp);
         }
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
-    fetchTopMenus();
+    fetchTopMenus()
   }, [food])
 
   const handleClick = (item: IMenu) => {
-    console.log(item);
+    console.log(item)
     navigate('/recipe-food', { state: item })
   }
+
+  if (!isOpen) return null
+
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
       <div className="relative bg-white p-6 rounded-3xl shadow-lg w-[760px] h-[800px] flex flex-col">
@@ -75,7 +75,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, type, logo, foo
           <img src={cross} alt="cross" width="24" height="24" />
         </button>
         <div className="flex items-center justify-center">
-          <img src={logofood} alt="Logo" width="250" height="250" className="mt-3 rounded-full w-[250px] h-[250px] object-cover" />
+          <img
+            src={logofood}
+            alt="Logo"
+            width="250"
+            height="250"
+            className="mt-3 rounded-full w-[250px] h-[250px] object-cover"
+          />
         </div>
         <div className="flex items-center justify-center mt-1">
           <img src={logo} alt="Logo" width="24" height="24" />

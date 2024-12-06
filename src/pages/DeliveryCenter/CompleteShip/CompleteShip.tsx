@@ -1,102 +1,99 @@
-import { useState, useEffect } from 'react';
-import Edit from '../../../assets/images/Edit.svg';
-import Modal from '../../../components/ModalEditStatus';
-import axios from 'axios';
+import { useState, useEffect } from 'react'
+import Edit from '@/assets/images/Edit.svg'
+import Modal from '@/components/ModalEditStatus'
+import { axiosInstance } from '@/utils/Axios'
 
 interface IShipping {
-  tracking_number: string;
-  customer_name: string;
-  address: string;
-  contact: string;
-  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
+  tracking_number: string
+  customer_name: string
+  address: string
+  contact: string
+  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver'
 }
 
 const CompleteShip: React.FC = () => {
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [modalTrackingNumber, setModalTrackingNumber] = useState<string>('');
-  const [modalCustomerName, setModalCustomerName] = useState<string>('');
-  const [modalAddress, setModalAddress] = useState<string>('');
-  const [modalContact, setModalContact] = useState<string>('');
-  const [modalStatus, setModalStatus] = useState<IShipping['status']>('Delivered');
-  const [ongoingTasks, setOngoingTasks] = useState<IShipping[]>([]);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalTrackingNumber, setModalTrackingNumber] = useState<string>('')
+  const [modalCustomerName, setModalCustomerName] = useState<string>('')
+  const [modalAddress, setModalAddress] = useState<string>('')
+  const [modalContact, setModalContact] = useState<string>('')
+  const [modalStatus, setModalStatus] = useState<IShipping['status']>('Delivered')
+  const [ongoingTasks, setOngoingTasks] = useState<IShipping[]>([])
 
-  const openModal = (trackingNumber: string, customerName: string, address: string, contact: string, status:IShipping['status']) => {
-    setModalTrackingNumber(trackingNumber);
-    setModalCustomerName(customerName);
-    setModalAddress(address);
-    setModalContact(contact);
-    setModalStatus(status);
-    setModalOpen(true);
-  };
+  const openModal = (
+    trackingNumber: string,
+    customerName: string,
+    address: string,
+    contact: string,
+    status: IShipping['status'],
+  ) => {
+    setModalTrackingNumber(trackingNumber)
+    setModalCustomerName(customerName)
+    setModalAddress(address)
+    setModalContact(contact)
+    setModalStatus(status)
+    setModalOpen(true)
+  }
 
-  const closeModal = () => setModalOpen(false);
+  const closeModal = () => setModalOpen(false)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/shipping/getAllShippings');
+        const response = await fetch('http://localhost:8080/api/shipping/getAllShippings')
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok')
         }
-        const shippingData = await response.json();
-        console.log('Fetched Data:', shippingData);  // Debug: Check the structure of fetched data
-        
-        // Standardize the data to camelCase
+        const shippingData = await response.json()
+        console.log('Fetched Data:', shippingData) // Debug: Check the structure of fetched data
+
         const standardizedData: IShipping[] = shippingData.map((task: IShipping) => ({
           tracking_number: task.tracking_number,
           customer_name: task.customer_name,
           address: task.address,
           contact: task.contact,
-          status: task.status
-        }));
+          status: task.status,
+        }))
 
-        // Filter and set only ongoing tasks (Delivered, Returned, Failed to Deliver)
         setOngoingTasks(
           standardizedData.filter(
-            (task) => 
-              task.status === 'Delivered' || 
-              task.status === 'Returned' || 
-              task.status === 'Failed to Deliver'
-          )
-        );
+            (task) => task.status === 'Delivered' || task.status === 'Returned' || task.status === 'Failed to Deliver',
+          ),
+        )
       } catch (error) {
-        console.error('Error fetching shipping data:', error);
+        console.error('Error fetching shipping data:', error)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const handleChangeStatus = (updatedShipping: IShipping) => {
     const updateStatus = async () => {
       try {
-        const response = await axios.put(
-          `http://localhost:8080/api/shipping/updateShipping/${updatedShipping.tracking_number}`,
-          { status: updatedShipping.status }
-        );
-        console.log('Updated successfully:', response);
-  
-        // Update the local state with the new status
+        await axiosInstance.put(`/api/shipping/updateShipping/${updatedShipping.tracking_number}`, {
+          status: updatedShipping.status,
+        })
+        // console.log('Updated successfully:', response)
+
         setOngoingTasks((prevTasks) =>
           prevTasks
             .map((task) =>
               task.tracking_number === updatedShipping.tracking_number
                 ? { ...task, status: updatedShipping.status }
-                : task
+                : task,
             )
             .filter(
               (task) =>
-                task.status === 'Delivered' ||
-                task.status === 'Returned' ||
-                task.status === 'Failed to Deliver'
-            )
-        );
+                task.status === 'Delivered' || task.status === 'Returned' || task.status === 'Failed to Deliver',
+            ),
+        )
       } catch (error) {
-        console.error('Error updating status:', error);
+        console.error('Error updating status:', error)
       }
-    };
-    updateStatus();
-  };
+    }
+    updateStatus()
+  }
 
   return (
     <div>
@@ -157,7 +154,7 @@ const CompleteShip: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CompleteShip;
+export default CompleteShip

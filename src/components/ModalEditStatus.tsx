@@ -1,7 +1,5 @@
-import ButtonLink from './button/ButtonLink'
 import React, { useState } from 'react'
 import cross from '../assets/images/cross.svg'
-import axios from 'axios'
 
 interface ModalProps {
   isOpen: boolean
@@ -11,34 +9,34 @@ interface ModalProps {
   name: string
   address: string
   contact: string
-  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
+  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver'
 }
 
 interface IShipping {
-  tracking_number: string;
-  customer_name: string;
-  address: string;
-  contact: string;
-  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
+  tracking_number: string
+  customer_name: string
+  address: string
+  contact: string
+  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver'
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, trackNum, name, address, contact,status }) => {
-  const [statusChange, setStatusChange] = useState<IShipping['status']>('Ongoing');
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, trackNum, name, address, contact, status }) => {
+  const [statusChange, setStatusChange] = useState<IShipping['status']>('Ongoing')
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleSubmit = () => {
-    if (!statusChange) return; // Ensure a status is selected
+    if (!statusChange) return // Ensure a status is selected
     const updatedShipping: IShipping = {
       tracking_number: trackNum,
       customer_name: name,
       address: address,
       contact: contact,
       status: statusChange,
-    };
-    onSubmit(updatedShipping); // Pass the updated shipping data to parent
-    onClose(); // Close the modal after submission
-  };
+    }
+    onSubmit(updatedShipping) // Pass the updated shipping data to parent
+    onClose() // Close the modal after submission
+  }
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-10 text-topic">
@@ -64,7 +62,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, trackNum, name
             <div className="pl-7 mb-8 w-[300px] h-[70px] bg-white flex rounded-full justify-center items-center border border-[#47C171]">
               {trackNum}
             </div>
-            <div className="mb-8 w-[300px] h-[40px] bg-white flex rounded-full justify-center items-center border border-[#47C171]">{name}</div>
+            <div className="mb-8 w-[300px] h-[40px] bg-white flex rounded-full justify-center items-center border border-[#47C171]">
+              {name}
+            </div>
             <div className="mb-8 w-[300px] h-[40px] bg-white flex rounded-full justify-center items-center border border-[#47C171]">
               {address}
             </div>
@@ -72,16 +72,18 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, trackNum, name
               {contact}
             </div>
             <div className="mb-8 w-[300px] h-[40px] bg-white flex rounded-full justify-center items-center border border-[#47C171]">
-            <select
-              value={statusChange}
-              onChange={(event) => setStatusChange(event.target.value as IShipping['status'])}
-              className="w-[260px] h-[38px] bg-white rounded-full text-center flex justify-center focus:outline-none"
-            >
-              <option value="" hidden>{status}</option>
-              <option value="Delivered">Delivered</option>
-              <option value="Returned">Returned</option>
-              <option value="Failed to Deliver">Failed to Deliver</option>
-            </select>
+              <select
+                value={statusChange}
+                onChange={(event) => setStatusChange(event.target.value as IShipping['status'])}
+                className="w-[260px] h-[38px] bg-white rounded-full text-center flex justify-center focus:outline-none"
+              >
+                <option value="" hidden>
+                  {status}
+                </option>
+                <option value="Delivered">Delivered</option>
+                <option value="Returned">Returned</option>
+                <option value="Failed to Deliver">Failed to Deliver</option>
+              </select>
             </div>
           </div>
         </div>
@@ -92,7 +94,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, trackNum, name
           >
             Submit
           </button>
-            
         </div>
       </div>
     </div>

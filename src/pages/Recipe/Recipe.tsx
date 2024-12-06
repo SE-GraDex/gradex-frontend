@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import search from '../../assets/images/Search.svg'
+import search from '@/assets/images/Search.svg'
 import Loading from '@/components/Loading'
+import { axiosInstance } from '@/utils/Axios'
 
 interface IMenu {
   menu_title: string
@@ -31,7 +31,7 @@ const Recipe = () => {
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/menu/getMenus')
+        const response = await axiosInstance.get('/api/menu/getMenus')
         setFood(response.data)
         setLoading(false)
       } catch (err) {
@@ -55,8 +55,8 @@ const Recipe = () => {
 
   return (
     <div>
-      <div className="text-topic text-[64px] font-bold ml-80 mt-16">Recipe Book</div>
-      <div className="flex mt-6 ml-80">
+      <div className="text-topic text-[64px] font-bold xl:text-left text-center xl:mx-80 mt-16">Recipe Book</div>
+      <div className="flex justify-center xl:justify-start mt-6 xl:text-left text-center xl:mx-80">
         <input
           type="text"
           className="bg-white w-[280px] border border-primary text-gray-900 text-[20px] rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
@@ -70,7 +70,7 @@ const Recipe = () => {
           </button>
         </div>
       </div>
-      <div className="mx-80 mt-10">
+      <div className="mx-10 2xl:mx-80 mt-10">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mx-auto mt-5">
           {filteredFood.length > 0 ? (
             filteredFood.map((item, index) => (

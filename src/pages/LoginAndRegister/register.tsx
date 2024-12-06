@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import LogoYai from '../../assets/images/LogoYai.svg'
-import axios from 'axios'
+import LogoYai from '@/assets/images/LogoYai.svg'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
@@ -22,7 +21,7 @@ const Home = () => {
     const { name, value } = e.target
     setForm({ ...form, [name]: value })
   }
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async () => {
     try {
@@ -32,20 +31,19 @@ const Home = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user: form }),
-      });
-      const data = await response.json();
+      })
+      const data = await response.json()
       if (response.ok) {
-        alert(data.message); // Registration successful
+        alert(data.message) // Registration successful
       } else {
-        alert(data.message); // Display backend error message
+        alert(data.message) // Display backend error message
       }
-      navigate('/login');
+      navigate('/login')
     } catch (error) {
-      console.error('Error during registration:', error);
-      alert('Something went wrong. Please try again.');
+      console.error('Error during registration:', error)
+      alert('Something went wrong. Please try again.')
     }
-  };
-
+  }
 
   return (
     <div className="bg-[#386C5F] min-h-screen flex justify-center items-center">

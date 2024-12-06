@@ -1,48 +1,47 @@
-import { useState, useEffect } from 'react';
-import ButtonLink from '../../components/button/ButtonLink';
-import personlogo from '../../assets/images/person.svg';
-import check from '../../assets/images/Check-square.svg';
+import { useState, useEffect } from 'react'
+import ButtonLink from '@/components/button/ButtonLink'
+import personlogo from '@/assets/images/person.svg'
+import check from '@/assets/images/Check-square.svg'
 
-interface IShipping {
-  tracking_number: string;
-  customer_name: string;
-  address: string;
-  contact: string;
-  status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
-}
+// interface IShipping {
+//   tracking_number: string;
+//   customer_name: string;
+//   address: string;
+//   contact: string;
+//   status: 'Ongoing' | 'Delivered' | 'Returned' | 'Failed to Deliver';
+// }
 
 const DeliveryCenter: React.FC = () => {
-  const [userName, setUserName] = useState('');
-  const [userRole, setUserRole] = useState('Senior Messenger');
-  const [ongoingTasks, setOngoingTasks] = useState(0);
-  const [completedShipments, setCompletedShipments] = useState(0);
+  const [userName, setUserName] = useState('')
+  const [userRole, setUserRole] = useState('Senior Messenger')
+  const [ongoingTasks, setOngoingTasks] = useState(0)
+  const [completedShipments, setCompletedShipments] = useState(0)
 
-  // Function to refetch data and update counts
   const refreshData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/shipping/getAllShippings');
+      const response = await fetch('http://localhost:8080/api/shipping/getAllShippings')
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok')
       }
-      const shippingData = await response.json();
+      const shippingData = await response.json()
 
+      const ongoing = shippingData.filter((task: any) => task.status === 'Ongoing')
+      const completed = shippingData.filter(
+        (task: any) => task.status === 'Delivered' || task.status === 'Returned' || task.status === 'Failed to Deliver',
+      )
 
-        const ongoing = shippingData.filter((task:any) => task.status === 'Ongoing');
-        const completed = shippingData.filter((task:any) => task.status === 'Delivered' || task.status === 'Returned' || task.status === 'Failed to Deliver');
-
-
-      setUserName(shippingData[0]?.customer_name || ''); // Optional check for safe access
-      setOngoingTasks(ongoing.length);
-      setCompletedShipments(completed.length);
+      setUserName(shippingData[0]?.customer_name || '') // Optional check for safe access
+      setOngoingTasks(ongoing.length)
+      setCompletedShipments(completed.length)
     } catch (error) {
-      console.error('Error fetching shipping data:', error);
+      console.error('Error fetching shipping data:', error)
     }
-  };
+  }
 
-  // Initial fetch on component mount
   useEffect(() => {
-    refreshData();
-  }, []);
+    setUserRole('Senior Messenger')
+    refreshData()
+  }, [])
 
   return (
     <div className="bg-[#7BB3B5] min-h-screen">
@@ -62,7 +61,9 @@ const DeliveryCenter: React.FC = () => {
           <div>
             <div className="flex items-center justify-center mt-3 text-[32px] font-bold">Ongoing Task</div>
             <div className="flex items-center justify-center text-[20px] font-bold mt-10">( non-assign status )</div>
-            <div className="text-[64px] text-center font-bold flex items-center justify-center mt-10">{ongoingTasks}</div>
+            <div className="text-[64px] text-center font-bold flex items-center justify-center mt-10">
+              {ongoingTasks}
+            </div>
           </div>
           <div className="flex items-center justify-center mt-5">
             <ButtonLink
@@ -93,7 +94,7 @@ const DeliveryCenter: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DeliveryCenter;
+export default DeliveryCenter

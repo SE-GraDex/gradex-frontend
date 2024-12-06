@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import search from '../../../assets/images/search-sky.svg'
+import search from '@/assets/images/search-sky.svg'
 import { useState } from 'react'
-import pulscircle from '../../../assets/images/plus-circle.svg'
-import edit from '../../../assets/images/Edit.svg'
-import info from '../../../assets/images/Info.svg'
+import pulscircle from '@/assets/images/plus-circle.svg'
+import edit from '@/assets/images/Edit.svg'
+import info from '@/assets/images/Info.svg'
 
-import { menuItems, MenuItem } from '../../../interface/global.types'
+import { menuItems, MenuItem } from '@/interface/global.types'
 import ModalNewMenu from './ModalNewMenu'
 import ModalViewMenu from './ModalViewMenu'
 import ModalEditMenu from './ModalEditMenu'
@@ -34,17 +34,17 @@ const MealManagementPage: React.FC = () => {
             ingredient: ingredient.name,
             portion: ingredient.portion,
             pricePerUnit: ingredient.priceperunit,
-            unit: ingredient.unit
-          }))
-        }));
-        console.log(mappedData);
-        setMenuList(mappedData);
-        setIsLoading(false);
+            unit: ingredient.unit,
+          })),
+        }))
+        console.log(mappedData)
+        setMenuList(mappedData)
+        setIsLoading(false)
       })
       .catch((err: any) => {
-        console.log(err);
-      });
-  }, []);
+        console.log(err)
+      })
+  }, [])
 
   const handleAddNewMenu = (newMenu: MenuItem) => {
     setMenuList((prevMenuList) => {

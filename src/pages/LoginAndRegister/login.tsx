@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import ButtonLink from '../../components/button/ButtonLink'
-import LogoYai from '../../assets/images/LogoYai.svg'
-import axios from 'axios'
+import ButtonLink from '@/components/button/ButtonLink'
+import LogoYai from '@/assets/images/LogoYai.svg'
 import { useNavigate } from 'react-router-dom'
+import { axiosInstance } from '@/utils/Axios'
+
 const Home = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -11,8 +12,8 @@ const Home = () => {
     const payload = { email, password }
     console.log('Payload:', payload) // Log payload
 
-    axios
-      .post('http://localhost:8080/api/auth/login', payload, {
+    axiosInstance
+      .post('/api/auth/login', payload, {
         withCredentials: true,
       })
       .then((response) => {

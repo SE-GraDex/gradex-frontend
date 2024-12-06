@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import CalendarTest from './CalendarProps'
 import CardTemp from './CardTemp'
 import MunuSelectorCard from './MenuSelectorCard'
-import { months, MonthlyDays, menuItems } from '../../interface/global.types'
+import { months, MonthlyDays, menuItems } from '@/interface/global.types'
 import axios from 'axios'
 import Loading from '@/components/Loading'
+import { axiosInstance } from '@/utils/Axios'
 
 const MonthSelector: React.FC<{ onMonthChange: (month: string) => void }> = ({ onMonthChange }) => {
   const [selectedMonth, setSelectedMonth] = useState<string>('')
@@ -103,13 +104,13 @@ const MealPreparation: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>('January')
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [toggle, setToggle] = useState<boolean>(false)
-  const [selectedMonths, setSelectedMonths] = useState<MonthlyDays>(() => ({} as MonthlyDays))
+  const [selectedMonths, setSelectedMonths] = useState<MonthlyDays>(() => ({}) as MonthlyDays)
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/user/updateOrderCalendar', {
+    axiosInstance
+      .get('/api/user/updateOrderCalendar', {
         withCredentials: true,
       })
       .then((response: any) => {
@@ -125,7 +126,7 @@ const MealPreparation: React.FC = () => {
   if (isLoading) {
     return <Loading />
   }
-  
+
   // axios.post('http://localhost:3000/api/meal-preparation', {
   //     "name": UserStatus["name"],
   //     "surname": UserStatus, "months": selectedMonths
@@ -151,7 +152,7 @@ const MealPreparation: React.FC = () => {
         {}, // Data to send in the POST request (empty in this case)
         {
           withCredentials: true, // Should be in the config object
-        }
+        },
       )
       .then((response) => {
         console.log(response.data)

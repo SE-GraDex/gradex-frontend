@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
-import ButtonLink from '../../components/button/ButtonLink'
-import personlogo from '../../assets/images/person.svg'
-import check from '../../assets/images/Check-square.svg'
-import shippingTasksData from '../DeliveryCenter/CompleteShip/ship_complete.json'
-import axios from 'axios'
+import ButtonLink from '@/components/button/ButtonLink'
+import personlogo from '@/assets/images/person.svg'
 
 const Home = () => {
   const [userName, setUserName] = useState('Mr. xxx xxx')
@@ -11,24 +8,23 @@ const Home = () => {
 
   const UserNameData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/user/getAllUsers');
+      const response = await fetch('http://localhost:8080/api/user/getAllUsers')
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok')
       }
-      const MealDesignerData = await response.json();
-      const mealDesigner = MealDesignerData.filter((task:any) => task.role === 'MEAL DESIGNER');
+      const MealDesignerData = await response.json()
+      const mealDesigner = MealDesignerData.filter((task: any) => task.role === 'MEAL DESIGNER')
 
-      setUserName(`${mealDesigner[0].firstname} ${mealDesigner[0].lastname}`);
+      setUserName(`${mealDesigner[0].firstname} ${mealDesigner[0].lastname}`)
       setUserRole(`${mealDesigner[0].role}`)
     } catch (error) {
-      console.error('Error fetching shipping data:', error);
+      console.error('Error fetching shipping data:', error)
     }
-  };
+  }
 
-  // Initial fetch on component mount
   useEffect(() => {
-    UserNameData();
-  }, []);
+    UserNameData()
+  }, [])
 
   return (
     <div className="bg-[#7BB3B5] min-h-screen">
