@@ -3,15 +3,16 @@ import ButtonLink from '@/components/button/ButtonLink'
 import LogoYai from '@/assets/images/LogoYai.svg'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '@/utils/Axios'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
-const Home = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navitgate = useNavigate()
+
   const handleSubmit = () => {
     const payload = { email, password }
-    console.log('Payload:', payload) // Log payload
-
     axiosInstance
       .post('/api/auth/login', payload, {
         withCredentials: true,
@@ -21,8 +22,17 @@ const Home = () => {
         navitgate('/')
       })
       .catch((error) => {
+        showError()
         console.error('Login failed:', error.response?.data || error.message)
       })
+  }
+
+  const showError = () => {
+    withReactContent(Swal).fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'Please Try Again later',
+    })
   }
 
   return (
@@ -68,4 +78,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default LoginPage

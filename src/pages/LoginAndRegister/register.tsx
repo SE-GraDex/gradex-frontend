@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import LogoYai from '@/assets/images/LogoYai.svg'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { axiosInstance } from '@/utils/Axios'
 
-const Home = () => {
+const Register = () => {
   const [form, setForm] = useState({
     firstname: '',
     lastname: '',
@@ -16,33 +19,43 @@ const Home = () => {
     region: '',
     postalCode: '',
   })
+  const navigate = useNavigate()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setForm({ ...form, [name]: value })
   }
-  const navigate = useNavigate()
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user: form }),
-      })
-      const data = await response.json()
-      if (response.ok) {
-        alert(data.message) // Registration successful
+      const res = await axiosInstance.post('/api/auth/register', { user: form })
+
+      if (res.status === 201) {
+        showSuccess()
       } else {
-        alert(data.message) // Display backend error message
+        showSuccess()
       }
       navigate('/login')
     } catch (error) {
+      showError()
       console.error('Error during registration:', error)
-      alert('Something went wrong. Please try again.')
     }
+  }
+
+  const showError = () => {
+    withReactContent(Swal).fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'Please Try Again later',
+    })
+  }
+
+  const showSuccess = () => {
+    withReactContent(Swal).fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Register successfully',
+    })
   }
 
   return (
@@ -177,4 +190,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Register
